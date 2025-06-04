@@ -1,0 +1,60 @@
+ARCH := arch()
+HOME := env("HOME") 
+
+default:
+  just --list
+
+install-ripgrep:
+  cargo install ripgrep
+
+install-bottom:
+  cargo install bottom
+
+install-fd-find:
+  cargo install fd-find
+
+install-neovim INSTALL_DIR = "~/software/neovim":
+  #!/bin/bash
+  set -ex
+  echo {{YELLOW}} Note: installing neovim to $(realpath {{INSTALL_DIR}}) {{NORMAL}}
+  rm -rf {{INSTALL_DIR}} || true
+  tmpdir=$(mktemp -d /tmp/nvim.XXXXXXXX)
+  cd ${tmpdir}
+  curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-{{ARCH}}.tar.gz
+  tar -xzf nvim-linux-{{ARCH}}.tar.gz
+  sudo mv nvim-linux-{{ARCH}} {{INSTALL_DIR}}
+
+setup-nvim-path-zsh:
+    echo 'export PATH=$PATH:/opt/nvim/bin' >> ~/.zshenv
+    echo '{{GREEN}}'"Please restart your terminal to apply the changes."'{{NORMAL}}'
+
+setup-nvim-path-bash:
+    echo 'export PATH=$PATH:/opt/nvim/bin' >> ~/.bashrc
+    echo '{{GREEN}}'"Please restart your terminal to apply the changes."'{{NORMAL}}'
+
+install-nerd-font:
+  #!/bin/bash
+  mkdir -p ${HOME}/.fonts/
+  cd ${HOME}/.fonts/
+  wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/DejaVuSansMono.zip
+  unzip DejaVuSansMono.zip
+  rm DejaVuSansMono.zip
+
+install-nerd-font-kitty:
+  #!/bin/bash
+  set -ex
+  grep font_family DejaVuSansMNerdFont ${HOME}/.config/kitty/kitty.conf || echo "font_family DejaVuSansMono Nerd Font" >> ${HOME}/.config/kitty/kitty.conf
+
+install-njs VERSION="23.11.1":
+  #!/bin/bash
+  set -ex
+  cd ${HOME}/Downloads
+  MAJOR_VERSION=$(echo {{VERSION}} | cut -d. -f1)
+  wget https://nodejs.org/download/release/latest-v${MAJOR_VERSION}.x/node-v{{VERSION}}-linux-x64.tar.gz
+  tar -xzf node-v{{VERSION}}-linux-x64.tar.gz
+  sudo cp -r node-v{{VERSION}}-linux-x64/bin/* /usr/bin/ 
+  sudo cp -r node-v{{VERSION}}-linux-x64/lib/* /usr/lib/ 
+  sudo cp -r node-v{{VERSION}}-linux-x64/include/* /usr/include/ 
+  sudo cp -r node-v{{VERSION}}-linux-x64/share/* /usr/share/ 
+
+
