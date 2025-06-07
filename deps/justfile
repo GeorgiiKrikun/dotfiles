@@ -22,14 +22,15 @@ install-neovim INSTALL_DIR = "~/software/neovim":
   cd ${tmpdir}
   curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-{{ARCH}}.tar.gz
   tar -xzf nvim-linux-{{ARCH}}.tar.gz
+  mkdir -p {{INSTALL_DIR}}
   sudo mv nvim-linux-{{ARCH}} {{INSTALL_DIR}}
 
-setup-nvim-path-zsh:
-    echo 'export PATH=$PATH:/opt/nvim/bin' >> ~/.zshenv
+setup-nvim-path-zsh INSTALL_DIR = "~/software/neovim":
+    echo 'export PATH=$PATH:{{INSTALL_DIR}}/nvim-linux-{{ARCH}}/bin/' >> ~/.zshenv
     echo '{{GREEN}}'"Please restart your terminal to apply the changes."'{{NORMAL}}'
 
-setup-nvim-path-bash:
-    echo 'export PATH=$PATH:/opt/nvim/bin' >> ~/.bashrc
+setup-nvim-path-bash INSTALL_DIR = "~/software/neovim":
+    echo 'export PATH=$PATH:{{INSTALL_DIR}}/nvim-linux-{{ARCH}}/bin/' >> ~/.bashrc
     echo '{{GREEN}}'"Please restart your terminal to apply the changes."'{{NORMAL}}'
 
 install-nerd-font:
@@ -57,4 +58,7 @@ install-njs VERSION="23.11.1":
   sudo cp -r node-v{{VERSION}}-linux-x64/include/* /usr/include/ 
   sudo cp -r node-v{{VERSION}}-linux-x64/share/* /usr/share/ 
 
-
+install-zsh:
+  #!/bin/bash
+  set -ex
+  sudo apt install zsh

@@ -1,6 +1,9 @@
 services:
   dep_test:
-    image: ubuntu:22.04
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: dep_test_image
     container_name: dep_test_container
     tty: true
     environment:
