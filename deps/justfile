@@ -62,3 +62,14 @@ install-zsh:
   #!/bin/bash
   set -ex
   sudo apt install zsh
+
+change-shell-zsh:
+  chsh -s $(which zsh)
+
+install-oh-my-zsh:
+  #!/bin/bash
+  set -ex
+  curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh > /tmp/install.sh
+  chmod +x /tmp/install.sh
+  RUNZSH=no CHSH=no sh -c /tmp/install.sh
+  
