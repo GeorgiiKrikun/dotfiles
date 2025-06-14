@@ -10,6 +10,9 @@ RUN ${HOME}/.cargo/bin/just -f /opt/deps/justfile install-zsh
 RUN ${HOME}/.cargo/bin/just -f /opt/deps/justfile install-oh-my-zsh 
 RUN ${HOME}/.cargo/bin/just -f /opt/deps/justfile change-shell-zsh
 RUN ${HOME}/.cargo/bin/just -f /opt/deps/justfile setup-cargo-zsh
+
+COPY configs/zsh /opt/configs/zsh
+RUN ${HOME}/.cargo/bin/just -f /opt/configs/zsh/justfile setup
 # RUN ${HOME}/.cargo/bin/just -f /opt/deps/justfile install-neovim
 # RUN ${HOME}/.cargo/bin/just -f /opt/deps/justfile setup-nvim-path-zsh
 # RUN ${HOME}/.cargo/bin/cargo install ripgrep 
