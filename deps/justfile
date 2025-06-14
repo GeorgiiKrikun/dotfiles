@@ -61,7 +61,12 @@ install-njs VERSION="23.11.1":
 install-zsh:
   #!/bin/bash
   set -ex
-  sudo apt install zsh
+  sudo apt install -y zsh
+
+setup-cargo-zsh:
+  #!/bin/bash
+  set -ex
+  echo 'export PATH=$HOME/.cargo/bin:$PATH' >> ${HOME}/.zshenv
 
 change-shell-zsh:
   chsh -s $(which zsh)
@@ -72,4 +77,14 @@ install-oh-my-zsh:
   curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh > /tmp/install.sh
   chmod +x /tmp/install.sh
   RUNZSH=no CHSH=no sh -c /tmp/install.sh
-  
+ 
+link-nvim-config FORCE = "false":
+  #!/bin/bash
+  set -ex
+  DOTFILES_DIR=`realpath ${PWD}/../`
+  if [ "$FORCE" = "true" ]; then
+    rm -rf ${HOME}/.config/nvim/init.vim || true
+  fi
+  mkdir -p ${HOME}/.config/
+  ln -s ${DOTFILES_DIR}/configs/nvim/ ${HOME}/.config/nvim
+

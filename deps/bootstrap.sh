@@ -7,6 +7,5 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 rustup default stable
 cargo install just
 
+# For bash
 echo ". $HOME/.cargo/env" >> ${HOME}/.bashrc
-
-
