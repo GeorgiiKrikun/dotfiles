@@ -13,8 +13,14 @@ RUN ${HOME}/.cargo/bin/just -f /opt/deps/justfile setup-cargo-zsh
 
 COPY configs/zsh /opt/configs/zsh
 RUN ${HOME}/.cargo/bin/just -f /opt/configs/zsh/justfile setup
-# RUN ${HOME}/.cargo/bin/just -f /opt/deps/justfile install-neovim
-# RUN ${HOME}/.cargo/bin/just -f /opt/deps/justfile setup-nvim-path-zsh
+
+RUN ${HOME}/.cargo/bin/just -f /opt/deps/justfile install-neovim
+RUN ${HOME}/.cargo/bin/just -f /opt/deps/justfile setup-nvim-path-zsh
+
+COPY configs/nvim /opt/configs/nvim
+RUN ${HOME}/.cargo/bin/just -f /opt/configs/nvim/justfile setup
+
+
 # RUN ${HOME}/.cargo/bin/cargo install ripgrep 
 # RUN ${HOME}/.cargo/bin/cargo install bottom 
 # RUN ${HOME}/.cargo/bin/cargo install fd-find

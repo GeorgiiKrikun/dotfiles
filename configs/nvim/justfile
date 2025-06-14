@@ -1,0 +1,6 @@
+default:
+  just --list
+
+setup:
+  /bin/bash ./setup.sh
+
