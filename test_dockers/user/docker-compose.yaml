@@ -1,0 +1,12 @@
+services:
+  dep_user_test:
+    build:
+      context: ../../
+      dockerfile: test_dockers/user/Dockerfile
+    image: dep_user_test_image
+    container_name: dep_user_test_container
+    tty: true
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - ${PWD}:/root/dotfiles

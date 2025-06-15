@@ -69,7 +69,7 @@ setup-cargo-zsh:
   echo 'export PATH=$HOME/.cargo/bin:$PATH' >> ${HOME}/.zshenv
 
 change-shell-zsh:
-  chsh -s $(which zsh)
+  sudo chsh -s $(which zsh)
 
 install-oh-my-zsh:
   #!/bin/bash

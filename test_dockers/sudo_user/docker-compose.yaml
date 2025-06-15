@@ -1,0 +1,12 @@
+services:
+  sudo_user_test:
+    build:
+      context: ../../
+      dockerfile: test_dockers/sudo_user/Dockerfile
+    image: sudo_user_test_image
+    container_name: sudo_user_test_container
+    tty: true
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - ${PWD}:/opt/dotfiles

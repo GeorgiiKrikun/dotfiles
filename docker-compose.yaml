@@ -1,12 +1,4 @@
-services:
-  dep_test:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: dep_test_image
-    container_name: dep_test_container
-    tty: true
-    environment:
-      - DISPLAY=${DISPLAY}
-    volumes:
-      - ${PWD}:/root/dotfiles
+include: 
+  - test_dockers/basic/docker-compose.yaml
+  - test_dockers/sudo_user/docker-compose.yaml
+  - test_dockers/user/docker-compose.yaml
