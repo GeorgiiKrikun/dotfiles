@@ -21,7 +21,7 @@ else
   cd ${SCRIPT_DIR}/deps
   ${JUST} install-zsh
   ${JUST} install-oh-my-zsh 
-	${JUST} change-shell-zsh
+  ${JUST} change-shell-zsh
   ${JUST} setup-cargo-zsh
 fi
 
