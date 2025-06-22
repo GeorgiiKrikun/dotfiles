@@ -17,12 +17,13 @@ if [ -d "${HOME}/.oh-my-zsh" ]; then
 else
   OH_MY_ZSH_EXISTS=false
 fi
+  
+cd ${SCRIPT_DIR}/deps
 
 if [ "$ZSH_EXISTS" = true ]; then
   echo "Zsh exists, skipping Zsh install."
 else
   echo "Zsh does not exist, we will install it."
-  cd ${SCRIPT_DIR}/deps
   ${JUST} install-zsh
 fi
 
@@ -30,7 +31,6 @@ if [ "$OH_MY_ZSH_EXISTS" = true ]; then
   echo "Oh My Zsh exists, skipping Oh My Zsh install."
 else
   echo "Oh My Zsh does not exist, we will install it."
-  cd ${SCRIPT_DIR}/deps
   ${JUST} install-oh-my-zsh
 fi
 
