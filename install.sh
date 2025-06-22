@@ -7,11 +7,15 @@ bash ${SCRIPT_DIR}/deps/bootstrap.sh
 JUST=${HOME}/.cargo/bin/just
 
 if ! command -v zsh >/dev/null; then
-  echo "Zsh does not exist, we will install it."
   ZSH_EXISTS=false
 else
-  echo "Zsh exists, skipping Zsh install."
   ZSH_EXISTS=true
+fi
+
+if [ -d "${HOME}/.oh-my-zsh" ]; then
+  OH_MY_ZSH_EXISTS=true
+else
+  OH_MY_ZSH_EXISTS=false
 fi
 
 if [ "$ZSH_EXISTS" = true ]; then
@@ -20,10 +24,18 @@ else
   echo "Zsh does not exist, we will install it."
   cd ${SCRIPT_DIR}/deps
   ${JUST} install-zsh
-  ${JUST} install-oh-my-zsh 
-  ${JUST} change-shell-zsh
-  ${JUST} setup-cargo-zsh
 fi
+
+if [ "$OH_MY_ZSH_EXISTS" = true ]; then
+  echo "Oh My Zsh exists, skipping Oh My Zsh install."
+else
+  echo "Oh My Zsh does not exist, we will install it."
+  cd ${SCRIPT_DIR}/deps
+  ${JUST} install-oh-my-zsh
+fi
+
+${JUST} change-shell-zsh
+${JUST} setup-cargo-zsh
 
 cd ${SCRIPT_DIR}/configs/zsh
 ${JUST} setup
