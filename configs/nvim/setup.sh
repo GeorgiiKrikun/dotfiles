@@ -3,7 +3,9 @@ set -ex
 
 LINK_TARGET="${HOME}/.config/nvim"
 TIMESTAMP=$(date +%Y%m%d%H%M%S)
-BACKUP_FILE="${LINK_TARGET}.bkp.${TIMESTAMP}"
+BACKUP_DIR="${HOME}/.backups/nvim"
+mkdir -p ${BACKUP_DIR}
+BACKUP_FILE="${BACKUP_DIR}/${TIMESTAMP}"
 
 if [ -e ${LINK_TARGET} ];
 then

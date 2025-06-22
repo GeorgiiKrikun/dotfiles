@@ -16,7 +16,9 @@ set -ex
 
 LINK_TARGET="${HOME}/.zshrc"
 TIMESTAMP=$(date +%Y%m%d%H%M%S)
-BACKUP_FILE="${LINK_TARGET}.bkp.${TIMESTAMP}"
+BACKUP_DIR="${HOME}/.backups/zshrc"
+mkdir -p ${BACKUP_DIR}
+BACKUP_FILE="${BACKUP_DIR}/${TIMESTAMP}"
 
 if [ -f ${LINK_TARGET} ];
 then
