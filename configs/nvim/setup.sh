@@ -7,7 +7,7 @@ BACKUP_DIR="${HOME}/.backups/nvim"
 mkdir -p ${BACKUP_DIR}
 BACKUP_FILE="${BACKUP_DIR}/${TIMESTAMP}"
 
-if [-L ${LINK_TARGET} ] || -e ${LINK_TARGET} ];
+if [ -L ${LINK_TARGET} ] || -e ${LINK_TARGET} ];
 then
     echo "NeoVim config already exists, backing it up to" "${BACKUP_FILE}"
     mv ${LINK_TARGET} ${BACKUP_FILE}
