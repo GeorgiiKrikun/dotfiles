@@ -50,7 +50,8 @@ vim.opt.breakindent = true
 vim.opt.undofile = true
 
 -- Set default foldmethod to indent
-vim.opt.foldmethod = "indent"
+vim.o.foldmethod = "expr"
+vim.o.foldexpr = "v:lua.vim.lsp.foldexpr()"
 
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
@@ -1084,6 +1085,9 @@ require("lazy").setup({
 			--  Check out: https://github.com/echasnovski/mini.nvim
 		end,
 	},
+	{
+		"andymass/vim-matchup",
+	},
 	{ -- Highlight, edit, and navigate code
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
@@ -1102,6 +1106,14 @@ require("lazy").setup({
 				"query",
 				"vim",
 				"vimdoc",
+			},
+			matchup = {
+				enable = true,
+				-- Highlight the matching text in the current line
+				--  This is useful for highlighting the matching text in the current line
+				--  when you are using a text object, such as `ciw` or `va)`.
+				--  If you don't like this, you can disable it.
+				highlight_match = true,
 			},
 			-- Autoinstall languages that are not installed
 			auto_install = true,
@@ -1185,9 +1197,6 @@ require("lazy").setup({
 		--  replace_keycodes = false
 		--}),
 		--vim.g.copilot_no_tab_map = true,
-	},
-	{
-		"mfussenegger/nvim-dap",
 	},
 	{
 		"sakhnik/nvim-gdb",

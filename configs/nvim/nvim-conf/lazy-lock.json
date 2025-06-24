@@ -21,7 +21,6 @@
   "modus-themes.nvim": { "branch": "master", "commit": "b6c46f8066b2d96cb75d5bc7202a9a4c097b5e9f" },
   "neogit": { "branch": "master", "commit": "704297f2c266799ff0342dad22d9873aecdc4245" },
   "nvim": { "branch": "main", "commit": "b7bbdf93b42866f166af98d39a2563eedb7cabac" },
-  "nvim-dap": { "branch": "master", "commit": "7aade9e99bef5f0735cf966e715b3ce45515d786" },
   "nvim-gdb": { "branch": "master", "commit": "cf00140361cabcd4e55a987fd9770a92ee682301" },
   "nvim-lspconfig": { "branch": "master", "commit": "4ea9083b6d3dff4ddc6da17c51334c3255b7eba5" },
   "nvim-tree.lua": { "branch": "master", "commit": "5bea2b37523a31288e0fcab42f3be5c1bd4516bb" },
@@ -35,6 +34,7 @@
   "todo-comments.nvim": { "branch": "main", "commit": "304a8d204ee787d2544d8bc23cd38d2f929e7cc5" },
   "tokyonight.nvim": { "branch": "main", "commit": "057ef5d260c1931f1dffd0f052c685dcd14100a3" },
   "typr": { "branch": "main", "commit": "ec1abe68229a0c3480ae2df51e1807fd091261ba" },
+  "vim-matchup": { "branch": "master", "commit": "c478d4a72bbf397eff42743198f1939f6a264736" },
   "vim-sleuth": { "branch": "master", "commit": "be69bff86754b1aa5adcbb527d7fcd1635a84080" },
   "volt": { "branch": "main", "commit": "c45d5f48da8e802e608b5c6da471ca4d84276dfb" },
   "which-key.nvim": { "branch": "main", "commit": "370ec46f710e058c9c1646273e6b225acf47cbed" }
