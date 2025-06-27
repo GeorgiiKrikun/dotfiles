@@ -48,7 +48,6 @@ vim.opt.breakindent = true
 
 -- Save undo history
 vim.opt.undofile = true
-
 -- Set default foldmethod to indent
 vim.o.foldmethod = "expr"
 vim.o.foldexpr = "v:lua.vim.lsp.foldexpr()"
@@ -959,8 +958,8 @@ require("lazy").setup({
 				-- set to 'none' to disable the 'default' preset
 				preset = "default",
 
-				["j"] = { "select_next", "fallback" },
-				["k"] = { "select_prev", "fallback" },
+				["<Tab>"] = { "select_next", "fallback" },
+				["<S-Tab>"] = { "select_prev", "fallback" },
 				-- ["<Tab>"] = { "select_next", "fallback" },
 				-- ["<S-Tab>"] = { "select_prev", "fallback" },
 				["<C-space>"] = {
