@@ -107,6 +107,7 @@ vim.keymap.set("v", "X", '"_x', { desc = "Delete char without yanking (visual mo
 vim.keymap.set("n", "C", '"_c', { desc = "Replace without yanking" })
 vim.keymap.set("v", "C", '"_c', { desc = "Replace without yanking (visual mode)" })
 vim.keymap.set("n", "<leader>ot", ":tabnew | terminal<CR>izsh<CR>", { desc = "Open terminal in new tab" })
+vim.keymap.set("n", "<leader>Lca", ":lua vim.lsp.buf.code_action()<CR>", { desc = "LSP Code [A]ction" })
 
 -- Insert carriage return in normal mode
 vim.keymap.set("n", "<S-CR>", "i<CR><Esc>", { noremap = true, silent = true })
