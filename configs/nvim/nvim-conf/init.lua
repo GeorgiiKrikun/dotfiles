@@ -46,15 +46,15 @@ vim.opt.rtp:prepend(lazypath)
 --    :Lazy update
 --
 -- NOTE: Here is where you install your plugins.
-require("lazy").setup({
-  require("config.plugins.copilot"),
-	require("config.plugins.core"),
-  require("config.plugins.debug"),
-	require("config.plugins.git"),
-  require("config.plugins.lsp"),
-  require("config.plugins.themes"),
-  require("config.plugins.ui"),
-}, {
+  require("lazy").setup({
+    require("config.plugins.copilot"),
+    require("config.plugins.core"),
+    require("config.plugins.debug"),
+    require("config.plugins.git"),
+    require("config.plugins.lsp"),
+    require("config.plugins.themes"),
+    require("config.plugins.ui"),
+  }, {
 	ui = {
 		-- If you are using a Nerd Font: set icons to an empty table which will use the
 		-- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
