@@ -432,4 +432,10 @@ return {
 			--  Check out: https://github.com/echasnovski/mini.nvim
 		end,
 	},
+	{
+		'windwp/nvim-autopairs',
+		event = 'InsertEnter',
+		opts = {},
+	}
+
 }
