@@ -55,8 +55,8 @@ vim.g.copilot_no_tab_map = true
 vim.keymap.set("i", "<C-L>", "<Plug>(copilot-accept-word)")
 -- Evaluate the word or range under the cursor LLDB/GDB
 --
-vim.keymap.set("n", "<leader>de", ":GdbEvalWord<CR>", { desc = "Evaluate word under cursor" })
-vim.keymap.set("v", "<leader>de", ":GdbEvalRange<CR>", { desc = "Evaluate range under cursor" })
+-- vim.keymap.set("n", "<leader>de", ":GdbEvalWord<CR>", { desc = "Evaluate word under cursor" })
+-- vim.keymap.set("v", "<leader>de", ":GdbEvalRange<CR>", { desc = "Evaluate range under cursor" })
 
 vim.keymap.set("n", "<leader>Ct", ":tabclose<CR>", { desc = "[C]lose current  [T]ab" })
 
@@ -82,9 +82,3 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 -- Nvim tree toggle
 
 vim.keymap.set("n", "<C-n>", ":NvimTreeToggle<CR>", { desc = "Toggle NvimTree" })
-
--- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
--- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
--- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
--- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
--- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
