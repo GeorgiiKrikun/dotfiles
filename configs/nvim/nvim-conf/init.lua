@@ -35,6 +35,14 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
+vim.cmd([[
+  cnoreabbrev W w
+  cnoreabbrev Wq wq
+  cnoreabbrev WQ wq
+  cnoreabbrev Q q
+  cnoreabbrev Qa qa
+  cnoreabbrev QA qa
+]])
 -- [[ Configure and install plugins ]]
 --
 --  To check the current status of your plugins, run
