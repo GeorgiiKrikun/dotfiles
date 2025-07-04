@@ -42,6 +42,7 @@ vim.cmd([[
   cnoreabbrev Q q
   cnoreabbrev Qa qa
   cnoreabbrev QA qa
+  cnoreabbrev Wa wa
 ]])
 -- [[ Configure and install plugins ]]
 --
