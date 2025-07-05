@@ -146,7 +146,7 @@ return {
       vim.notify("Loading custom commands from: " .. custom_lua, vim.log.levels.INFO)
       dofile(custom_lua)
     end
-    local dap_lua = cwd .. "/.dap/config.lua"
+    local dap_lua = cwd .. "/.nvim/dap_config.lua"
     if vim.fn.filereadable(dap_lua) == 1 then
       vim.notify("Loading custom dap configurations from: " .. dap_lua, vim.log.levels.INFO)
       dofile(dap_lua)
