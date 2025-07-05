@@ -73,8 +73,20 @@ return {
         function()
           require('dapui').toggle()
         end,
-        desc = 'Debug: See last session result.',
+        desc = 'See dap ui',
       },
+      {
+        'M-<F5>',
+        function()
+          require('dap').run_last()
+        end,
+      },
+      {
+        'C-<F5>',
+        function()
+          require('dap').terminate()
+        end,
+      }
     },
     config = function()
       local dap = require 'dap'
