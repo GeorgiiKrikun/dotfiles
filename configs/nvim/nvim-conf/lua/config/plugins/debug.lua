@@ -73,19 +73,21 @@ return {
         function()
           require('dapui').toggle()
         end,
-        desc = 'See dap ui',
+        desc = 'Debug: See dap ui',
       },
       {
-        'M-<F5>',
+        '<F6>',
         function()
           require('dap').run_last()
         end,
+        desc = 'Debug: Run Last',
       },
       {
-        'C-<F5>',
+        '<F4>',
         function()
           require('dap').terminate()
         end,
+        desc = 'Debug: Terminate',
       }
     },
     config = function()
