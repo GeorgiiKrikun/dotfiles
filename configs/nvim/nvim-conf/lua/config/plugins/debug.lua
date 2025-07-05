@@ -139,6 +139,20 @@ return {
     -- Load VSCode debug configurations
     vscode_ext.load_launchjs(nil, { codelldb = { 'cpp', 'c', 'rust' } })
 
+    -- Load dap-native configurations
+
+    local cwd = vim.fn.getcwd()
+    if vim.fn.filereadable(custom_lua) == 1 then
+      vim.notify("Loading custom commands from: " .. custom_lua, vim.log.levels.INFO)
+      dofile(custom_lua)
+    end
+    local dap_lua = cwd .. "/.dap/config.lua"
+    if vim.fn.filereadable(dap_lua) == 1 then
+      vim.notify("Loading custom dap configurations from: " .. dap_lua, vim.log.levels.INFO)
+      dofile(dap_lua)
+    end
+
+
     -- Install golang specific config
     -- require('dap-go').setup {
     --   delve = {

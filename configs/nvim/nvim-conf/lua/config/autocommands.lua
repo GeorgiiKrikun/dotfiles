@@ -36,13 +36,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
 			vim.notify("Loading custom commands from: " .. custom_lua, vim.log.levels.INFO)
 			dofile(custom_lua)
 		end
-		--require(commands_file_path)
-		--    local file = read_file(commands_file_path)
-		--    if file == nil then
-		--      log_message('File not found: ' .. commands_file_path)
-		--      return
-		--    end
-		--    log_message('File content: ' .. file)
 	end,
 })
 
