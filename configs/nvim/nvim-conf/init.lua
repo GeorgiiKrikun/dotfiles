@@ -10,6 +10,11 @@ end
 
 log_message("Starting Neovim configuration...")
 
+-- Setup json parser to have better JSON support for nvim dap and launch.json
+if pcall(require, 'json5') then
+  vim.fn.json_decode = require('json5').decode
+end
+
 require("config.options") -- Load options
 require("config.hotkeys") -- Load keymaps
 require("config.autocommands") -- Load autocommands

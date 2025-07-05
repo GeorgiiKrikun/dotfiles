@@ -444,4 +444,8 @@ return {
 	  main = 'ibl',
 	  opts = {},
 	},
+	{
+		'Joakker/lua-json5', 
+		build = './install.sh'
+	}
 }
