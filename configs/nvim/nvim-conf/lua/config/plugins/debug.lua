@@ -135,6 +135,10 @@ return {
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
+    local vscode_ext = require('dap.ext.vscode')
+    -- Load VSCode debug configurations
+    vscode_ext.load_launchjs(nil, { codelldb = { 'cpp', 'c', 'rust' } })
+
     -- Install golang specific config
     -- require('dap-go').setup {
     --   delve = {
