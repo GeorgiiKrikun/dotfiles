@@ -162,7 +162,6 @@ return {
         dofile(dap_lua)
       end
 
-      -- Lua configs to debug Neovim itself
       dap.configurations.lua = {
         {
           type = 'nlua',
@@ -172,18 +171,25 @@ return {
         {
           type = 'nlua',
           request = 'launch',
-          name = "Launch Neovim",
-          program = "nvim",
-          cwd = vim.fn.getcwd(),
-          args = {},
-          env = {},
-          console = 'integratedTerminal',
-        }
+          name = 'Launch Neovim',
+          -- Note the change from 'program' and 'args' to a single 'program' table
+          -- This is a cleaner way to handle commands with arguments in nvim-dap
+          program = {
+            command = 'nvim',
+            args = {
+              -- '--clean', -- Recommended: start with a clean config to avoid side-effects
+              '-c',
+              "lua require('osv').launch({port = 8086})",
+            },
+          },
+          cwd = '${workspaceFolder}',
+          sourceMaps = true,
+        },
       }
 
-dap.adapters.nlua = function(callback, config)
-  callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
-end
+      dap.adapters.nlua = function(callback, config)
+        callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
+      end
     end,
   },
   {
