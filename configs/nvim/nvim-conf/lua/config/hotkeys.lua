@@ -24,6 +24,9 @@ vim.keymap.set("v", "C", '"_c', { desc = "Replace without yanking (visual mode)"
 vim.keymap.set("n", "<leader>ot", ":tabnew | terminal<CR>izsh<CR>", { desc = "Open terminal in new tab" })
 vim.keymap.set("n", "<leader>Lca", ":lua vim.lsp.buf.code_action()<CR>", { desc = "LSP Code [A]ction" })
 
+-- Start the debug server to debug lua scripts
+vim.keymap.set("n", "<leader>dss", ":lua require('osv').launch({port = 8086})<CR>")
+
 -- Insert carriage return in normal mode
 vim.keymap.set("n", "<S-CR>", "i<CR><Esc>", { noremap = true, silent = true })
 vim.keymap.set("n", "<M-CR>", "a<CR><Esc>", { noremap = true, silent = true })

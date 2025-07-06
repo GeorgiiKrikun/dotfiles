@@ -177,7 +177,7 @@ return {
           program = {
             command = 'nvim',
             args = {
-              -- '--clean', -- Recommended: start with a clean config to avoid side-effects
+              '--clean', -- Recommended: start with a clean config to avoid side-effects
               '-c',
               "lua require('osv').launch({port = 8086})",
             },
