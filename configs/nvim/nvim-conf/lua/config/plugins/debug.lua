@@ -21,7 +21,7 @@ return {
       -- Installs the debug adapters for you
       'williamboman/mason.nvim',
       'jay-babu/mason-nvim-dap.nvim',
-      j
+      'jbyuki/one-small-step-for-vimkind',
     },
     keys = {
       -- Basic debugging keymaps, feel free to change to your liking!
@@ -155,27 +155,35 @@ return {
       vscode_ext.load_launchjs(nil, { codelldb = { 'cpp', 'c', 'rust' } })
 
       -- Load dap-native configurations
-
       local cwd = vim.fn.getcwd()
-      if vim.fn.filereadable(custom_lua) == 1 then
-        vim.notify("Loading custom commands from: " .. custom_lua, vim.log.levels.INFO)
-        dofile(custom_lua)
-      end
       local dap_lua = cwd .. "/.nvim/dap_config.lua"
       if vim.fn.filereadable(dap_lua) == 1 then
         vim.notify("Loading custom dap configurations from: " .. dap_lua, vim.log.levels.INFO)
         dofile(dap_lua)
       end
 
+      -- Lua configs to debug Neovim itself
+      dap.configurations.lua = {
+        {
+          type = 'nlua',
+          request = 'attach',
+          name = "Attach to running Neovim instance",
+        },
+        {
+          type = 'nlua',
+          request = 'launch',
+          name = "Launch Neovim",
+          program = "nvim",
+          cwd = vim.fn.getcwd(),
+          args = {},
+          env = {},
+          console = 'integratedTerminal',
+        }
+      }
 
-      -- Install golang specific config
-      -- require('dap-go').setup {
-      --   delve = {
-      --     -- On Windows delve must be run attached or it crashes.
-      --     -- See https://github.com/leoluz/nvim-dap-go/blob/main/README.md#configuring
-      --     detached = vim.fn.has 'win32' == 0,
-      --   },
-      -- }
+dap.adapters.nlua = function(callback, config)
+  callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
+end
     end,
   },
   {
