@@ -88,3 +88,18 @@ link-nvim-config FORCE = "false":
   mkdir -p ${HOME}/.config/
   ln -s ${DOTFILES_DIR}/configs/nvim/ ${HOME}/.config/nvim
 
+install-lazygit:
+  #!/bin/bash
+  set -ex
+  VERSION="0.53.0"
+  wget https://github.com/jesseduffield/lazygit/releases/download/v${VERSION}/lazygit_${VERSION}_Linux_x86_64.tar.gz
+  mkdir -p /tmp/lazygit_install/
+  tar -xzf lazygit_${VERSION}_Linux_x86_64.tar.gz -C /tmp/lazygit_install/
+  sudo mv /tmp/lazygit_install/lazygit /usr/bin/
+  rm lazygit_${VERSION}_Linux_x86_64.tar.gz
+  rm -rf /tmp/lazygit_install/
+
+
+
+
+
