@@ -149,10 +149,10 @@ return {
       dap.listeners.before.event_terminated['dapui_config'] = dapui.close
       dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
-      local vscode_ext = require('dap.ext.vscode')
-      vscode_ext.json_decode = require("json5").parse
-      -- Load VSCode debug configurations
-      vscode_ext.load_launchjs(nil, { codelldb = { 'cpp', 'c', 'rust' } })
+      -- local vscode_ext = require('dap.ext.vscode')
+      -- vscode_ext.json_decode = require("json5").parse
+      -- -- Load VSCode debug configurations
+      -- vscode_ext.load_launchjs(nil, { codelldb = { 'cpp', 'c', 'rust' } })
 
       -- Load dap-native configurations
       local cwd = vim.fn.getcwd()
