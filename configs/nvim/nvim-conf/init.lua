@@ -61,6 +61,17 @@ vim.cmd([[
 --
 -- NOTE: Here is where you install your plugins.
   require("lazy").setup({
+    {
+      "folke/snacks.nvim",
+      priority = 1000,
+      lazy = false,
+      opts = {
+        explorer = { enabled = true },
+        input = { enabled = true },
+        picker = { enabled = true },
+        statuscolumn = { enabled = true },
+      },
+    },
     require("config.plugins.copilot"),
     require("config.plugins.core"),
     require("config.plugins.debug"),

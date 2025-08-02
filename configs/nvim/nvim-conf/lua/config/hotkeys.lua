@@ -84,4 +84,4 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 
 -- Nvim tree toggle
 
-vim.keymap.set("n", "<C-n>", ":NvimTreeToggle<CR>", { desc = "Toggle NvimTree" })
+vim.keymap.set("n", "<C-n>", ":lua Snacks.explorer.open()<CR>", { desc = "Toggle Snacks exporer" })
