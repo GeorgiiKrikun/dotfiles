@@ -84,4 +84,12 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 
 -- Nvim tree toggle
 
-vim.keymap.set("n", "<C-n>", ":lua Snacks.explorer.open()<CR>", { desc = "Toggle Snacks exporer" })
+vim.keymap.set("n", "<C-e>", ":lua Snacks.explorer.open()<CR>", { desc = "Toggle Snacks exporer" })
+vim.keymap.set("n", "<leader>sh", ":lua Snacks.picker.help()<CR>", { desc = "[S]earch [H]elp" })
+vim.keymap.set("n", "<leader>sk", ":lua Snacks.picker.keymaps()<CR>", { desc = "[S]earch [K]eymaps" })
+vim.keymap.set("n", "<leader>sf", ":lua Snacks.picker.files()<CR>", { desc = "[S]earch [F]iles" })
+vim.keymap.set("n", "<leader>sg", ":lua Snacks.picker.grep()<CR>", { desc = "[S]earch by [G]rep" })
+vim.keymap.set("n", "<leader>sd", ":lua Snacks.picker.diagnostics()<CR>", { desc = "[S]earch [D]iagnostics" })
+vim.keymap.set("n", "<leader>sr", ":lua Snacks.picker.resume()<CR>", { desc = "[S]earch [R]esume" })
+vim.keymap.set("n", "<leader><leader>", ":lua Snacks.picker.recent()<CR>", { desc = '[S]earch Recent Files ("." for repeat)' })
+vim.keymap.set("n", "<leader>s.", ":lua Snacks.picker.buffers()<CR>", { desc = "[ ] Find existing buffers" })

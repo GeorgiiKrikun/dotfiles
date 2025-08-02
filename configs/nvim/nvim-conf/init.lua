@@ -66,7 +66,7 @@ vim.cmd([[
       priority = 1000,
       lazy = false,
       opts = {
-        explorer = { enabled = true },
+       explorer = { enabled = true },
         input = { enabled = true },
         picker = { enabled = true },
         statuscolumn = { enabled = true },
