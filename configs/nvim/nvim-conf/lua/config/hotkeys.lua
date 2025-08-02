@@ -93,3 +93,4 @@ vim.keymap.set("n", "<leader>sd", ":lua Snacks.picker.diagnostics()<CR>", { desc
 vim.keymap.set("n", "<leader>sr", ":lua Snacks.picker.resume()<CR>", { desc = "[S]earch [R]esume" })
 vim.keymap.set("n", "<leader><leader>", ":lua Snacks.picker.recent()<CR>", { desc = '[S]earch Recent Files ("." for repeat)' })
 vim.keymap.set("n", "<leader>s.", ":lua Snacks.picker.buffers()<CR>", { desc = "[ ] Find existing buffers" })
+vim.keymap.set("n", "<leader>sp", ":lua Snacks.picker.pickers()<CR>", { desc = "[ ] Find existing buffers" })
