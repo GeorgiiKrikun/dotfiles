@@ -28,3 +28,5 @@ fi
 
 mkdir -p "$(dirname ${LINK_TARGET})"
 ln -s ${PWD}/.zshrc ${LINK_TARGET}
+
+

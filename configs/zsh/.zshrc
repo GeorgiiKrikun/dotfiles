@@ -14,3 +14,4 @@ export USER_ID=1000
 export GROUP_ID=1000
 
 export EDITOR="nvim"
+

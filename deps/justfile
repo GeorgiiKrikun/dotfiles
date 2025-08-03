@@ -1,5 +1,8 @@
 ARCH := arch()
 HOME := env("HOME") 
+vscode_ext_version := "1.26.3"
+vscode_dbg_path := HOME / ".vscode/extensions/ms-vscode.cpptools/extension/debugAdapters/bin/OpenDebugAD7"
+ 
 
 default:
   just --list
@@ -99,7 +102,10 @@ install-lazygit:
   rm lazygit_${VERSION}_Linux_x86_64.tar.gz
   rm -rf /tmp/lazygit_install/
 
-
-
-
-
+install-vcode-debugger:
+  #!/bin/bash
+  set -ex
+  cd /tmp/
+  wget https://github.com/microsoft/vscode-cpptools/releases/download/v1.26.3/cpptools-linux-x64.vsix
+  mkdir -p ${HOME}/.vscode/extensions/ms-vscode.cpptools/
+  unzip cpptools-linux-x64.vsix -d ${HOME}/.vscode/extensions/ms-vscode.cpptools/

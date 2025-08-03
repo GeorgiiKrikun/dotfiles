@@ -2,5 +2,10 @@ default:
   just --list
 
 setup:
+  #!/bin/bash
   /bin/bash ./setup.sh
+  current_dir=$(pwd)
+  dotfiles_dir=$(realpath ${current_dir}/../..)
+  echo "export DOTFILES_DIR=${dotfiles_dir}" >> ${HOME}/.zshenv
+
 
