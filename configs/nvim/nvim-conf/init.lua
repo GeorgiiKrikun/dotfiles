@@ -66,10 +66,12 @@ vim.cmd([[
       priority = 1000,
       lazy = false,
       opts = {
-       explorer = { enabled = true },
+        explorer = { enabled = true },
         input = { enabled = true },
         picker = { enabled = true },
         statuscolumn = { enabled = true },
+        -- TODO: not working for some reason
+        -- lazygit = { enabled = true },
       },
     },
     require("config.plugins.copilot"),
