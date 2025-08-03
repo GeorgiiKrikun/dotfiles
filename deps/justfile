@@ -108,5 +108,5 @@ install-vcode-debugger:
   cd /tmp/
   wget https://github.com/microsoft/vscode-cpptools/releases/download/v1.26.3/cpptools-linux-x64.vsix
   mkdir -p ${HOME}/.vscode/extensions/ms-vscode.cpptools/
-  unzip cpptools-linux-x64.vsix -d ${HOME}/.vscode/extensions/ms-vscode.cpptools/
-  chmod +x ${vscode_dbg_path}
+  unzip -uo cpptools-linux-x64.vsix -d ${HOME}/.vscode/extensions/ms-vscode.cpptools/
+  chmod +x {{vscode_dbg_path}}

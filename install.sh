@@ -57,3 +57,4 @@ ${HOME}/.cargo/bin/cargo install bottom
 ${HOME}/.cargo/bin/cargo install fd-find
 echo "Utilities installed successfully."
 
+${JUST} install-lazygit install-vcode-debugger
