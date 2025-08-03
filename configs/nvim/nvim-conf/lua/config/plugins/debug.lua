@@ -239,6 +239,16 @@ return {
         vim.notify("GCC version is too low for GDB support. Please update GCC to version 14 or higher.", vim.log.levels.WARN)
       end
 
+      local vscode_debugger_path = vim.fn.system('just --evaluate -f ${DOTFILES_DIR}/deps/justfile vscode_dbg_path')
+      vim.notify("Using VSCode debugger path: " .. vscode_debugger_path)
+      -- Check if file exists
+      if vim.fn.filereadable(vscode_debugger_path) == 1 then
+        dap.adapters.cppdbg = {
+            id = 'cppdbg',
+            type = 'executable',
+            command = vscode_debugger_path,
+        }
+      end
 
       dap.adapters.nlua = function(callback, config)
         callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
