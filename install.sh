@@ -45,6 +45,9 @@ echo "Zsh and Oh My Zsh have been set up successfully."
 cd ${SCRIPT_DIR}/deps
 ${JUST} install-neovim
 ${JUST} setup-nvim-path-zsh
+${JUST} install-lazygit 
+${JUST} install-vcode-debugger
+${JUST} install-luarocks-penlight
 
 cd ${SCRIPT_DIR}/configs/nvim
 ${JUST} setup
@@ -57,4 +60,3 @@ ${HOME}/.cargo/bin/cargo install bottom
 ${HOME}/.cargo/bin/cargo install fd-find
 echo "Utilities installed successfully."
 
-${JUST} install-lazygit install-vcode-debugger

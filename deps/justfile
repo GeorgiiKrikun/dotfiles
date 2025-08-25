@@ -66,6 +66,12 @@ install-zsh:
   set -ex
   sudo apt install -y zsh
 
+install-luarocks-penlight:
+  #!/bin/bash
+  set -ex
+  sudo apt install -y luarocks
+  sudo luarocks install penlight
+
 setup-cargo-zsh:
   #!/bin/bash
   set -ex
