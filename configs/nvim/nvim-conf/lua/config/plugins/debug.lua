@@ -145,22 +145,9 @@ return {
         vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
       end
 
-      dap.listeners.after.event_initialized['dapui_config'] = dapui.open
-      dap.listeners.before.event_terminated['dapui_config'] = dapui.close
+      -- dap.listeners.after.event_initialized['dapui_config'] = dapui.open
+      -- dap.listeners.before.event_terminated['dapui_config'] = dapui.close
       dap.listeners.before.event_exited['dapui_config'] = dapui.close
-
-      -- local vscode_ext = require('dap.ext.vscode')
-      -- vscode_ext.json_decode = require("json5").parse
-      -- -- Load VSCode debug configurations
-      -- vscode_ext.load_launchjs(nil, { codelldb = { 'cpp', 'c', 'rust' } })
-
-      -- Load dap-native configurations
-      local cwd = vim.fn.getcwd()
-      local dap_lua = cwd .. "/.nvim/dap_config.lua"
-      if vim.fn.filereadable(dap_lua) == 1 then
-        vim.notify("Loading custom dap configurations from: " .. dap_lua, vim.log.levels.INFO)
-        dofile(dap_lua)
-      end
 
       dap.configurations.lua = {
         {
@@ -253,6 +240,27 @@ return {
       dap.adapters.nlua = function(callback, config)
         callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
       end
+
+    
+      -- Check existence of debugpy
+      local debugpy = nil
+      local pip3 = require("pl.stringx").strip(vim.fn.system('which pip3'))
+      if pip3 == '' then
+        vim.notify("pip3 not found in PATH. Please install pip3.", vim.log.levels.ERROR)
+        return
+      else
+        debugpy = vim.fn.system('pip3 show debugpy')
+      end
+
+      if debugpy then
+        dap.adapters.python = {
+          type = 'executable',
+          command = 'python3',
+          args = { '-m', 'debugpy.adapter' },
+        }
+      else 
+        vim.notify("debugpy not found. Please install debugpy with 'pip3 install debugpy'", vim.log.levels.WARN)
+      end
     end,
   },
   { 'theHamsta/nvim-dap-virtual-text',
@@ -270,7 +278,7 @@ return {
     end,
   },
   { 'GeorgiiKrikun/dbg_interface.nvim',
-    -- dir = '~/software/dbg_interface.nvim',
+    dir = '~/software/dbg_interface.nvim',
     dependencies = { 'lunarmodules/penlight' },
     opts = {
       rust = {
