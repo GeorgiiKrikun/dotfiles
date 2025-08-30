@@ -8,7 +8,7 @@
 --
 -- }
 return {
-  {
+  { 
     'mfussenegger/nvim-dap',
     dependencies = {
       'Joakker/lua-json5',
@@ -255,8 +255,7 @@ return {
       end
     end,
   },
-  {
-    'theHamsta/nvim-dap-virtual-text',
+  { 'theHamsta/nvim-dap-virtual-text',
     dependencies = { 'mfussenegger/nvim-dap' },
     config = function()
       require('nvim-dap-virtual-text').setup {
@@ -270,4 +269,81 @@ return {
       }
     end,
   },
+  { 'GeorgiiKrikun/dbg_interface.nvim',
+    dir = '~/software/dbg_interface.nvim',
+    dependencies = { 'lunarmodules/penlight' },
+    opts = {
+      rust = {
+        config = {
+          name = "",
+          type = "codelldb",
+          request = "launch",
+          program = "",
+          stopAtEntry = false,
+          cwd = "${workspaceFolder}",
+          environment = {
+            RUST_BACKTRACE = "1"
+          },
+          externalConsole = false,
+          justMyCode = true,
+          args="",
+          setupCommands = {
+            {
+               text = '-enable-pretty-printing',
+               description =  'enable pretty printing',
+               ignoreFailures = false
+            },
+          },
+        },
+        opts = {
+          filetype = "rust",
+        },
+      },
+      cpp = {
+        config = {
+          name = "Cppdbg with vscode",
+          type = "cppdbg",
+          request = "launch",
+          program = "",
+          stopAtEntry = false,
+          cwd = "${workspaceFolder}",
+          environment = {},
+          externalConsole = false,
+          justMyCode = true,
+          args="",
+          setupCommands = {  
+            { 
+               text = '-enable-pretty-printing',
+               description =  'enable pretty printing',
+               ignoreFailures = false 
+            },
+          },
+        },
+        opts = {
+          filetype = "cpp",
+        },
+      },
+      python = {
+        config = {
+          name = "Python with pydebug",
+          type = "python",
+          request = "launch",
+          program = "",
+          pythonPath = function()
+            local venv_var = os.getenv('VIRTUAL_ENV')
+            if venv_var then
+              return venv_var .. '/bin/python'
+            else
+              return '/usr/bin/python3'
+            end
+          end;
+          stopAtEntry = false,
+          cwd = "${workspaceFolder}",
+        },
+        opts = {
+          filetype = "python",
+        },
+      },
+    }
+  }
 }
