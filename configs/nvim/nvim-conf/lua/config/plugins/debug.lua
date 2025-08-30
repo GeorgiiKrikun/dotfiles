@@ -270,7 +270,7 @@ return {
     end,
   },
   { 'GeorgiiKrikun/dbg_interface.nvim',
-    dir = '~/software/dbg_interface.nvim',
+    -- dir = '~/software/dbg_interface.nvim',
     dependencies = { 'lunarmodules/penlight' },
     opts = {
       rust = {
