@@ -82,6 +82,10 @@ vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right win
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
+-- Make tab navigation easier
+vim.keymap.set("n", ">>", ":tabnext<CR>",  { desc = "Go to [T]ab [N]ext", remap = true, silent = true })
+vim.keymap.set("n", "<<", ":tabprevious<CR>", { desc = "Go to [T]ab [P]revious", remap = true, silent = true })
+
 -- Nvim tree toggle
 
 vim.keymap.set("n", "<C-e>", ":lua Snacks.explorer.open()<CR>", { desc = "Toggle Snacks exporer" })

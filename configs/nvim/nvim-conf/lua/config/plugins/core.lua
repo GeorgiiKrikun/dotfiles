@@ -309,6 +309,7 @@ return {
 				}}
 			)
 			require("mini.splitjoin").setup()
+			require("mini.statusline").setup()
 		end,
 	},
 	{ -- Add indentation guides even on blank lines

@@ -48,6 +48,7 @@ vim.cmd([[
   cnoreabbrev Qa qa
   cnoreabbrev QA qa
   cnoreabbrev Wa wa
+  cnoreabbrev WA wa
 ]])
 -- [[ Configure and install plugins ]]
 --
@@ -70,8 +71,6 @@ vim.cmd([[
         input = { enabled = true },
         picker = { enabled = true },
         statuscolumn = { enabled = true },
-        -- TODO: not working for some reason
-        -- lazygit = { enabled = true },
       },
     },
     require("config.plugins.copilot"),
