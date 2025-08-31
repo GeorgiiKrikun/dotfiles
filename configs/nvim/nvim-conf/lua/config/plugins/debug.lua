@@ -278,7 +278,7 @@ return {
     end,
   },
   { 'GeorgiiKrikun/dbg_interface.nvim',
-    dir = '~/software/dbg_interface.nvim',
+    -- dir = '~/software/dbg_interface.nvim',
     dependencies = { 'lunarmodules/penlight' },
     opts = {
       rust = {
@@ -356,11 +356,16 @@ return {
     config = function(_, opts)
       require("dbg_interface").setup(opts)
       vim.keymap.set("n", "<leader>dnr", function() require("dbg_interface").dbg_args_async('rust') end, { desc = "[D]ebug [N]ew Rust configuration" })
-      vim.keymap.set("n", "<leader>dar", function() require("dbg_interface").run_picker('rust') end, { desc = "[D]ebug with [A]lready used rust configuration" })
+      vim.keymap.set("n", "<leader>dar", function() require("dbg_interface").run_existing_dbg_cfg('rust') end, { desc = "[D]ebug with [A]lready used rust configuration" })
+      vim.keymap.set("n", "<leader>ddr", function() require("dbg_interface").delete_existing_dbg_cfg('rust') end, { desc = "[D]elete [A]lready used rust configuration" })
+
       vim.keymap.set("n", "<leader>dnc", function() require("dbg_interface").dbg_args_async('cpp') end, { desc = "[D]ebug [N]ew Cpp configuration" })
-      vim.keymap.set("n", "<leader>dac", function() require("dbg_interface").run_picker('cpp') end, { desc = "[D]ebug with [A]lready used cpp configuration" })
+      vim.keymap.set("n", "<leader>dac", function() require("dbg_interface").run_existing_dbg_cfg('cpp') end, { desc = "[D]ebug with [A]lready used cpp configuration" })
+      vim.keymap.set("n", "<leader>ddc", function() require("dbg_interface").delete_existing_dbg_cfg('cpp') end, { desc = "[D]elete [A]lready used cpp configuration" })
+
       vim.keymap.set("n", "<leader>dnp", function() require("dbg_interface").dbg_args_async('python') end, { desc = "[D]ebug [N]ew Python configuration" })
-      vim.keymap.set("n", "<leader>dap", function() require("dbg_interface").run_picker('python') end, { desc = "[D]ebug with [A]lready used python configuration" })
+      vim.keymap.set("n", "<leader>dap", function() require("dbg_interface").run_existing_dbg_cfg('python') end, { desc = "[D]ebug with [A]lready used python configuration" })
+      vim.keymap.set("n", "<leader>ddp", function() require("dbg_interface").delete_existing_dbg_cfg('python') end, { desc = "[D]elete [A]lready used python configuration" })
     end,
   }
 }
