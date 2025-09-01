@@ -52,3 +52,20 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		vim.highlight.on_yank()
 	end,
 })
+
+vim.api.nvim_create_user_command('Messages',
+  function()
+    -- Create a new scratch buffer
+    vim.cmd('new')
+    vim.bo.buftype = 'nofile'
+    vim.bo.bufhidden = 'hide'
+    vim.bo.swapfile = false
+    vim.bo.buflisted = false -- Optional: hides it from the buffer list
+
+    -- Put the output of the :messages command into the new buffer
+    vim.api.nvim_put({ vim.fn.execute('messages') }, 'c', true, true)
+  end,
+  {
+    desc = 'View message history in a new buffer'
+  }
+)
