@@ -61,7 +61,7 @@ vim.keymap.set("i", "<C-L>", "<Plug>(copilot-accept-word)")
 -- vim.keymap.set("n", "<leader>de", ":GdbEvalWord<CR>", { desc = "Evaluate word under cursor" })
 -- vim.keymap.set("v", "<leader>de", ":GdbEvalRange<CR>", { desc = "Evaluate range under cursor" })
 
-vim.keymap.set("n", "<leader>Ct", ":tabclose<CR>", { desc = "[C]lose current  [T]ab" })
+-- vim.keymap.set("n", "<leader>Ct", ":tabclose<CR>", { desc = "[C]lose current  [T]ab" })
 
 vim.keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "Show diagnostic [L]ine" })
 

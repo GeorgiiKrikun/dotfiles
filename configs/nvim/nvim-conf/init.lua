@@ -71,7 +71,12 @@ vim.cmd([[
         input = { enabled = true },
         picker = { enabled = true },
         statuscolumn = { enabled = true },
+        lazygit = { enabled = true },
       },
+      config = function(_, opts)
+        require("snacks").setup(opts)
+        vim.keymap.set("n", "<leader>lg", require('snacks').lazygit.open, { desc = "Open Snacks" })
+      end,
     },
     require("config.plugins.copilot"),
     require("config.plugins.core"),
