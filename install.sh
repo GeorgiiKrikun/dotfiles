@@ -43,6 +43,7 @@ ${JUST} setup
 echo "Zsh and Oh My Zsh have been set up successfully."
 
 cd ${SCRIPT_DIR}/deps
+${JUST} install-unzip
 ${JUST} install-neovim
 ${JUST} setup-nvim-path-zsh
 ${JUST} install-lazygit 

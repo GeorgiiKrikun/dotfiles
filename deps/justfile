@@ -97,6 +97,11 @@ link-nvim-config FORCE = "false":
   mkdir -p ${HOME}/.config/
   ln -s ${DOTFILES_DIR}/configs/nvim/ ${HOME}/.config/nvim
 
+install-unzip:
+  #!/bin/bash
+  set -ex
+  sudo apt install -y unzip
+
 install-lazygit:
   #!/bin/bash
   set -ex
