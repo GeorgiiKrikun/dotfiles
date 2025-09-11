@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -e
 
 SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 
@@ -33,6 +33,7 @@ ${JUST} setup
 echo "Neovim has been set up successfully."
 
 echo "Installing additional utilities..."
+cd ${SCRIPT_DIR}/deps
 ${JUST} install-ripgrep 
 ${JUST} install-bottom 
 ${JUST} install-fd-find

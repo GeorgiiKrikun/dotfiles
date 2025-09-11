@@ -127,6 +127,8 @@ setup-cargo-zsh:
   fi
 
 change-shell-zsh:
+  #!/bin/bash
+  set -e
   sudo chsh -s $(which zsh)
 
 install-oh-my-zsh:

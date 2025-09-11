@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -e
 
 LINK_TARGET="${HOME}/.config/nvim"
 TIMESTAMP=$(date +%Y%m%d%H%M%S)

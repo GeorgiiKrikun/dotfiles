@@ -3,6 +3,7 @@ default:
 
 setup:
   #!/bin/bash
+  set -e
   /bin/bash ./setup.sh
   current_dir=$(pwd)
   dotfiles_dir=$(realpath ${current_dir}/../..)
