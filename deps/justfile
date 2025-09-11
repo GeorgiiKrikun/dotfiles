@@ -3,7 +3,6 @@ HOME := env("HOME")
 vscode_ext_version := "1.26.3"
 vscode_dbg_path := HOME / ".vscode/extensions/ms-vscode.cpptools/extension/debugAdapters/bin/OpenDebugAD7"
  
-
 default:
   just --list
 
@@ -78,7 +77,7 @@ install-nerd-font:
 
 install-nerd-font-kitty:
   #!/bin/bash
-  set -ex
+  set -e
   grep font_family DejaVuSansMNerdFont ${HOME}/.config/kitty/kitty.conf || echo "font_family DejaVuSansMono Nerd Font" >> ${HOME}/.config/kitty/kitty.conf
 
 install-njs VERSION="23.11.1":
@@ -120,7 +119,7 @@ install-luarocks-penlight:
 
 setup-cargo-zsh:
   #!/bin/bash
-  set -x
+  set -e
   if cat "${HOME}/.zshenv" | grep 'export PATH=$HOME/.cargo/bin:$PATH' >/dev/null; then 
     echo Cargo setup already in ZSH
   else
@@ -177,9 +176,14 @@ install-lazygit:
 
 install-vcode-debugger:
   #!/bin/bash
-  set -ex
-  cd /tmp/
-  wget https://github.com/microsoft/vscode-cpptools/releases/download/v1.26.3/cpptools-linux-x64.vsix
-  mkdir -p ${HOME}/.vscode/extensions/ms-vscode.cpptools/
-  unzip -uo cpptools-linux-x64.vsix -d ${HOME}/.vscode/extensions/ms-vscode.cpptools/
-  chmod +x {{vscode_dbg_path}}
+  set -e
+  if [ -f {{vscode_dbg_path}} ]; then
+    echo "VCode exists"
+  else
+    cd /tmp/
+    wget https://github.com/microsoft/vscode-cpptools/releases/download/v1.26.3/cpptools-linux-x64.vsix
+    mkdir -p ${HOME}/.vscode/extensions/ms-vscode.cpptools/
+    unzip -uo cpptools-linux-x64.vsix -d ${HOME}/.vscode/extensions/ms-vscode.cpptools/
+    chmod +x {{vscode_dbg_path}}
+  fi
+
