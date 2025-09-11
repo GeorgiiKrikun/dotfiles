@@ -9,13 +9,30 @@ default:
 
 install-ripgrep:
   #!/bin/bash
-  cargo install ripgrep
+  set -e
+  if ! command -v rg >/dev/null; then
+    ${HOME}/.cargo/bin/cargo install ripgrep
+  else
+    echo "Ripgrep exists"
+  fi
 
 install-bottom:
-  cargo install bottom
+  #!/bin/bash
+  set -e
+  if ! command -v btm >/dev/null; then
+    ${HOME}/.cargo/bin/cargo install bottom
+  else
+    echo "Bottom exists"
+  fi
 
 install-fd-find:
-  cargo install fd-find
+  #!/bin/bash
+  set -e
+  if ! command -v fd >/dev/null; then
+    ${HOME}/.cargo/bin/cargo install fd-find
+  else
+    echo "fd-find exists"
+  fi
 
 install-neovim INSTALL_DIR = "~/software/neovim":
   #!/bin/bash

@@ -33,7 +33,7 @@ ${JUST} setup
 echo "Neovim has been set up successfully."
 
 echo "Installing additional utilities..."
-${HOME}/.cargo/bin/cargo install ripgrep 
-${HOME}/.cargo/bin/cargo install bottom 
-${HOME}/.cargo/bin/cargo install fd-find
+${JUST} install-ripgrep 
+${JUST} install-bottom 
+${JUST} install-fd-find
 echo "Utilities installed successfully."
