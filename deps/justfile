@@ -19,23 +19,37 @@ install-fd-find:
 
 install-neovim INSTALL_DIR = "~/software/neovim":
   #!/bin/bash
-  set -x
-  echo {{YELLOW}} Note: installing neovim to $(realpath {{INSTALL_DIR}}) {{NORMAL}}
-  rm -rf {{INSTALL_DIR}} || true
-  tmpdir=$(mktemp -d /tmp/nvim.XXXXXXXX)
-  cd ${tmpdir}
-  curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-{{ARCH}}.tar.gz
-  tar -xzf nvim-linux-{{ARCH}}.tar.gz
-  mkdir -p {{INSTALL_DIR}}
-  sudo mv nvim-linux-{{ARCH}} {{INSTALL_DIR}}
+  set -e
+  if ! command -v nvim >/dev/null; then
+    echo {{YELLOW}} Note: installing neovim to $(realpath {{INSTALL_DIR}}) {{NORMAL}}
+    rm -rf {{INSTALL_DIR}} || true
+    tmpdir=$(mktemp -d /tmp/nvim.XXXXXXXX)
+    cd ${tmpdir}
+    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-{{ARCH}}.tar.gz
+    tar -xzf nvim-linux-{{ARCH}}.tar.gz
+    mkdir -p {{INSTALL_DIR}}
+    sudo mv nvim-linux-{{ARCH}} {{INSTALL_DIR}}
+  else
+    echo "Nvim already installed"
+  fi
 
 setup-nvim-path-zsh INSTALL_DIR = "~/software/neovim":
+  #!/bin/bash
+  set -e
+  if cat "${HOME}/.zshenv" | grep 'export PATH=$PATH:{{INSTALL_DIR}}/nvim-linux-{{ARCH}}/bin/' >/dev/null; then 
+    echo Nvim setup already in ZSH
+  else
     echo 'export PATH=$PATH:{{INSTALL_DIR}}/nvim-linux-{{ARCH}}/bin/' >> ~/.zshenv
-    echo '{{GREEN}}'"Please restart your terminal to apply the changes."'{{NORMAL}}'
+  fi
 
 setup-nvim-path-bash INSTALL_DIR = "~/software/neovim":
+  #!/bin/bash
+  set -e
+  if cat "${HOME}/.bashrc" | grep 'export PATH=$PATH:{{INSTALL_DIR}}/nvim-linux-{{ARCH}}/bin/' >/dev/null; then 
     echo 'export PATH=$PATH:{{INSTALL_DIR}}/nvim-linux-{{ARCH}}/bin/' >> ~/.bashrc
-    echo '{{GREEN}}'"Please restart your terminal to apply the changes."'{{NORMAL}}'
+  else
+    echo Nvim setup already in BASH
+  fi
 
 install-nerd-font:
   #!/bin/bash
@@ -52,7 +66,7 @@ install-nerd-font-kitty:
 
 install-njs VERSION="23.11.1":
   #!/bin/bash
-  set -ex
+  set -e
   cd ${HOME}/Downloads
   MAJOR_VERSION=$(echo {{VERSION}} | cut -d. -f1)
   wget https://nodejs.org/download/release/latest-v${MAJOR_VERSION}.x/node-v{{VERSION}}-linux-x64.tar.gz
@@ -73,24 +87,29 @@ install-zsh:
 
 install-luarocks-penlight:
   #!/bin/bash
-  set -ex
-  sudo apt install -y luarocks
-  sudo luarocks install penlight
+  set -e
+ 
+  if ! command -v luarocks >/dev/null; then
+    sudo apt install -y luarocks
+  else
+    echo "luarocks exists"
+  fi
+
+  if luarocks list | grep penlight >/dev/null; then
+    echo "penlight exist"
+  else
+    sudo luarocks install penlight
+  fi
 
 setup-cargo-zsh:
   #!/bin/bash
-  set -e
+  set -x
   if cat "${HOME}/.zshenv" | grep 'export PATH=$HOME/.cargo/bin:$PATH' >/dev/null; then 
     echo Cargo setup already in ZSH
   else
     echo 'export PATH=$HOME/.cargo/bin:$PATH' >> ${HOME}/.zshenv
   fi
 
-test-cargo-zsh:
-  #!/bin/bash
-  set -ex
-
-  
 change-shell-zsh:
   sudo chsh -s $(which zsh)
 
@@ -107,7 +126,7 @@ install-oh-my-zsh:
  
 link-nvim-config FORCE = "false":
   #!/bin/bash
-  set -ex
+  set -e
   DOTFILES_DIR=`realpath ${PWD}/../`
   if [ "$FORCE" = "true" ]; then
     rm -rf ${HOME}/.config/nvim/init.vim || true
@@ -117,19 +136,27 @@ link-nvim-config FORCE = "false":
 
 install-unzip:
   #!/bin/bash
-  set -ex
-  sudo apt install -y unzip
+  set -e
+  if ! command -v unzip >/dev/null; then
+    sudo apt install -y unzip
+  else
+    echo "Unzip install"
+  fi
 
 install-lazygit:
   #!/bin/bash
-  set -ex
-  VERSION="0.53.0"
-  wget https://github.com/jesseduffield/lazygit/releases/download/v${VERSION}/lazygit_${VERSION}_Linux_x86_64.tar.gz
-  mkdir -p /tmp/lazygit_install/
-  tar -xzf lazygit_${VERSION}_Linux_x86_64.tar.gz -C /tmp/lazygit_install/
-  sudo mv /tmp/lazygit_install/lazygit /usr/bin/
-  rm lazygit_${VERSION}_Linux_x86_64.tar.gz
-  rm -rf /tmp/lazygit_install/
+  set -e
+  if ! command -v lazygit >/dev/null; then
+    VERSION="0.53.0"
+    wget https://github.com/jesseduffield/lazygit/releases/download/v${VERSION}/lazygit_${VERSION}_Linux_x86_64.tar.gz
+    mkdir -p /tmp/lazygit_install/
+    tar -xzf lazygit_${VERSION}_Linux_x86_64.tar.gz -C /tmp/lazygit_install/
+    sudo mv /tmp/lazygit_install/lazygit /usr/bin/
+    rm lazygit_${VERSION}_Linux_x86_64.tar.gz
+    rm -rf /tmp/lazygit_install/
+  else
+    echo "Lazygit exists"
+  fi
 
 install-vcode-debugger:
   #!/bin/bash
