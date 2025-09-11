@@ -8,6 +8,7 @@ default:
   just --list
 
 install-ripgrep:
+  #!/bin/bash
   cargo install ripgrep
 
 install-bottom:
@@ -18,7 +19,7 @@ install-fd-find:
 
 install-neovim INSTALL_DIR = "~/software/neovim":
   #!/bin/bash
-  set -ex
+  set -x
   echo {{YELLOW}} Note: installing neovim to $(realpath {{INSTALL_DIR}}) {{NORMAL}}
   rm -rf {{INSTALL_DIR}} || true
   tmpdir=$(mktemp -d /tmp/nvim.XXXXXXXX)
@@ -63,8 +64,12 @@ install-njs VERSION="23.11.1":
 
 install-zsh:
   #!/bin/bash
-  set -ex
-  sudo apt install -y zsh
+  set -e
+  if ! command -v zsh >/dev/null; then
+    sudo apt install -y zsh
+  else
+    echo "ZSH exist"
+  fi
 
 install-luarocks-penlight:
   #!/bin/bash
@@ -74,18 +79,31 @@ install-luarocks-penlight:
 
 setup-cargo-zsh:
   #!/bin/bash
-  set -ex
-  echo 'export PATH=$HOME/.cargo/bin:$PATH' >> ${HOME}/.zshenv
+  set -e
+  if cat "${HOME}/.zshenv" | grep 'export PATH=$HOME/.cargo/bin:$PATH' >/dev/null; then 
+    echo Cargo setup already in ZSH
+  else
+    echo 'export PATH=$HOME/.cargo/bin:$PATH' >> ${HOME}/.zshenv
+  fi
 
+test-cargo-zsh:
+  #!/bin/bash
+  set -ex
+
+  
 change-shell-zsh:
   sudo chsh -s $(which zsh)
 
 install-oh-my-zsh:
   #!/bin/bash
-  set -ex
-  curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh > /tmp/install.sh
-  chmod +x /tmp/install.sh
-  RUNZSH=no CHSH=no sh -c /tmp/install.sh
+  set -e
+  if [ -d "${HOME}/.oh-my-zsh" ]; then
+    echo "Oh My Zsh exists"
+  else
+    curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh > /tmp/install.sh
+    chmod +x /tmp/install.sh
+    RUNZSH=no CHSH=no sh -c /tmp/install.sh
+  fi
  
 link-nvim-config FORCE = "false":
   #!/bin/bash
