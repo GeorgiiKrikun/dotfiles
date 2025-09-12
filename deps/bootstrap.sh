@@ -15,7 +15,7 @@ if command -v cargo >/dev/null; then
 else
   echo "Cargo does not exist, installing rust"
   curl --proto '=https' --tlsv1.2 -ssf https://sh.rustup.rs | sh -s -- -y
-  . $home/.cargo/env
+  . $HOME/.cargo/env
   rustup default stable
 fi
 
