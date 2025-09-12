@@ -26,6 +26,7 @@ ${JUST} setup-nvim-path-zsh
 ${JUST} install-lazygit 
 ${JUST} install-vcode-debugger
 ${JUST} install-luarocks-penlight
+${JUST} install-njs
 
 cd ${SCRIPT_DIR}/configs/nvim
 ${JUST} setup

@@ -83,6 +83,7 @@ install-nerd-font-kitty:
 install-njs VERSION="23.11.1":
   #!/bin/bash
   set -e
+  mkdir -p ${HOME}/Downloads
   cd ${HOME}/Downloads
   MAJOR_VERSION=$(echo {{VERSION}} | cut -d. -f1)
   wget https://nodejs.org/download/release/latest-v${MAJOR_VERSION}.x/node-v{{VERSION}}-linux-x64.tar.gz
