@@ -331,6 +331,9 @@ return {
           filetype = "cpp",
         },
       },
+      
+
+
       python = {
         config = {
           name = "Python with pydebug",
@@ -342,6 +345,7 @@ return {
             if venv_var then
               return venv_var .. '/bin/python'
             else
+              vim.notify("No virtual environment found, are you sure you activated it or don't need it?", vim.log.levels.WARN)
               return '/usr/bin/python3'
             end
           end;
