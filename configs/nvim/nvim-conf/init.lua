@@ -18,6 +18,7 @@ end
 require("config.options") -- Load options
 require("config.hotkeys") -- Load keymaps
 require("config.autocommands") -- Load autocommands
+require("config.commands") -- Load custom commands
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
