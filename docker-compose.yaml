@@ -2,3 +2,4 @@ include:
   - test_dockers/basic/docker-compose.yaml
   - test_dockers/sudo_user/docker-compose.yaml
   - test_dockers/user/docker-compose.yaml
+  - test_dockers/bare-bones/docker-compose.yaml

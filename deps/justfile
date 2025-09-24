@@ -2,6 +2,7 @@ ARCH := arch()
 HOME := env("HOME") 
 vscode_ext_version := "1.26.3"
 vscode_dbg_path := HOME / ".vscode/extensions/ms-vscode.cpptools/extension/debugAdapters/bin/OpenDebugAD7"
+export BINSTALL_NO_CONFIRM := "true"
  
 default:
   just --list
@@ -10,7 +11,7 @@ install-ripgrep:
   #!/bin/bash
   set -e
   if ! command -v rg >/dev/null; then
-    ${HOME}/.cargo/bin/cargo install ripgrep
+    ${HOME}/.cargo/bin/cargo binstall ripgrep
   else
     echo "Ripgrep exists"
   fi
@@ -19,7 +20,7 @@ install-bottom:
   #!/bin/bash
   set -e
   if ! command -v btm >/dev/null; then
-    ${HOME}/.cargo/bin/cargo install bottom
+    ${HOME}/.cargo/bin/cargo binstall bottom
   else
     echo "Bottom exists"
   fi
@@ -28,7 +29,7 @@ install-fd-find:
   #!/bin/bash
   set -e
   if ! command -v fd >/dev/null; then
-    ${HOME}/.cargo/bin/cargo install fd-find
+    ${HOME}/.cargo/bin/cargo binstall fd-find
   else
     echo "fd-find exists"
   fi

@@ -1,0 +1,15 @@
+services:
+  bare-bones:
+    build:
+      context: ../..
+      dockerfile: test_dockers/bare-bones/Dockerfile
+      args:
+        USERNAME: appuser
+    image: bare_bones_image
+    container_name: bare_bones_container
+    tty: true
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - ${PWD}:/home/appuser/dotfiles
+
