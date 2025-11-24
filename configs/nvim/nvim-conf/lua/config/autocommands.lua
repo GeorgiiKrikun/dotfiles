@@ -52,3 +52,13 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		vim.highlight.on_yank()
 	end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "cpp", "c", "h", "hpp", "cu", "cuh" },
+  callback = function()
+    print("Setting tabstop and shiftwidth for C/C++ files")
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.expandtab = true
+  end,
+})
