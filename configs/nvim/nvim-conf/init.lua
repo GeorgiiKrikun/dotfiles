@@ -70,7 +70,10 @@ vim.cmd([[
       opts = {
         explorer = { enabled = true },
         input = { enabled = true },
-        picker = { enabled = true },
+        picker = {
+          enabled = true,
+          ui_select = true,
+        },
         statuscolumn = { enabled = true },
         lazygit = { enabled = true },
       },
