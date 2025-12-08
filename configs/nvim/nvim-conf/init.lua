@@ -23,7 +23,9 @@ require("config.commands") -- Load custom commands
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
--- Set default foldmethod to indent
+-- Set tab to be dispplayed as 2 spaces
+vim.opt.tabstop = 2
+
 vim.o.foldmethod = "expr"
 vim.o.foldexpr = "v:lua.vim.lsp.foldexpr()"
 
