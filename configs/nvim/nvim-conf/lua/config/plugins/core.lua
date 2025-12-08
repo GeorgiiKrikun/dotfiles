@@ -8,19 +8,6 @@ return {
 		"numToStr/Comment.nvim",
 		opts = {},
 	},
-	--[[  NOTE: Plugins can also be configured to run Lua code when they are loaded.
-
-	This is often very useful to both group configuration, as well as handle
-	lazy loading plugins that don't need to be loaded immediately at startup.
-
-	For example, in the following configuration, we use:
-	 event = 'VimEnter'
-
-	which loads which-key before all the UI elements are loaded. Events can be
-	normal autocommands events (`:help autocmd-events`).
-
-	Then, because we use the `opts` key (recommended), the configuration runs
-	after the plugin has been loaded as `require(MODULE).setup(opts)`. ]]
 	{ -- Useful plugin to show you pending keybinds.
 		"folke/which-key.nvim",
 		event = "VimEnter", -- Sets the loading event to 'VimEnter'
@@ -94,6 +81,28 @@ return {
 			},
 		},
 	},
+	-- {
+	--     'saghen/blink.cmp',
+	--     dependencies = {
+	--         'Kaiser-Yang/blink-cmp-avante',
+	--         -- ... Other dependencies
+	--     },
+	--     opts = {
+	--         sources = {
+	--             -- Add 'avante' to the list
+	--             default = { 'avante', 'lsp', 'path', 'luasnip', 'buffer' },
+	--             providers = {
+	--                 avante = {
+	--                     module = 'blink-cmp-avante',
+	--                     name = 'Avante',
+	--                     opts = {
+	--                         -- options for blink-cmp-avante
+	--                     }
+	--                 }
+	--             },
+	--         }
+	--     }
+	-- }
 	{ -- Autocompletion
 		"saghen/blink.cmp",
 		event = "VimEnter",
@@ -126,9 +135,8 @@ return {
 				opts = {},
 			},
 			"folke/lazydev.nvim",
+			'Kaiser-Yang/blink-cmp-avante',
 		},
-		--- @module 'blink.cmp'
-		--- @type blink.cmp.Config
 		opts = {
 			keymap = {
 				-- set to 'none' to disable the 'default' preset
@@ -138,9 +146,9 @@ return {
 				["<S-Tab>"] = { "select_prev", "fallback" },
 				-- ["<Tab>"] = { "select_next", "fallback" },
 				-- ["<S-Tab>"] = { "select_prev", "fallback" },
-				["<C-space>"] = {
+				["<C-space>"] = { 
 					function(cmp)
-						cmp.show({ providers = { "snippets" } })
+						cmp.show({ providers = { "snippets", "avante" } })
 					end,
 				},
 
@@ -158,11 +166,17 @@ return {
 				-- Optionally, set `auto_show = true` to show the documentation after a delay.
 				documentation = { auto_show = false, auto_show_delay_ms = 500 },
 			},
-
 			sources = {
-				default = { "lsp", "path", "snippets", "lazydev" },
+				default = { "avante", "lsp", "path", "snippets", "lazydev" },
 				providers = {
 					lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
+					avante = {
+						module = 'blink-cmp-avante',
+						name = 'Avante',
+						opts = {
+							-- options for blink-cmp-avante
+						}
+					}
 				},
 			},
 
@@ -313,11 +327,11 @@ return {
 		end,
 	},
 	{ -- Add indentation guides even on blank lines
-	  'lukas-reineke/indent-blankline.nvim',
-	  -- Enable `lukas-reineke/indent-blankline.nvim`
-	  -- See `:help ibl`
-	  main = 'ibl',
-	  opts = {},
+		'lukas-reineke/indent-blankline.nvim',
+		-- Enable `lukas-reineke/indent-blankline.nvim`
+		-- See `:help ibl`
+		main = 'ibl',
+		opts = {},
 	},
 	{
 		'Joakker/lua-json5', 
