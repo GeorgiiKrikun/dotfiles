@@ -25,6 +25,7 @@ vim.keymap.set("n", "<leader>ot", ":tabnew | terminal<CR>izsh<CR>", { desc = "Op
 vim.keymap.set("n", "<leader>Lca", ":lua vim.lsp.buf.code_action()<CR>", { desc = "LSP Code [A]ction" })
 
 -- Start the debug server to debug lua scripts
+-- 
 vim.keymap.set("n", "<leader>dss", ":lua require('osv').launch({port = 8086})<CR>")
 
 -- Insert carriage return in normal mode
@@ -35,14 +36,6 @@ vim.keymap.set("n", "<leader>i", "i <Esc>", { silent = true })
 
 -- Open neogit status window
 vim.keymap.set("n", "<leader>gs", ":Neogit<CR>", { desc = "Open [G]it [S]tatus" })
-
--- Copilot keymaps
--- vim.keymap.set('n', '<leader>cc', ':CopilotChat<CR>', { desc = 'Open Copilot [C]hat' })
-vim.keymap.set("n", "<leader>ct", ":CopilotChatToggle<CR>", { desc = "[C]opilot Chat [T]oggle" })
-vim.keymap.set("n", "<leader>cd", ":CopilotChatDocs<CR>", { desc = "[C]opilot Chat [D]ocs" })
-vim.keymap.set("n", "<leader>cc", ":CopilotChatCommit<CR>", { desc = "[C]opilot Chat [C]ommit" })
-vim.keymap.set("n", "<leader>ce", ":CopilotChatExplain<CR>", { desc = "[C]opilot Chat [E]xplain" })
-vim.keymap.set("v", "<leader>ce", ":'<,'>CopilotChatExplain<CR>", { desc = "[C]opilot Chat [E]xplain" })
 
 -- Diagnostic keymaps
 --vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
@@ -57,7 +50,6 @@ vim.keymap.set("i", "<C-J>", 'copilot#Accept("\\<CR>")', {
 vim.g.copilot_no_tab_map = true
 vim.keymap.set("i", "<C-L>", "<Plug>(copilot-accept-word)")
 -- Evaluate the word or range under the cursor LLDB/GDB
---
 -- vim.keymap.set("n", "<leader>de", ":GdbEvalWord<CR>", { desc = "Evaluate word under cursor" })
 -- vim.keymap.set("v", "<leader>de", ":GdbEvalRange<CR>", { desc = "Evaluate range under cursor" })
 
