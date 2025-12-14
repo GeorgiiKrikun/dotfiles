@@ -15,6 +15,21 @@ if pcall(require, 'json5') then
   vim.fn.json_decode = require('json5').decode
 end
 
+local profiles = {
+  home = 1,
+  work = 2,
+}
+
+vim.g.profiles = profiles
+
+-- Try to automatically detect profile
+local hostname = vim.loop.os_gethostname()
+if hostname == "georgii-PC" then
+  vim.g.active_profile = profiles.home
+else
+  vim.g.active_profile = profiles.work
+end
+
 require("config.options") -- Load options
 require("config.hotkeys") -- Load keymaps
 require("config.autocommands") -- Load autocommands

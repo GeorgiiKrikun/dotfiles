@@ -81,28 +81,6 @@ return {
 			},
 		},
 	},
-	-- {
-	--     'saghen/blink.cmp',
-	--     dependencies = {
-	--         'Kaiser-Yang/blink-cmp-avante',
-	--         -- ... Other dependencies
-	--     },
-	--     opts = {
-	--         sources = {
-	--             -- Add 'avante' to the list
-	--             default = { 'avante', 'lsp', 'path', 'luasnip', 'buffer' },
-	--             providers = {
-	--                 avante = {
-	--                     module = 'blink-cmp-avante',
-	--                     name = 'Avante',
-	--                     opts = {
-	--                         -- options for blink-cmp-avante
-	--                     }
-	--                 }
-	--             },
-	--         }
-	--     }
-	-- }
 	{ -- Autocompletion
 		"saghen/blink.cmp",
 		event = "VimEnter",
@@ -125,15 +103,16 @@ return {
 					-- `friendly-snippets` contains a variety of premade snippets.
 					--    See the README about individual language/framework/plugin snippets:
 					--    https://github.com/rafamadriz/friendly-snippets
-					-- {
-					--   'rafamadriz/friendly-snippets',
-					--   config = function()
-					--     require('luasnip.loaders.from_vscode').lazy_load()
-					--   end,
-					-- },
-				},
+					{
+					  'rafamadriz/friendly-snippets',
+					  config = function()
+					    require('luasnip.loaders.from_vscode').lazy_load()
+					  end,
+					},
+				}, 
 				opts = {},
 			},
+
 			"folke/lazydev.nvim",
 			'Kaiser-Yang/blink-cmp-avante',
 		},

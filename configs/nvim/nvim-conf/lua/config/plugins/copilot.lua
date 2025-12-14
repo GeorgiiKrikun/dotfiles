@@ -2,6 +2,9 @@ return {
   {
     "zbirenbaum/copilot.vim",
     lazy = false,
+    cond = function ()
+      return vim.g.active_profile == vim.g.profiles.home
+    end
   },
   -- NOTE: Copilot char neovim
   -- {
@@ -26,6 +29,9 @@ return {
     "yetone/avante.nvim",
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
     -- ⚠️ must add this setting! ! !
+    cond = function ()
+      return vim.g.active_profile == vim.g.profiles.home
+    end,
     build = vim.fn.has("win32") ~= 0
       and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
       or "make",
