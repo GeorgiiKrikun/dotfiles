@@ -15,8 +15,11 @@ return {
             accept_word = "<C-l>",
           },
         },
-        panel = { enabled = false },
+        panel = {
+          enabled = false,
+        },
       })
+
     end,
   }
   -- { 
