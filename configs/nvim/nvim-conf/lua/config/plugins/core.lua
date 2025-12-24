@@ -178,105 +178,13 @@ return {
 		"andymass/vim-matchup",
 	},
 	{ -- Highlight, edit, and navigate code
-		"nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate",
-		main = "nvim-treesitter.configs", -- Sets main module to use for opts
-		-- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-		opts = {
-			ensure_installed = {
-				"bash",
-				"c",
-				"diff",
-				"html",
-				"lua",
-				"luadoc",
-				"markdown",
-				"markdown_inline",
-				"query",
-				"vim",
-				"vimdoc",
-			},
-			matchup = {
-				enable = true,
-				-- Highlight the matching text in the current line
-				--  This is useful for highlighting the matching text in the current line
-				--  when you are using a text object, such as `ciw` or `va)`.
-				--  If you don't like this, you can disable it.
-				highlight_match = true,
-			},
-			-- Autoinstall languages that are not installed
-			auto_install = true,
-			highlight = {
-				enable = true,
-				-- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-				--  If you are experiencing weird indenting issues, add the language to
-				--  the list of additional_vim_regex_highlighting and disabled languages for indent.
-				additional_vim_regex_highlighting = { "ruby" },
-			},
-			indent = { enable = true, disable = { "ruby" } },
-		},
-		-- There are additional nvim-treesitter modules that you can use to interact
-		-- with nvim-treesitter. You should go explore a few and see what interests you:
-		--
-		--    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-		--    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-		--    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
-		--
-	},
-	{
-		"nvim-treesitter/nvim-treesitter-textobjects",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-		},
-		config = function()
-			require("nvim-treesitter.configs").setup({
-				textobjects = {
-					select = {
-						enable = true,
-						lookahead = true,
-						keymaps = {
-							["af"] = "@function.outer",
-							["if"] = "@function.inner",
-							["ac"] = "@class.outer",
-							["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
-							["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
-						},
-						selection_modes = {
-							["@parameter.outer"] = "v",
-							["@function.outer"] = "V",
-							["@class.outer"] = "<c-v>",
-						},
-						include_surrounding_whitespace = true,
-					},
-					swap = {
-						enable = true,
-						swap_next = {
-							["<leader>pa"] = "@parameter.inner",
-						},
-						swap_previous = {
-							["<leader>pA"] = "@parameter.inner",
-						},
-					},
-					move = {
-						enable = true,
-						set_jumps = true, -- whether to set jumps in the jumplist
-						goto_next_start = {
-							["]f"] = "@function.outer",
-						},
-						goto_next_end = {
-							["]F"] = "@function.outer",
-						},
-						goto_previous_start = {
-							["[f"] = "@function.outer",
-						},
-						goto_previous_end = {
-							["[F"] = "@function.outer",
-						},
-					},
-				},
-			})
-		end,
-	},
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    -- dependencies = {
+    --   "nvim-treesitter/nvim-treesitter-textobjects",
+    -- },
+		lazy = false,
+  },
 	{
 		"nvim-tree/nvim-tree.lua",
 		version = "*",
