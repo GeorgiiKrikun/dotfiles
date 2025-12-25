@@ -180,11 +180,68 @@ return {
 	{ -- Highlight, edit, and navigate code
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
+		branch = "master",
     -- dependencies = {
     --   "nvim-treesitter/nvim-treesitter-textobjects",
     -- },
 		lazy = false,
+		config = function()
+			require('nvim-treesitter.configs').setup({
+				-- Add languages you want here
+				ensure_installed = { "python", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "cpp",
+														 "just", "cmake", "yaml", "toml", "json5", "rust" 	},
+				-- Autoinstall languages that are not installed
+				auto_install = true,
+
+				highlight = {
+					enable = true, -- THIS is what was missing
+					-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+					-- Set to `false` (default) if you want tree-sitter to manage highlighting entirely.
+					additional_vim_regex_highlighting = false,
+				},
+				
+				indent = { enable = true }, -- Recommended: better indentation
+			})
+		end,
   },
+	-- {
+	-- 	"nvim-treesitter/nvim-treesitter",
+	-- 	build = ":TSUpdate",
+	-- 	lazy = false,
+	-- 	config = function()
+	-- 		local ts = require("nvim-treesitter")
+	--
+	-- 		-- 1. Install your specific list of languages
+	-- 		ts.install({
+	-- 			"lua", "python", "cpp", "rust", 
+	-- 			"markdown", "markdown_inline", 
+	-- 			"cmake", "just", "yaml", "toml",
+	-- 			"vim", "vimdoc", "query" -- Core essentials
+	-- 		})
+	--
+	-- 		-- 2. Enable Highlighting (Native Way)
+	-- 		-- This replaces the old 'highlight = { enable = true }' block
+	-- 		vim.api.nvim_create_autocmd("FileType", {
+	-- 			callback = function()
+	-- 				-- Only start for the languages we just installed
+	-- 				local enabled_langs = {
+	-- 					"lua", "python", "cpp", "rust", "markdown", 
+	-- 					"cmake", "just", "yaml", "toml"
+	-- 				}
+	-- 				if vim.tbl_contains(enabled_langs, vim.bo.filetype) then
+	-- 					vim.treesitter.start()
+	-- 				end
+	-- 			end,
+	-- 		})
+	--
+	-- 		-- 3. Enable Indentation (Experimental in main)
+	-- 		vim.api.nvim_create_autocmd("FileType", {
+	-- 			callback = function()
+	-- 				vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+	-- 			end,
+	-- 		})
+	-- 	end,
+	-- },
 	{
 		"nvim-tree/nvim-tree.lua",
 		version = "*",
