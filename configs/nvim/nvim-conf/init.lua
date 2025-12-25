@@ -24,10 +24,10 @@ vim.g.profiles = profiles
 
 -- Try to automatically detect profile
 local hostname = vim.loop.os_gethostname()
-if hostname == "georgii-PC" then
-  vim.g.active_profile = profiles.home
-else
+if hostname == "georgii-laptop" then
   vim.g.active_profile = profiles.work
+else
+  vim.g.active_profile = profiles.home
 end
 
 require("config.options") -- Load options
