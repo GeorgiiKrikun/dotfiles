@@ -133,7 +133,18 @@ return {
 
       local servers = {
         clangd = {},
-        pyright = {},
+        basedpyright = {
+          settings = {
+            basedpyright = {
+              analysis = {
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode = "openFilesOnly",
+                typeCheckingMode = "standard", -- options: "off", "basic", "standard", "strict", "all"
+              },
+            },
+          },
+        },
         lua_ls = {
           settings = {
             Lua = {

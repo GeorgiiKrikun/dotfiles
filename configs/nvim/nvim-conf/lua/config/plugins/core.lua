@@ -188,10 +188,10 @@ return {
 		config = function()
 			require('nvim-treesitter.configs').setup({
 				-- Add languages you want here
-				ensure_installed = { "python", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "cpp",
-														 "just", "cmake", "yaml", "toml", "json5", "rust" 	},
+				ensure_installed = { "python", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "cpp", "just", "cmake", "yaml", "toml", "json5", "rust" 	},
 				-- Autoinstall languages that are not installed
 				auto_install = true,
+				sync_install = true,
 
 				highlight = {
 					enable = true, -- THIS is what was missing
