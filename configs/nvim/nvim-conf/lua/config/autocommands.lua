@@ -62,3 +62,56 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.expandtab = true
   end,
 })
+
+-- Preserve indentation on empty lines when saving
+vim.api.nvim_create_autocmd("BufWritePre", {
+	group = vim.api.nvim_create_augroup("indent_blank_lines", { clear = true }),
+	callback = function()
+		if not vim.bo.modifiable or vim.bo.buftype ~= "" then
+			return
+		end
+		local n_lines = vim.api.nvim_buf_line_count(0)
+		local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+		local changed = false
+
+		local ts_indent = nil
+		local has_ts, ts_module = pcall(require, "nvim-treesitter.indent")
+		if has_ts and ts_module.get_indent then
+			ts_indent = ts_module.get_indent
+		end
+
+		for i = 1, n_lines do
+			local line = lines[i]
+			if line:match("^%s*$") then
+				local indent = -1
+				if ts_indent then
+					indent = ts_indent(i)
+				end
+
+				if indent == nil or indent < 0 then
+					indent = vim.fn.indent(i)
+				end
+
+				if indent > 0 then
+					local indent_str
+					if vim.bo.expandtab then
+						indent_str = string.rep(" ", indent)
+					else
+						local tabstop = vim.bo.tabstop or 8
+						indent_str = string.rep("\t", math.floor(indent / tabstop)) .. string.rep(" ", indent % tabstop)
+					end
+					if indent_str ~= line then
+						lines[i] = indent_str
+						changed = true
+					end
+				end
+			end
+		end
+
+		if changed then
+			local view = vim.fn.winsaveview()
+			vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
+			vim.fn.winrestview(view)
+		end
+	end,
+})

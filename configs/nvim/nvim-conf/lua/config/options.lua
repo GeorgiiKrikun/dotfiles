@@ -65,3 +65,6 @@ vim.opt.confirm = true
 -- Enable hybrid numbers
 vim.opt.number = true -- Enable absolute line numbers
 vim.opt.relativenumber = true -- Enable relative line numbers
+
+-- Always keep indentation on empty lines
+vim.opt.cpoptions:remove('I')
