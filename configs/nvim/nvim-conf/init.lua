@@ -30,6 +30,9 @@ else
   vim.g.active_profile = profiles.home
 end
 
+-- Disable swapfile creation
+vim.opt.swapfile = false
+
 require("config.options") -- Load options
 require("config.hotkeys") -- Load keymaps
 require("config.autocommands") -- Load autocommands

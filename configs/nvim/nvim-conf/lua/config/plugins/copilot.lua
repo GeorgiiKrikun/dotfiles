@@ -3,6 +3,9 @@ return {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     event = "InsertEnter",
+    cond = function ()
+      return vim.g.active_profile ~= vim.g.profiles.work
+    end,
     config = function()
       require("copilot").setup({
         suggestion = {
@@ -27,7 +30,7 @@ return {
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
     -- ⚠️ must add this setting! ! !
     cond = function ()
-      return vim.g.active_profile == vim.g.profiles.home
+      return vim.g.active_profile ~= vim.g.profiles.work
     end,
     build = vim.fn.has("win32") ~= 0
       and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
