@@ -18,5 +18,5 @@ export EDITOR="nvim"
 
 # Start tmux if not already in a session
 if [[ -z "$TMUX" && -z "$SSH_TTY" && $- == *i* ]]; then
-    tmux attach-session -t default || tmux new-session -s default
+    exec tmux attach-session -t default || exec tmux new-session -s default
 fi

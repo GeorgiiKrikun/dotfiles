@@ -31,9 +31,17 @@ The default prefix has been changed from `Ctrl-b` to `Ctrl-a` to avoid conflicts
 - **Ctrl-a**: In many shells, `Ctrl-a` moves the cursor to the beginning of the line. With tmux using it as a prefix, you may need to press `Ctrl-a` twice or use the tmux escape sequence to send it to the shell.
 
 ## Automatic Startup
-New interactive Zsh sessions will automatically attempt to attach to a tmux session named `default` or create it if it doesn't exist. This behavior is skipped if you are already inside a tmux session or connecting via SSH (if not desired, can be adjusted in `.zshrc`).
+New interactive Zsh sessions will automatically attempt to attach to a tmux session named `default` or create it if it doesn't exist.
+
+To allow exiting the terminal with a single `Ctrl-D`, the startup script uses `exec tmux`. This means when the tmux session exits, the terminal window will also close.
 
 ## Persistence
 - `Prefix + Ctrl-s`: Save tmux session (including Neovim sessions).
 - `Prefix + Ctrl-r`: Restore tmux session.
 - `tmux-continuum` is enabled to automatically save sessions every 15 minutes.
+
+### Neovim Session Restoration
+To ensure Neovim sessions are fully restored (windows, tabs, etc.) after a reboot:
+1. The `tpope/vim-obsession` plugin is installed.
+2. An autocommand has been added to automatically start `Obsession` when opening Neovim inside tmux without arguments.
+3. This creates a `Session.vim` file in your working directory, which `tmux-resurrect` uses to restore your exact Neovim state.

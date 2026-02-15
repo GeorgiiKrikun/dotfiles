@@ -63,6 +63,16 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- Auto-start Obsession if we are in a tmux session and no file is specified
+vim.api.nvim_create_autocmd("VimEnter", {
+	group = vim.api.nvim_create_augroup("user_obsession", { clear = true }),
+	callback = function()
+		if vim.fn.argc() == 0 and vim.env.TMUX ~= nil and vim.fn.exists(":Obsession") > 0 then
+			vim.cmd("Obsession")
+		end
+	end,
+})
+
 -- Preserve indentation on empty lines when saving
 vim.api.nvim_create_autocmd("BufWritePre", {
 	group = vim.api.nvim_create_augroup("indent_blank_lines", { clear = true }),
