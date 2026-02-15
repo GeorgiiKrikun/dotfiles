@@ -17,11 +17,12 @@ export EDITOR="nvim"
 
 
 # Start tmux if not already in a session
-if [[ -z "$TMUX" && -z "$SSH_TTY" && $- == *i* ]]; then
+if [[ -z "$TMUX" && -z "$SSH_TTY" && $- == *i* && -z "$SKIP_TMUX" ]]; then
+    SESSION_NAME=${TMUX_SESSION:-default}
     if command -v tmux >/dev/null; then
-        tmux attach-session -t default || tmux new-session -s default
-        # If tmux exited normally, exit the shell too to close the terminal
-        if [[ $? -eq 0 || $? -eq 130 ]]; then
+        tmux attach-session -t "$SESSION_NAME" || tmux new-session -s "$SESSION_NAME"
+        # If the session was closed (not just detached), exit the shell to close the terminal
+        if ! tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
             exit
         fi
     fi

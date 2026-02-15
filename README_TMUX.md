@@ -33,7 +33,21 @@ The default prefix has been changed from `Ctrl-b` to `Ctrl-a` to avoid conflicts
 ## Automatic Startup
 New interactive Zsh and Bash sessions will automatically attempt to attach to a tmux session named `default` or create it if it doesn't exist.
 
-To allow exiting the terminal with a single `Ctrl-D`, the startup script is configured to exit the outer shell if tmux exits normally. If tmux fails to start, the script will not exit, providing a fallback shell for debugging.
+### Single Exit and Detaching
+The startup script is designed to let you close the terminal window with a single `Ctrl-D` when you are done, while still allowing you to access the underlying shell if needed.
+
+- **To close the terminal window**: Exit all shells within the tmux session (e.g., press `Ctrl-D` in all windows/panes). When the tmux session ends, the terminal will automatically close.
+- **To access the underlying shell**: Detach from tmux by pressing `Prefix + d`. This will return you to the plain shell without closing the terminal. From here, you can run tmux manually to create a new session (e.g., `tmux new -s my-other-session`).
+
+### Customization
+- **Change default session**: Set `TMUX_SESSION` environment variable (e.g., `TMUX_SESSION=work kitty`).
+- **Bypass tmux**: Set `SKIP_TMUX=1` environment variable (e.g., `SKIP_TMUX=1 kitty`).
+
+## Managing Multiple Sessions
+The recommended way to manage multiple sessions is from within tmux:
+- `Prefix + :new -s <name>`: Create a new session.
+- `Prefix + s`: Interactively switch between sessions.
+- This approach avoids nesting sessions and keeps your workflow clean.
 
 ## Persistence
 - `Prefix + Ctrl-s`: Save tmux session (including Neovim sessions).
