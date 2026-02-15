@@ -85,14 +85,20 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 			if line:match("^%s*$") then
 				local indent = -1
 				if ts_indent then
-					indent = ts_indent(i)
+					local ok, res = pcall(ts_indent, i)
+					if ok then
+						indent = res
+					end
 				end
 
 				if indent == nil or indent < 0 then
-					indent = vim.fn.indent(i)
+					local ok, res = pcall(vim.fn.indent, i)
+					if ok then
+						indent = res
+					end
 				end
 
-				if indent > 0 then
+				if indent and type(indent) == "number" and indent > 0 then
 					local indent_str
 					if vim.bo.expandtab then
 						indent_str = string.rep(" ", indent)
