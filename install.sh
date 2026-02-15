@@ -35,6 +35,7 @@ echo "Neovim has been set up successfully."
 
 cd ${SCRIPT_DIR}/deps
 ${JUST} install-tmux
+${JUST} setup-tmux-auto-start-bash
 
 cd ${SCRIPT_DIR}/configs/tmux
 ${JUST} setup

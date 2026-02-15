@@ -18,5 +18,11 @@ export EDITOR="nvim"
 
 # Start tmux if not already in a session
 if [[ -z "$TMUX" && -z "$SSH_TTY" && $- == *i* ]]; then
-    exec tmux attach-session -t default || exec tmux new-session -s default
+    if command -v tmux >/dev/null; then
+        tmux attach-session -t default || tmux new-session -s default
+        # If tmux exited normally, exit the shell too to close the terminal
+        if [[ $? -eq 0 || $? -eq 130 ]]; then
+            exit
+        fi
+    fi
 fi

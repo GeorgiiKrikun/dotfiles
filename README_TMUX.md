@@ -31,9 +31,9 @@ The default prefix has been changed from `Ctrl-b` to `Ctrl-a` to avoid conflicts
 - **Ctrl-a**: In many shells, `Ctrl-a` moves the cursor to the beginning of the line. With tmux using it as a prefix, you may need to press `Ctrl-a` twice or use the tmux escape sequence to send it to the shell.
 
 ## Automatic Startup
-New interactive Zsh sessions will automatically attempt to attach to a tmux session named `default` or create it if it doesn't exist.
+New interactive Zsh and Bash sessions will automatically attempt to attach to a tmux session named `default` or create it if it doesn't exist.
 
-To allow exiting the terminal with a single `Ctrl-D`, the startup script uses `exec tmux`. This means when the tmux session exits, the terminal window will also close.
+To allow exiting the terminal with a single `Ctrl-D`, the startup script is configured to exit the outer shell if tmux exits normally. If tmux fails to start, the script will not exit, providing a fallback shell for debugging.
 
 ## Persistence
 - `Prefix + Ctrl-s`: Save tmux session (including Neovim sessions).

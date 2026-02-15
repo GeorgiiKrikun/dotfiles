@@ -68,3 +68,6 @@ vim.opt.relativenumber = true -- Enable relative line numbers
 
 -- Always keep indentation on empty lines
 vim.opt.cpoptions:remove('I')
+
+-- Set session options for better restoration with tmux-resurrect
+vim.opt.sessionoptions = "curdir,folds,globals,help,tabpages,terminal,winsize"
