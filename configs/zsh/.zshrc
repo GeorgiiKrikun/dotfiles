@@ -15,3 +15,8 @@ export GROUP_ID=1000
 
 export EDITOR="nvim"
 
+
+# Start tmux if not already in a session
+if [[ -z "$TMUX" && -z "$SSH_TTY" && $- == *i* ]]; then
+    tmux attach-session -t default || tmux new-session -s default
+fi

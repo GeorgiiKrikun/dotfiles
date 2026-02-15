@@ -33,6 +33,14 @@ ${JUST} setup
 
 echo "Neovim has been set up successfully."
 
+cd ${SCRIPT_DIR}/deps
+${JUST} install-tmux
+
+cd ${SCRIPT_DIR}/configs/tmux
+${JUST} setup
+
+echo "Tmux has been set up successfully."
+
 echo "Installing additional utilities..."
 cd ${SCRIPT_DIR}/deps
 ${JUST} install-ripgrep 
