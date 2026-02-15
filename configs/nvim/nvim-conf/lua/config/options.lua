@@ -68,3 +68,9 @@ vim.opt.relativenumber = true -- Enable relative line numbers
 
 -- Always keep indentation on empty lines
 vim.opt.cpoptions:remove('I')
+
+-- Set the default shell to zsh
+vim.opt.shell = "zsh"
+
+-- Ensure :term abbreviation is available for :terminal
+vim.cmd('cnoreabbrev term terminal')
