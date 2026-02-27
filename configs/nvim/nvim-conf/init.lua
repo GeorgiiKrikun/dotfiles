@@ -96,6 +96,7 @@ vim.cmd([[
         },
         statuscolumn = { enabled = true },
         lazygit = { enabled = true },
+        win = { enabled = true },
       },
       config = function(_, opts)
         require("snacks").setup(opts)

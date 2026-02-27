@@ -51,6 +51,33 @@ return {
           map("gO", require("snacks").picker.lsp_symbols, "Open Document Symbols")
           map("gW", require("snacks").picker.lsp_workspace_symbols, "Open Workspace Symbols")
           map("grt", require("snacks").picker.lsp_type_definitions, "[G]oto [T]ype Definition")
+
+          map("grf", function()
+            local params = vim.lsp.util.make_position_params()
+            vim.lsp.buf_request(event.buf, "textDocument/definition", params, function(err, result, ctx, config)
+              if err or not result or vim.tbl_isempty(result) then
+                vim.notify("Definition not found", vim.log.levels.INFO)
+                return
+              end
+
+              local def = result[1] or result
+              local uri = def.uri or def.targetUri
+              local range = def.range or def.targetSelectionRange
+              local filename = vim.uri_to_fname(uri)
+
+              require("snacks").win({
+                file = filename,
+                enter = true,
+                width = 0.8,
+                height = 0.8,
+                on_win = function(win)
+                  vim.api.nvim_win_set_cursor(win.win, { range.start.line + 1, range.start.character })
+                  vim.cmd("normal! zz")
+                end,
+              })
+            end)
+          end, "[G]oto [D]efinition in [F]loat")
+
           local function client_supports_method(client, method, bufnr)
             if vim.fn.has("nvim-0.11") == 1 then
               return client:supports_method(method, bufnr)
