@@ -52,7 +52,7 @@ return {
           map("gW", require("snacks").picker.lsp_workspace_symbols, "Open Workspace Symbols")
           map("grt", require("snacks").picker.lsp_type_definitions, "[G]oto [T]ype Definition")
 
-          map("grf", function()
+          local function goto_definition(position)
             local params = vim.lsp.util.make_position_params()
             vim.lsp.buf_request(event.buf, "textDocument/definition", params, function(err, result, ctx, config)
               if err or not result or vim.tbl_isempty(result) then
@@ -65,18 +65,42 @@ return {
               local range = def.range or def.targetSelectionRange
               local filename = vim.uri_to_fname(uri)
 
-              require("snacks").win({
-                file = filename,
-                enter = true,
-                width = 0.8,
-                height = 0.8,
-                on_win = function(win)
-                  vim.api.nvim_win_set_cursor(win.win, { range.start.line + 1, range.start.character })
-                  vim.cmd("normal! zz")
-                end,
-              })
+              if position == "float" then
+                require("snacks").win({
+                  file = filename,
+                  enter = true,
+                  width = 0.8,
+                  height = 0.8,
+                  keys = {
+                    ["<C-w>s"] = function(win)
+                      win:close()
+                      vim.cmd("split " .. filename)
+                      vim.api.nvim_win_set_cursor(0, { range.start.line + 1, range.start.character })
+                      vim.cmd("normal! zz")
+                    end,
+                    ["<C-w>v"] = function(win)
+                      win:close()
+                      vim.cmd("vsplit " .. filename)
+                      vim.api.nvim_win_set_cursor(0, { range.start.line + 1, range.start.character })
+                      vim.cmd("normal! zz")
+                    end,
+                  },
+                  on_win = function(win)
+                    vim.api.nvim_win_set_cursor(win.win, { range.start.line + 1, range.start.character })
+                    vim.cmd("normal! zz")
+                  end,
+                })
+              else
+                vim.cmd(position .. " " .. filename)
+                vim.api.nvim_win_set_cursor(0, { range.start.line + 1, range.start.character })
+                vim.cmd("normal! zz")
+              end
             end)
-          end, "[G]oto [D]efinition in [F]loat")
+          end
+
+          map("grf", function() goto_definition("float") end, "[G]oto [D]efinition in [F]loat")
+          map("grs", function() goto_definition("split") end, "[G]oto [D]efinition in [S]plit")
+          map("grv", function() goto_definition("vsplit") end, "[G]oto [D]efinition in [V]split")
 
           local function client_supports_method(client, method, bufnr)
             if vim.fn.has("nvim-0.11") == 1 then
