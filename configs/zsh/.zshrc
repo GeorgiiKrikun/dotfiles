@@ -21,10 +21,10 @@ setopt PROMPT_SUBST
 
 _update_prompt() {
     if [[ "$PROMPT_STATE" == "minimal" ]]; then
-        PROMPT='%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ ) '
+        PROMPT='%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )%{$reset_color%} '
         RPROMPT=''
     else
-        PROMPT='%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ ) %{$fg[cyan]%}%n@%m:%{$fg[yellow]%}%~%{$reset_color%} $(git_prompt_info) '
+        PROMPT='%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )%{$reset_color%} %{$fg[cyan]%}%n@%m:%{$fg[yellow]%}%~%{$reset_color%} $(git_prompt_info)%{$reset_color%} '
         RPROMPT='%{$fg[blue]%}%D{%H:%M:%S}%{$reset_color%}'
     fi
 }
