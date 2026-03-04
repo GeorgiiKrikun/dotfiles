@@ -19,13 +19,17 @@ export EDITOR="nvim"
 PROMPT_STATE="minimal"
 setopt PROMPT_SUBST
 
+# We use a hook to ensure our prompt is set after any other theme hooks (like Oh My Zsh)
 _update_prompt() {
+    local arrow='%(?.%{%F{green}%B%}➜%{%b%f%}.%{%F{red}%B%}➜%{%b%f%})'
     if [[ "$PROMPT_STATE" == "minimal" ]]; then
-        PROMPT='%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )%{$reset_color%} '
-        RPROMPT=''
+        PROMPT="${arrow} %{%f%b%k%}"
+        RPROMPT=""
     else
-        PROMPT='%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )%{$reset_color%} %{$fg[cyan]%}%n@%m:%{$fg[yellow]%}%~%{$reset_color%} $(git_prompt_info)%{$reset_color%} '
-        RPROMPT='%{$fg[blue]%}%D{%H:%M:%S}%{$reset_color%}'
+        local user_host='%{%F{cyan}%}%n@%m%{%f%}'
+        local path_info='%{%F{yellow}%}%~%{%f%}'
+        PROMPT="${arrow} ${user_host}:${path_info} \$(git_prompt_info) %{%f%b%k%}"
+        RPROMPT="%{%F{blue}%}%D{%H:%M:%S}%{%f%}"
     fi
 }
 
@@ -40,8 +44,9 @@ toggle_prompt() {
     _update_prompt
 }
 
+# Ensure it's registered as a precmd hook to avoid being overridden
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd _update_prompt
+
 # Alias for convenience
 alias tp=toggle_prompt
-
-# Initial prompt setup
-_update_prompt
