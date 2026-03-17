@@ -109,11 +109,11 @@ return {
         desc = 'Debug: Toggle [U]I Sidebar',
       },
       {
-        '<leader>de',
+        '<leader>dr',
         function()
           require('dapui').toggle(2)
         end,
-        desc = 'Debug: Toggle [E]lements (Console)',
+        desc = 'Debug: Toggle [R]EPL',
       },
       {
         '<F6>',
@@ -198,7 +198,7 @@ return {
           },
           {
             elements = {
-              { id = "console", size = 1.0 },
+              { id = "repl", size = 1.0 },
             },
             position = "bottom",
             size = 10,
