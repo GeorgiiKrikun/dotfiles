@@ -20,7 +20,7 @@ install-yazi:
   #!/bin/bash
   set -e
   if ! command -v yazi >/dev/null; then
-    ${HOME}/.cargo/bin/cargo binstall yazi-fs
+    ${HOME}/.cargo/bin/cargo binstall yazi-fm
   else
     echo "Yazi exists"
   fi
