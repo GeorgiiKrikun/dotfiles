@@ -38,4 +38,5 @@ cd ${SCRIPT_DIR}/deps
 ${JUST} install-ripgrep 
 ${JUST} install-bottom 
 ${JUST} install-fd-find
+${JUST} install-yazi
 echo "Utilities installed successfully."
