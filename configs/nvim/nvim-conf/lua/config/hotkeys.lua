@@ -34,6 +34,12 @@ vim.keymap.set("n", "<M-CR>", "a<CR><Esc>", { noremap = true, silent = true })
 
 vim.keymap.set("n", "<leader>i", "i <Esc>", { silent = true })
 
+vim.keymap.set("n", "<leader>f=", function()
+	local view = vim.fn.winsaveview()
+	vim.cmd("normal! gg=G")
+	vim.fn.winrestview(view)
+end, { desc = "Format indentation" })
+
 -- Open neogit status window
 vim.keymap.set("n", "<leader>gs", ":Neogit<CR>", { desc = "Open [G]it [S]tatus" })
 
