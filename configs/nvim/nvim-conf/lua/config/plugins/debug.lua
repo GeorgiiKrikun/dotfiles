@@ -24,11 +24,25 @@ return {
         desc = 'Debug: Start/Continue',
       },
       {
+        '<leader>dc',
+        function()
+          require('dap').continue()
+        end,
+        desc = 'Debug: [C]ontinue',
+      },
+      {
         '<F11>',
         function()
           require('dap').step_into()
         end,
         desc = 'Debug: Step Into',
+      },
+      {
+        '<leader>di',
+        function()
+          require('dap').step_into()
+        end,
+        desc = 'Debug: Step [I]nto',
       },
       {
         '<F10>',
@@ -38,6 +52,13 @@ return {
         desc = 'Debug: Step Over',
       },
       {
+        '<leader>do',
+        function()
+          require('dap').step_over()
+        end,
+        desc = 'Debug: Step [O]ver',
+      },
+      {
         '<F12>',
         function()
           require('dap').step_out()
@@ -45,11 +66,25 @@ return {
         desc = 'Debug: Step Out',
       },
       {
+        '<leader>dO',
+        function()
+          require('dap').step_out()
+        end,
+        desc = 'Debug: Step [O]ut',
+      },
+      {
         '<F8>',
         function()
           require('dap').toggle_breakpoint()
         end,
         desc = 'Debug: Toggle Breakpoint',
+      },
+      {
+        '<leader>db',
+        function()
+          require('dap').toggle_breakpoint()
+        end,
+        desc = 'Debug: Toggle [B]reakpoint',
       },
       {
         '<F9>',
@@ -67,6 +102,20 @@ return {
         desc = 'Debug: See dap ui',
       },
       {
+        '<leader>du',
+        function()
+          require('dapui').toggle(1)
+        end,
+        desc = 'Debug: Toggle [U]I Sidebar',
+      },
+      {
+        '<leader>dr',
+        function()
+          require('dapui').toggle(2)
+        end,
+        desc = 'Debug: Toggle [R]EPL',
+      },
+      {
         '<F6>',
         function()
           require('dap').run_last()
@@ -74,11 +123,25 @@ return {
         desc = 'Debug: Run Last',
       },
       {
+        '<leader>dl',
+        function()
+          require('dap').run_last()
+        end,
+        desc = 'Debug: Run [L]ast',
+      },
+      {
         '<F4>',
         function()
           require('dap').terminate()
         end,
         desc = 'Debug: Terminate',
+      },
+      {
+        '<leader>dt',
+        function()
+          require('dap').terminate()
+        end,
+        desc = 'Debug: [T]erminate',
       }
     },
     config = function()
@@ -122,6 +185,25 @@ return {
             disconnect = '⏏',
           },
         },
+        layouts = {
+          {
+            elements = {
+              { id = "scopes", size = 0.25 },
+              { id = "breakpoints", size = 0.25 },
+              { id = "stacks", size = 0.25 },
+              { id = "watches", size = 0.25 },
+            },
+            position = "left",
+            size = 40,
+          },
+          {
+            elements = {
+              { id = "repl", size = 1.0 },
+            },
+            position = "bottom",
+            size = 10,
+          },
+        },
       }
 
       -- Change breakpoint icons
@@ -136,8 +218,10 @@ return {
         vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
       end
 
-      -- dap.listeners.after.event_initialized['dapui_config'] = dapui.open
-      -- dap.listeners.before.event_terminated['dapui_config'] = dapui.close
+      dap.listeners.after.event_initialized['dapui_config'] = function()
+        dapui.open(2)
+      end
+      dap.listeners.before.event_terminated['dapui_config'] = dapui.close
       dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
       dap.configurations.lua = {
@@ -235,7 +319,7 @@ return {
     
       -- Check existence of debugpy
       local debugpy = nil
-      local pip3 = require("pl.stringx").strip(vim.fn.system('which pip3'))
+      local pip3 = vim.trim(vim.fn.system('which pip3'))
       if pip3 == '' then
         vim.notify("pip3 not found in PATH. Please install pip3.", vim.log.levels.ERROR)
         return
