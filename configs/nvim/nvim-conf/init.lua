@@ -42,7 +42,11 @@ require("config.commands") -- Load custom commands
 vim.g.have_nerd_font = true
 
 -- Set tab to be dispplayed as 2 spaces
-vim.opt.tabstop = 2
+-- Set indentation to 4 spaces
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.softtabstop = 4
+vim.opt.expandtab = true
 
 vim.o.foldmethod = "expr"
 vim.o.foldexpr = "v:lua.vim.lsp.foldexpr()"
@@ -133,4 +137,4 @@ vim.cmd([[
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
+-- vim: ts=4 sts=4 sw=4 et

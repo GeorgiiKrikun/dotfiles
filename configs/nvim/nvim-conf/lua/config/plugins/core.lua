@@ -2,8 +2,6 @@ return {
 	{
 		"brianhuster/unnest.nvim"
 	},
-	-- Detect tabstop and shiftwidth automatically
-	"tpope/vim-sleuth",
 	{
 		"numToStr/Comment.nvim",
 		opts = {},
@@ -66,12 +64,6 @@ return {
 	},
 	{
 		"skywind3000/asyncrun.vim",
-	},
-	{
-		"nmac427/guess-indent.nvim",
-		config = function()
-			require("guess-indent").setup({})
-		end,
 	},
 	{ --TODO:Move to lsp
 		-- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
