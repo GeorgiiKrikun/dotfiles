@@ -22,7 +22,7 @@ return {
           enabled = false,
         },
       })
-
+            
     end,
   },
   { 
@@ -42,45 +42,18 @@ return {
     opts = {
       mode = "legacy",
       instructions_file = "avante.md",
-      provider = "copilot/claude-4.5", -- set default provider here,
+      provider = "main", -- set default provider here,
       auto_apply = false, -- Disable automatic application of changes
       streaming = false, -- Disable streaming to prevent multiple requests
       providers = {
         copilot = {
           suggestion_provider = "copilot.vim", -- or nil, depending on your copilot setup
         },
-        ["copilot/claude-4.5"] = {
+        ["main"] = {
           __inherited_from = "copilot",
-          model = "claude-opus-4.5", -- Example model
+          model = "claude-haiku-4.5", -- Example model
           display_name = "Copilot (Claude 4.5)",
         },
-        -- ["copilot/gpt-4o"] = {
-        --   __inherited_from = "copilot",
-        --   model = "gpt-4o", -- Example model
-        --   display_name = "Copilot (GPT-4o)",
-        -- },
-        -- ["copilot/gemini-2.5"] = {
-        --   __inherited_from = "copilot",
-        --   model = "gemini-2.5-pro", -- Example model
-        --   display_name = "Copilot (Gemini 2.5 Pro)",
-        -- },
-        -- gemini = {
-        --   -- Replace with your company's internal Gemini API endpoint if different.
-        --   endpoint = "https://api.google.com/v1", 
-        --   -- Use the model name your company provides (e.g., gemini-2.5-pro, gemini-2.5-flash)
-        --   model = "gemini-2.5-pro", 
-        --   api_key_name = "GEMINI_API_KEY", -- Environment variable name for the API key
-        --   timeout = 60000, -- Longer timeout might be useful for enterprise proxies/VPNs
-        --   extra_request_body = {
-        --     temperature = 0.7,
-        --     max_tokens = 4096,
-        --     -- You might need other fields for an enterprise setup, like 
-        --     -- `generationConfig` or custom headers, which you can add here.
-        --     -- generationConfig = {
-        --     --   stopSequences = {"test"},
-        --     -- },
-        --   },
-        -- },
       },
       behaviour = {
         auto_suggestions = false, -- Extra safety to disable auto-suggestions
