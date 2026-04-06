@@ -11,6 +11,16 @@ return {
 			},
 		},
 	},
+    {
+        "sindrets/diffview.nvim",
+        lazy = true,
+        cmd = {
+            "DiffviewOpen",
+            "DiffviewFileHistory",
+            "DiffviewClose",
+            "DiffviewRefresh",
+        },
+    }
 	-- {
 	--	"kdheepak/lazygit.nvim",
 	--	lazy = true,
