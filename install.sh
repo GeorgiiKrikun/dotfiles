@@ -1,10 +1,10 @@
 #!/bin/bash
-set -e
+set -ex
 
 SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 
 bash ${SCRIPT_DIR}/deps/bootstrap.sh 
-JUST=${HOME}/.cargo/bin/just
+JUST=`command -v just || echo ${HOME}/.cargo/bin/just`
 
 cd ${SCRIPT_DIR}/deps
 

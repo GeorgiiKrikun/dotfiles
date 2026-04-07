@@ -3,7 +3,8 @@ HOME := env("HOME")
 vscode_ext_version := "1.26.3"
 vscode_dbg_path := HOME / ".vscode/extensions/ms-vscode.cpptools/extension/debugAdapters/bin/OpenDebugAD7"
 export BINSTALL_NO_CONFIRM := "true"
- 
+cargo_cmd := `command -v cargo || echo "$HOME/.cargo/bin/cargo"` 
+
 default:
   just --list
   
@@ -11,7 +12,7 @@ install-ripgrep:
   #!/bin/bash
   set -e
   if ! command -v rg >/dev/null; then
-    ${HOME}/.cargo/bin/cargo binstall ripgrep
+    {{cargo_cmd}} binstall ripgrep
   else
     echo "Ripgrep exists"
   fi
@@ -20,7 +21,7 @@ install-yazi:
   #!/bin/bash
   set -e
   if ! command -v yazi >/dev/null; then
-    ${HOME}/.cargo/bin/cargo binstall yazi-fm
+    {{cargo_cmd}} binstall yazi-fm
   else
     echo "Yazi exists"
   fi
@@ -29,7 +30,7 @@ install-bottom:
   #!/bin/bash
   set -e
   if ! command -v btm >/dev/null; then
-    ${HOME}/.cargo/bin/cargo binstall bottom
+    {{cargo_cmd}} binstall bottom
   else
     echo "Bottom exists"
   fi
@@ -38,7 +39,7 @@ install-fd-find:
   #!/bin/bash
   set -e
   if ! command -v fd >/dev/null; then
-    ${HOME}/.cargo/bin/cargo binstall fd-find
+    {{cargo_cmd}} binstall fd-find
   else
     echo "fd-find exists"
   fi
@@ -93,15 +94,20 @@ install-nerd-font-kitty:
 install-njs VERSION="23.11.1":
   #!/bin/bash
   set -e
-  mkdir -p ${HOME}/Downloads
-  cd ${HOME}/Downloads
-  MAJOR_VERSION=$(echo {{VERSION}} | cut -d. -f1)
-  wget https://nodejs.org/download/release/latest-v${MAJOR_VERSION}.x/node-v{{VERSION}}-linux-x64.tar.gz
-  tar -xzf node-v{{VERSION}}-linux-x64.tar.gz
-  sudo cp -r node-v{{VERSION}}-linux-x64/bin/* /usr/bin/ 
-  sudo cp -r node-v{{VERSION}}-linux-x64/lib/* /usr/lib/ 
-  sudo cp -r node-v{{VERSION}}-linux-x64/include/* /usr/include/ 
-  sudo cp -r node-v{{VERSION}}-linux-x64/share/* /usr/share/ 
+  if ! command -v node >/dev/null; then
+    mkdir -p ${HOME}/Downloads
+    cd ${HOME}/Downloads
+    MAJOR_VERSION=$(echo {{VERSION}} | cut -d. -f1)
+    wget https://nodejs.org/download/release/latest-v${MAJOR_VERSION}.x/node-v{{VERSION}}-linux-x64.tar.gz
+    tar -xzf node-v{{VERSION}}-linux-x64.tar.gz
+    sudo cp -r node-v{{VERSION}}-linux-x64/bin/* /usr/bin/ 
+    sudo cp -r node-v{{VERSION}}-linux-x64/lib/* /usr/lib/ 
+    sudo cp -r node-v{{VERSION}}-linux-x64/include/* /usr/include/ 
+    sudo cp -r node-v{{VERSION}}-linux-x64/share/* /usr/share/ 
+  else
+    echo "Node exists"
+  fi
+
   
 install-zsh:
   #!/bin/bash
