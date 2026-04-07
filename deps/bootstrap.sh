@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 
 if command -v sudo >/dev/null; then
   echo "Sudo exists"
