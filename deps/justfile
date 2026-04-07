@@ -7,7 +7,7 @@ cargo_cmd := `command -v cargo || echo "$HOME/.cargo/bin/cargo"`
 
 default:
   just --list
-  
+    
 install-ripgrep:
   #!/bin/bash
   set -e
@@ -16,7 +16,7 @@ install-ripgrep:
   else
     echo "Ripgrep exists"
   fi
-  
+    
 install-yazi:
   #!/bin/bash
   set -e
@@ -25,7 +25,7 @@ install-yazi:
   else
     echo "Yazi exists"
   fi
-  
+    
 install-bottom:
   #!/bin/bash
   set -e
@@ -44,22 +44,42 @@ install-fd-find:
     echo "fd-find exists"
   fi
   
-install-neovim INSTALL_DIR = "~/software/neovim":
-  #!/bin/bash
-  set -e
-  if ! command -v nvim >/dev/null; then
-    echo {{YELLOW}} Note: installing neovim to $(realpath {{INSTALL_DIR}}) {{NORMAL}}
+install-neovim VERSION="v0.11.7" INSTALL_DIR="~/software/neovim":
+    #!/bin/bash
+    set -e
+    
+    # 1. Check if nvim is installed and parse its version
+    if command -v nvim >/dev/null; then
+        # Extracts "v0.11.0" from the output "NVIM v0.11.0"
+        CURRENT_VERSION=$(nvim --version | head -n 1 | awk '{print $2}')
+    
+        if [ "$CURRENT_VERSION" == "{{VERSION}}" ]; then
+            echo "Nvim {{VERSION}} is already installed."
+            exit 0
+        fi
+        echo "{{YELLOW}} Updating Neovim from $CURRENT_VERSION to {{VERSION}}... {{NORMAL}}"
+    else
+        echo "{{YELLOW}} Note: installing neovim {{VERSION}} to $(realpath {{INSTALL_DIR}}) {{NORMAL}}"
+    fi
+    
+    # 2. Prepare directories
     rm -rf {{INSTALL_DIR}} || true
     tmpdir=$(mktemp -d /tmp/nvim.XXXXXXXX)
     cd ${tmpdir}
-    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-{{ARCH}}.tar.gz
+    
+    # 3. Use the version parameter in the GitHub releases URL
+    # Note: Neovim GitHub releases require the "v" prefix (e.g., v0.11.0)
+    curl -LO "https://github.com/neovim/neovim/releases/download/{{VERSION}}/nvim-linux-{{ARCH}}.tar.gz"
     tar -xzf nvim-linux-{{ARCH}}.tar.gz
-    mkdir -p {{INSTALL_DIR}}
+    
+    # 4. Safely move the extracted folder
+    # Creating the parent directory ensures `mv` renames the folder exactly to your INSTALL_DIR
+    mkdir -p $(dirname {{INSTALL_DIR}})
     sudo mv nvim-linux-{{ARCH}} {{INSTALL_DIR}}
-  else
-    echo "Nvim already installed"
-  fi
-  
+    
+    # 5. Clean up the temp directory
+    rm -rf ${tmpdir}
+    
 setup-nvim-path-zsh INSTALL_DIR = "~/software/neovim":
   #!/bin/bash
   set -e
@@ -77,7 +97,7 @@ setup-nvim-path-bash INSTALL_DIR = "~/software/neovim":
   else
     echo Nvim setup already in BASH
   fi
-  
+    
 install-nerd-font:
   #!/bin/bash
   mkdir -p ${HOME}/.fonts/
@@ -85,12 +105,12 @@ install-nerd-font:
   wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/DejaVuSansMono.zip
   unzip DejaVuSansMono.zip
   rm DejaVuSansMono.zip
-  
+    
 install-nerd-font-kitty:
   #!/bin/bash
   set -e
   grep font_family DejaVuSansMNerdFont ${HOME}/.config/kitty/kitty.conf || echo "font_family DejaVuSansMono Nerd Font" >> ${HOME}/.config/kitty/kitty.conf
-  
+    
 install-njs VERSION="23.11.1":
   #!/bin/bash
   set -e
@@ -107,8 +127,8 @@ install-njs VERSION="23.11.1":
   else
     echo "Node exists"
   fi
-
-  
+    
+    
 install-zsh:
   #!/bin/bash
   set -e
@@ -117,23 +137,23 @@ install-zsh:
   else
     echo "ZSH exist"
   fi
-  
+    
 install-luarocks-penlight:
   #!/bin/bash
   set -e
-  
+    
   if ! command -v luarocks >/dev/null; then
     sudo apt install -y luarocks
   else
     echo "luarocks exists"
   fi
-  
+    
   if luarocks list | grep penlight >/dev/null; then
     echo "penlight exist"
   else
     sudo luarocks install penlight
   fi
-  
+    
 setup-cargo-zsh:
   #!/bin/bash
   set -e
@@ -142,12 +162,12 @@ setup-cargo-zsh:
   else
     echo 'export PATH=$HOME/.cargo/bin:$PATH' >> ${HOME}/.zshenv
   fi
-  
+    
 change-shell-zsh:
   #!/bin/bash
   set -e
   sudo chsh -s $(which zsh)
-  
+    
 install-oh-my-zsh:
   #!/bin/bash
   set -e
@@ -158,7 +178,7 @@ install-oh-my-zsh:
     chmod +x /tmp/install.sh
     RUNZSH=no CHSH=no sh -c /tmp/install.sh
   fi
-  
+    
 link-nvim-config FORCE = "false":
   #!/bin/bash
   set -e
@@ -168,7 +188,7 @@ link-nvim-config FORCE = "false":
   fi
   mkdir -p ${HOME}/.config/
   ln -s ${DOTFILES_DIR}/configs/nvim/ ${HOME}/.config/nvim
-  
+    
 install-unzip:
   #!/bin/bash
   set -e
@@ -177,7 +197,7 @@ install-unzip:
   else
     echo "Unzip install"
   fi
-  
+    
 install-lazygit:
   #!/bin/bash
   set -e
@@ -192,7 +212,7 @@ install-lazygit:
   else
     echo "Lazygit exists"
   fi
-  
+    
 install-vcode-debugger:
   #!/bin/bash
   set -e
@@ -205,4 +225,4 @@ install-vcode-debugger:
     unzip -uo cpptools-linux-x64.vsix -d ${HOME}/.vscode/extensions/ms-vscode.cpptools/
     chmod +x {{vscode_dbg_path}}
   fi
-  
+    
