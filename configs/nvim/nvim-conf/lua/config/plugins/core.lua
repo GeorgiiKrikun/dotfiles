@@ -49,7 +49,7 @@ return {
 					F12 = "<F12>",
 				},
 			},
-
+            
 			-- Document existing key chains
 			spec = {
 				{ "<leader>s", group = "[S]earch" },
@@ -108,7 +108,7 @@ return {
 				}, 
 				opts = {},
 			},
-
+            
 			"folke/lazydev.nvim",
 			'Kaiser-Yang/blink-cmp-avante',
 		},
@@ -116,7 +116,7 @@ return {
 			keymap = {
 				-- set to 'none' to disable the 'default' preset
 				preset = "default",
-
+                
 				["<Tab>"] = { "select_next", "fallback" },
 				["<S-Tab>"] = { "select_prev", "fallback" },
 				-- ["<Tab>"] = { "select_next", "fallback" },
@@ -126,16 +126,16 @@ return {
 						cmp.show({ providers = { "snippets", "avante" } })
 					end,
 				},
-
+                
 				-- control whether the next command will be run when using a function
 			},
-
+            
 			appearance = {
 				-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
 				-- Adjusts spacing to ensure icons are aligned
 				nerd_font_variant = "mono",
 			},
-
+            
 			completion = {
 				-- By default, you may press `<c-space>` to show the documentation.
 				-- Optionally, set `auto_show = true` to show the documentation after a delay.
@@ -154,9 +154,9 @@ return {
 					}
 				},
 			},
-
+            
 			snippets = { preset = "luasnip" },
-
+            
 			-- Blink.cmp includes an optional, recommended rust fuzzy matcher,
 			-- which automatically downloads a prebuilt binary when enabled.
 			--
@@ -165,7 +165,7 @@ return {
 			--
 			-- See :h blink-cmp-config-fuzzy for more information
 			fuzzy = { implementation = "lua" },
-
+            
 			-- Shows a signature help window while you type arguments for a function
 			signature = { enabled = true },
 		},
@@ -188,14 +188,14 @@ return {
 				-- Autoinstall languages that are not installed
 				auto_install = true,
 				sync_install = true,
-
+                
 				highlight = {
 					enable = true, -- THIS is what was missing
 					-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
 					-- Set to `false` (default) if you want tree-sitter to manage highlighting entirely.
 					additional_vim_regex_highlighting = false,
 				},
-				
+                
 				indent = { enable = true }, -- Recommended: better indentation
 			})
 		end,
@@ -238,17 +238,31 @@ return {
 	-- 		})
 	-- 	end,
 	-- },
-	{
-		"nvim-tree/nvim-tree.lua",
-		version = "*",
-		lazy = false,
-		dependencies = {
-			"nvim-tree/nvim-web-devicons",
-		},
-		config = function()
-			require("nvim-tree").setup({})
-		end,
-	},
+    {
+      'stevearc/oil.nvim',
+      ---@module 'oil'
+      ---@type oil.SetupOpts
+      opts = {},
+      -- Optional dependencies
+      dependencies = { { "nvim-mini/mini.icons", opts = {} } },
+      -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
+      -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
+      lazy = false,
+      config = function()
+        require("oil").setup({
+           columns = {
+            "icon",
+            "permissions",
+            "size",
+            "mtime",
+          },  
+          constrain_cursor = "editable",
+          view_options = {
+            show_hidden = true,
+          },
+        })
+      end,
+    },
 	{ -- Collection of various small independent plugins/modules
 		"nvim-mini/mini.nvim",
 		config = function()
