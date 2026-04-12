@@ -34,7 +34,7 @@ install-bottom:
   else
     echo "Bottom exists"
   fi
-  
+    
 install-fd-find:
   #!/bin/bash
   set -e
@@ -43,7 +43,7 @@ install-fd-find:
   else
     echo "fd-find exists"
   fi
-  
+    
 install-neovim VERSION="v0.11.7" INSTALL_DIR="~/software/neovim":
     #!/bin/bash
     set -e
@@ -86,7 +86,7 @@ setup-nvim-path-zsh INSTALL_DIR = "~/software/neovim":
   if cat "${HOME}/.zshenv" | grep 'export PATH=$PATH:{{INSTALL_DIR}}/nvim-linux-{{ARCH}}/bin/' >/dev/null; then 
     echo Nvim setup already in ZSH
   else
-    echo 'export PATH=$PATH:{{INSTALL_DIR}}/nvim-linux-{{ARCH}}/bin/' >> ~/.zshenv
+    echo 'export PATH=$PATH:{{INSTALL_DIR}}/bin/' >> ~/.zshenv
   fi
   
 setup-nvim-path-bash INSTALL_DIR = "~/software/neovim":
@@ -97,7 +97,7 @@ setup-nvim-path-bash INSTALL_DIR = "~/software/neovim":
   else
     echo Nvim setup already in BASH
   fi
-    
+  
 install-nerd-font:
   #!/bin/bash
   mkdir -p ${HOME}/.fonts/
@@ -105,7 +105,7 @@ install-nerd-font:
   wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/DejaVuSansMono.zip
   unzip DejaVuSansMono.zip
   rm DejaVuSansMono.zip
-    
+  
 install-nerd-font-kitty:
   #!/bin/bash
   set -e
