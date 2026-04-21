@@ -24,15 +24,15 @@ setopt PROMPT_SUBST
 
 # We use a hook to ensure our prompt is set after any other theme hooks (like Oh My Zsh)
 _update_prompt() {
-    local arrow='%(?.%{%F{green}%B%}➜%{%b%f%}.%{%F{red}%B%}➜%{%b%f%})'
+    local arrow="%(?.%F{green}%B➜%b%f.%F{red}%B➜%b%f)"
     if [[ "$PROMPT_STATE" == "minimal" ]]; then
-        PROMPT="${arrow} %{%f%b%k%}"
+        PROMPT="${arrow} %f%b%k"
         RPROMPT=""
     else
-        local user_host='%{%F{cyan}%}%n@%m%{%f%}'
-        local path_info='%{%F{yellow}%}%~%{%f%}'
-        PROMPT="${arrow} ${user_host}:${path_info} \$(git_prompt_info) %{%f%b%k%}"
-        RPROMPT="%{%F{blue}%}%D{%H:%M:%S}%{%f%}"
+        local user_host="%F{cyan}%n@%m%f"
+        local path_info="%F{yellow}%~%f"
+        PROMPT="${arrow} ${user_host}:${path_info} \$(git_prompt_info) %f%b%k"
+        RPROMPT="%F{blue}%D{%H:%M:%S}%f"
     fi
 }
 
