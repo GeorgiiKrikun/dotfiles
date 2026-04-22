@@ -249,7 +249,7 @@ return {
       -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
       lazy = false,
       keys = {
-        { "-", "<cmd>Oil<cr>", desc = "Open parent directory" },
+        { "<leader>H", "<cmd>Oil<cr>", desc = "Open parent directory" },
       },
       config = function()
         require("oil").setup({
@@ -262,6 +262,10 @@ return {
           constrain_cursor = "editable",
           view_options = {
             show_hidden = true,
+          },
+          keymaps = {
+            ["<leader>h"] = {"actions.parent", mode = "n"},
+            ["<leader>l"] = {"actions.select", mode = "n"}
           },
         })
       end,
