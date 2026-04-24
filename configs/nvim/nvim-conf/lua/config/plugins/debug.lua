@@ -302,7 +302,6 @@ return {
       end
 
       local vscode_debugger_path = vim.fn.system('just --evaluate -f ${DOTFILES_DIR}/deps/justfile vscode_dbg_path')
-      vim.notify("Using VSCode debugger path: " .. vscode_debugger_path)
       -- Check if file exists
       if vim.fn.filereadable(vscode_debugger_path) == 1 then
         dap.adapters.cppdbg = {
