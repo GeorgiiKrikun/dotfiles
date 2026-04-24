@@ -243,10 +243,7 @@ return {
       ---@module 'oil'
       ---@type oil.SetupOpts
       opts = {},
-      -- Optional dependencies
       dependencies = { { "nvim-mini/mini.icons", opts = {} } },
-      -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
-      -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
       lazy = false,
       keys = {
         { "<leader>H", "<cmd>Oil<cr>", desc = "Open parent directory" },
@@ -254,18 +251,49 @@ return {
       config = function()
         require("oil").setup({
            columns = {
-            "icon",
             "permissions",
             "size",
             "mtime",
+            "icon",
           },  
-          constrain_cursor = "editable",
+          constrain_cursor = "name",
           view_options = {
-            show_hidden = true,
+            show_hidden = false,
           },
           keymaps = {
             ["<leader>h"] = {"actions.parent", mode = "n"},
-            ["<leader>l"] = {"actions.select", mode = "n"}
+            ["<leader>l"] = {"actions.select", mode = "n"},
+            ["gy"] = {
+              callback = function()
+                local oil = require("oil")
+                local entry = oil.get_cursor_entry()
+                local dir = oil.get_current_dir()
+                if not entry or not dir then
+                  return
+                end
+                local full_path = dir .. entry.name
+                local rel_path = vim.fn.fnamemodify(full_path, ":.")
+                vim.fn.setreg('"', rel_path)
+                vim.fn.setreg('+', rel_path)
+              end,
+              desc = "Yank the filepath",
+              nowait = true,
+            },
+            ["gY"] = {
+              callback = function()
+                local oil = require("oil")
+                local entry = oil.get_cursor_entry()
+                local dir = oil.get_current_dir()
+                if not entry or not dir then
+                  return
+                end
+                local full_path = dir .. entry.name
+                vim.fn.setreg('+', full_path)
+                vim.fn.setreg('"', full_path)
+              end,
+              desc = "Yank the filepath",
+              nowait = true,
+            },
           },
         })
       end,

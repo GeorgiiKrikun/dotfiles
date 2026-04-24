@@ -104,7 +104,7 @@ vim.cmd([[
       },
       config = function(_, opts)
         require("snacks").setup(opts)
-        vim.keymap.set("n", "<leader>lg", require('snacks').lazygit.open, { desc = "Open Snacks" })
+        vim.keymap.set("n", "<leader>gg", require('snacks').lazygit.open, { desc = "Open Snacks" })
       end,
     },
     require("config.plugins.copilot"),
