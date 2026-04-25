@@ -85,3 +85,42 @@ vim.keymap.set("n", "<leader><leader>", ":lua Snacks.picker.recent()<CR>", { des
 vim.keymap.set("n", "<leader>s.", ":lua Snacks.picker.buffers()<CR>", { desc = "[ ] Find existing buffers" })
 vim.keymap.set("n", "<leader>sp", ":lua Snacks.picker.pickers()<CR>", { desc = "[ ] Find existing buffers" })
 vim.keymap.set("n", "<leader>sc", ":lua Snacks.picker.command_history()<CR>", { desc = "[ ] Find existing buffers" })
+
+-- Custom paragraph motion that considers lines with only whitespace as empty
+local function paragraph_motion(forward)
+    local count = vim.v.count1
+    for _ = 1, count do
+        local step = forward and 1 or -1
+        local line = vim.fn.line('.')
+        local last_line = vim.fn.line('$')
+
+        local is_blank = function(l)
+            return vim.fn.getline(l):match('^%s*$') ~= nil
+        end
+
+        local in_blank = is_blank(line)
+
+        while true do
+            line = line + step
+            if line < 1 or line > last_line then
+                vim.api.nvim_win_set_cursor(0, {forward and last_line or 1, 0})
+                break
+            end
+
+            local current_blank = is_blank(line)
+            if in_blank then
+                if not current_blank then
+                    in_blank = false
+                end
+            else
+                if current_blank then
+                    vim.api.nvim_win_set_cursor(0, {line, 0})
+                    break
+                end
+            end
+        end
+    end
+end
+
+vim.keymap.set({'n', 'v', 'o'}, '}', function() paragraph_motion(true) end, {desc = "Next paragraph (including whitespace-only lines)"})
+vim.keymap.set({'n', 'v', 'o'}, '{', function() paragraph_motion(false) end, {desc = "Previous paragraph (including whitespace-only lines)"})
