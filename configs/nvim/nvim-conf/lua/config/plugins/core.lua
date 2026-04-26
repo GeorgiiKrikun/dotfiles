@@ -313,6 +313,7 @@ return {
 			)
 			require("mini.splitjoin").setup()
 			require("mini.statusline").setup()
+            require("mini.test").setup()
 		end,
 	},
 	{ -- Add indentation guides even on blank lines
@@ -325,5 +326,9 @@ return {
 	{
 		'Joakker/lua-json5', 
 		build = './install.sh'
-	}
+	},
+    {
+        'rafcamlet/nvim-luapad'
+    }
+    
 }
