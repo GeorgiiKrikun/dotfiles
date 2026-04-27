@@ -1,23 +1,23 @@
 local log_file = vim.fn.expand("~/.nvim_local_config_log") -- Choose your log file path
 
 local function log_message(message)
-	local file = io.open(log_file, "a")
-	if file then
-		file:write(os.date("%Y-%m-%d %H:%M:%S") .. " - " .. message .. "\n")
-		file:close()
-	end
+    local file = io.open(log_file, "a")
+    if file then
+        file:write(os.date("%Y-%m-%d %H:%M:%S") .. " - " .. message .. "\n")
+        file:close()
+    end
 end
 
 log_message("Starting Neovim configuration...")
 
 -- Setup json parser to have better JSON support for nvim dap and launch.json
 if pcall(require, 'json5') then
-  vim.fn.json_decode = require('json5').decode
+    vim.fn.json_decode = require('json5').decode
 end
 
 local profiles = {
-  home = 1,
-  work = 2,
+    home = 1,
+    work = 2,
 }
 
 vim.g.profiles = profiles
@@ -25,9 +25,9 @@ vim.g.profiles = profiles
 -- Try to automatically detect profile
 local hostname = vim.loop.os_gethostname()
 if hostname == "georgii-laptop" then
-  vim.g.active_profile = profiles.work
+    vim.g.active_profile = profiles.work
 else
-  vim.g.active_profile = profiles.home
+    vim.g.active_profile = profiles.home
 end
 
 -- Disable swapfile creation
@@ -57,11 +57,11 @@ require("local_config")
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-	if vim.v.shell_error ~= 0 then
-		error("Error cloning lazy.nvim:\n" .. out)
-	end
+    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+    local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+    if vim.v.shell_error ~= 0 then
+        error("Error cloning lazy.nvim:\n" .. out)
+    end
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
@@ -75,37 +75,27 @@ vim.cmd([[
   cnoreabbrev Wa wa
   cnoreabbrev WA wa
 ]])
--- [[ Configure and install plugins ]]
---
---  To check the current status of your plugins, run
---    :Lazy
---
---  You can press `?` in this menu for help. Use `:q` to close the window
---
---  To update plugins you can run
---    :Lazy update
---
--- NOTE: Here is where you install your plugins.
-  require("lazy").setup({
+
+require("lazy").setup({
     {
-      "folke/snacks.nvim",
-      priority = 1000,
-      lazy = false,
-      opts = {
-        explorer = { enabled = true },
-        input = { enabled = true },
-        picker = {
-          enabled = true,
-          ui_select = true,
+        "folke/snacks.nvim",
+        priority = 1000,
+        lazy = false,
+        opts = {
+            explorer = { enabled = true },
+            input = { enabled = true },
+            picker = {
+                enabled = true,
+                ui_select = true,
+            },
+            statuscolumn = { enabled = true },
+            lazygit = { enabled = true },
+            win = { enabled = true },
         },
-        statuscolumn = { enabled = true },
-        lazygit = { enabled = true },
-        win = { enabled = true },
-      },
-      config = function(_, opts)
-        require("snacks").setup(opts)
-        vim.keymap.set("n", "<leader>gg", require('snacks').lazygit.open, { desc = "Open Snacks" })
-      end,
+        config = function(_, opts)
+            require("snacks").setup(opts)
+            vim.keymap.set("n", "<leader>gg", require('snacks').lazygit.open, { desc = "Open Snacks" })
+        end,
     },
     require("config.plugins.copilot"),
     require("config.plugins.core"),
@@ -114,27 +104,27 @@ vim.cmd([[
     require("config.plugins.lsp"),
     require("config.plugins.themes"),
     require("config.plugins.ui"),
-  }, {
-	ui = {
-		-- If you are using a Nerd Font: set icons to an empty table which will use the
-		-- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
-		icons = vim.g.have_nerd_font and {} or {
-			cmd = "⌘",
-			config = "🛠",
-			event = "📅",
-			ft = "📂",
-			init = "⚙",
-			keys = "🗝",
-			plugin = "🔌",
-			runtime = "💻",
-			require = "🌙",
-			source = "📄",
-			start = "🚀",
-			task = "📌",
-			lazy = "💤 ",
-		},
-	},
-})
+}, {
+        ui = {
+            -- If you are using a Nerd Font: set icons to an empty table which will use the
+            -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
+            icons = vim.g.have_nerd_font and {} or {
+                cmd = "⌘",
+                config = "🛠",
+                event = "📅",
+                ft = "📂",
+                init = "⚙",
+                keys = "🗝",
+                plugin = "🔌",
+                runtime = "💻",
+                require = "🌙",
+                source = "📄",
+                start = "🚀",
+                task = "📌",
+                lazy = "💤 ",
+            },
+        },
+    })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=4 sts=4 sw=4 et
