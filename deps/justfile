@@ -138,22 +138,6 @@ install-zsh:
     echo "ZSH exist"
   fi
     
-install-luarocks-penlight:
-  #!/bin/bash
-  set -e
-    
-  if ! command -v luarocks >/dev/null; then
-    sudo apt install -y luarocks
-  else
-    echo "luarocks exists"
-  fi
-    
-  if luarocks list | grep penlight >/dev/null; then
-    echo "penlight exist"
-  else
-    sudo luarocks install penlight
-  fi
-    
 setup-cargo-zsh:
   #!/bin/bash
   set -e
