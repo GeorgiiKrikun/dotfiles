@@ -331,7 +331,49 @@ return {
 		build = './install.sh'
 	},
     {
-        'rafcamlet/nvim-luapad'
+        'rafcamlet/nvim-luapad',
+        config = function()
+            require("luapad").setup({
+                -- Your custom config here
+            })
+            local lpad_subcommands = {
+                attach = function() require('luapad').attach() end,
+                detach = function() require('luapad').detach() end,
+            }
+
+            vim.api.nvim_create_user_command('Lpad', function(opts)
+                -- opts.fargs contains the arguments passed to the command
+                local subcommand = opts.fargs[1]
+
+                -- Look up the subcommand in our table
+                local func = lpad_subcommands[subcommand]
+
+                if func then
+                    -- If it exists, execute it
+                    func()
+                else
+                    -- If it doesn't, warn the user
+                    vim.notify("Unknown Lpad subcommand: " .. tostring(subcommand), vim.log.levels.WARN)
+                end
+            end, {
+                    nargs = 1, -- Specify that this command takes exactly 1 argument
+                    desc = "Luapad control commands",
+                    -- 3. Add autocompletion for the subcommands
+                    complete = function(ArgLead, CmdLine, CursorPos)
+                        local completions = {}
+                        for key, _ in pairs(lpad_subcommands) do
+                            -- Only return commands that match the characters currently typed
+                            if key:match("^" .. ArgLead) then
+                                table.insert(completions, key)
+                            end
+                        end
+                        -- Sort them alphabetically so the popup menu looks nice
+                        table.sort(completions)
+                        return completions
+                    end,
+                })
+
+        end,
     }
     
 }
