@@ -1,246 +1,271 @@
 return {
-  -- LSP Plugins
-  {
-    -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
-    -- used for completion, annotations and signatures of Neovim apis
-    "folke/lazydev.nvim",
-    ft = "lua",
-    opts = {
-      library = {
-        -- Load luvit types when the `vim.uv` word is found
-        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-      },
+    -- LSP Plugins
+    {
+        -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
+        -- used for completion, annotations and signatures of Neovim apis
+        "folke/lazydev.nvim",
+        ft = "lua",
+        opts = {
+            library = {
+                -- Load luvit types when the `vim.uv` word is found
+                { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+            },
+        },
     },
-  },
-  {
-    -- Main LSP Configuration
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      -- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
-      {
-        "williamboman/mason.nvim",
-        opts = {}
-      },
-      "williamboman/mason-lspconfig.nvim",
-      "WhoIsSethDaniel/mason-tool-installer.nvim",
+    {
+        -- Main LSP Configuration
+        "neovim/nvim-lspconfig",
+        dependencies = {
+            -- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
+            {
+                "williamboman/mason.nvim",
+                opts = {}
+            },
+            "williamboman/mason-lspconfig.nvim",
+            "WhoIsSethDaniel/mason-tool-installer.nvim",
 
-      -- Useful status updates for LSP.
-      {
-        "j-hui/fidget.nvim",
-        opts = {}
-      },
+            -- Useful status updates for LSP.
+            {
+                "j-hui/fidget.nvim",
+                opts = {}
+            },
 
-      -- Allows extra capabilities provided by blink.cmp
-      "saghen/blink.cmp",
-    },
-    config = function()
-      vim.api.nvim_create_autocmd("LspAttach", {
-        group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
-        callback = function(event)
-          local map = function(keys, func, desc, mode)
-            mode = mode or "n"
-            vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
-          end
+            -- Allows extra capabilities provided by blink.cmp
+            "saghen/blink.cmp",
+        },
+        config = function()
+            vim.api.nvim_create_autocmd("LspAttach", {
+                group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
+                callback = function(event)
+                    local map = function(keys, func, desc, mode)
+                        mode = mode or "n"
+                        vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+                    end
 
-          map("grn", vim.lsp.buf.rename, "[R]e[n]ame")
-          map("gra", vim.lsp.buf.code_action, "[G]oto Code [A]ction", { "n", "x" })
-          map("grr", require("snacks").picker.lsp_references, "[G]oto [R]eferences")
-          map("gri", require("snacks").picker.lsp_implementations, "[G]oto [I]mplementation")
-          map("grd", require("snacks").picker.lsp_definitions, "[G]oto [D]efinition")
-          map("grD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-          map("gO", require("snacks").picker.lsp_symbols, "Open Document Symbols")
-          map("gW", require("snacks").picker.lsp_workspace_symbols, "Open Workspace Symbols")
-          map("grt", require("snacks").picker.lsp_type_definitions, "[G]oto [T]ype Definition")
+                    map("grn", vim.lsp.buf.rename, "[R]e[n]ame")
+                    map("gra", vim.lsp.buf.code_action, "[G]oto Code [A]ction", { "n", "x" })
+                    map("grr", require("snacks").picker.lsp_references, "[G]oto [R]eferences")
+                    map("gri", require("snacks").picker.lsp_implementations, "[G]oto [I]mplementation")
+                    map("grd", require("snacks").picker.lsp_definitions, "[G]oto [D]efinition")
+                    map("grD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+                    map("gO", require("snacks").picker.lsp_symbols, "Open Document Symbols")
+                    map("gW", require("snacks").picker.lsp_workspace_symbols, "Open Workspace Symbols")
+                    map("grt", require("snacks").picker.lsp_type_definitions, "[G]oto [T]ype Definition")
 
-          local function goto_definition(position)
-            local params = vim.lsp.util.make_position_params()
-            vim.lsp.buf_request(event.buf, "textDocument/definition", params, function(err, result, ctx, config)
-              if err or not result or vim.tbl_isempty(result) then
-                vim.notify("Definition not found", vim.log.levels.INFO)
-                return
-              end
+                    local function goto_definition(position)
+                        local params = vim.lsp.util.make_position_params()
+                        vim.lsp.buf_request(event.buf, "textDocument/definition", params, function(err, result, ctx, config)
+                            if err or not result or vim.tbl_isempty(result) then
+                                vim.notify("Definition not found", vim.log.levels.INFO)
+                                return
+                            end
 
-              local def = result[1] or result
-              local uri = def.uri or def.targetUri
-              local range = def.range or def.targetSelectionRange
-              local filename = vim.uri_to_fname(uri)
+                            local def = result[1] or result
+                            local uri = def.uri or def.targetUri
+                            local range = def.range or def.targetSelectionRange
+                            local filename = vim.uri_to_fname(uri)
 
-              if position == "float" then
-                require("snacks").win({
-                  file = filename,
-                  enter = true,
-                  width = 0.8,
-                  height = 0.8,
-                  keys = {
-                    ["<C-w>s"] = function(win)
-                      win:close()
-                      vim.cmd("split " .. filename)
-                      vim.api.nvim_win_set_cursor(0, { range.start.line + 1, range.start.character })
-                      vim.cmd("normal! zz")
+                            if position == "float" then
+                                require("snacks").win({
+                                    file = filename,
+                                    enter = true,
+                                    width = 0.8,
+                                    height = 0.8,
+                                    keys = {
+                                        ["<C-w>s"] = function(win)
+                                            win:close()
+                                            vim.cmd("split " .. filename)
+                                            vim.api.nvim_win_set_cursor(0, { range.start.line + 1, range.start.character })
+                                            vim.cmd("normal! zz")
+                                        end,
+                                        ["<C-w>v"] = function(win)
+                                            win:close()
+                                            vim.cmd("vsplit " .. filename)
+                                            vim.api.nvim_win_set_cursor(0, { range.start.line + 1, range.start.character })
+                                            vim.cmd("normal! zz")
+                                        end,
+                                    },
+                                    on_win = function(win)
+                                        vim.api.nvim_win_set_cursor(win.win, { range.start.line + 1, range.start.character })
+                                        vim.cmd("normal! zz")
+                                    end,
+                                })
+                            else
+                                vim.cmd(position .. " " .. filename)
+                                vim.api.nvim_win_set_cursor(0, { range.start.line + 1, range.start.character })
+                                vim.cmd("normal! zz")
+                            end
+                        end)
+                    end
+
+                    map("grf", function() goto_definition("float") end, "[G]oto [D]efinition in [F]loat")
+                    map("grs", function() goto_definition("split") end, "[G]oto [D]efinition in [S]plit")
+                    map("grv", function() goto_definition("vsplit") end, "[G]oto [D]efinition in [V]split")
+
+                    local function client_supports_method(client, method, bufnr)
+                        if vim.fn.has("nvim-0.11") == 1 then
+                            return client:supports_method(method, bufnr)
+                        else
+                            return client.supports_method(method, { bufnr = bufnr })
+                        end
+                    end
+
+                    local client = vim.lsp.get_client_by_id(event.data.client_id)
+                    if
+                        client
+                        and client_supports_method(
+                            client,
+                            vim.lsp.protocol.Methods.textDocument_documentHighlight,
+                            event.buf
+                        )
+                    then
+                        local highlight_augroup =
+                        vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
+                        vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+                            buffer = event.buf,
+                            group = highlight_augroup,
+                            callback = vim.lsp.buf.document_highlight,
+                        })
+
+                        vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+                            buffer = event.buf,
+                            group = highlight_augroup,
+                            callback = vim.lsp.buf.clear_references,
+                        })
+
+                        vim.api.nvim_create_autocmd("LspDetach", {
+                            group = vim.api.nvim_create_augroup("kickstart-lsp-detach", { clear = true }),
+                            callback = function(event2)
+                                vim.lsp.buf.clear_references()
+                                vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
+                            end,
+                        })
+                    end
+
+                    if
+                        client
+                        and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf)
+                    then
+                        map("<leader>th", function()
+                            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
+                        end, "[T]oggle Inlay [H]ints")
+                    end
+                end,
+            })
+
+            vim.diagnostic.config({
+                severity_sort = true,
+                float = { border = "rounded", source = "if_many" },
+                underline = { severity = vim.diagnostic.severity.ERROR },
+                signs = vim.g.have_nerd_font and {
+                    text = {
+                        [vim.diagnostic.severity.ERROR] = "󰅚 ",
+                        [vim.diagnostic.severity.WARN] = "󰀪 ",
+                        [vim.diagnostic.severity.INFO] = "󰋽 ",
+                        [vim.diagnostic.severity.HINT] = "󰌶 ",
+                    },
+                } or {},
+                virtual_text = {
+                    source = "if_many",
+                    spacing = 2,
+                    format = function(diagnostic)
+                        local diagnostic_message = {
+                            [vim.diagnostic.severity.ERROR] = diagnostic.message,
+                            [vim.diagnostic.severity.WARN] = diagnostic.message,
+                            [vim.diagnostic.severity.INFO] = diagnostic.message,
+                            [vim.diagnostic.severity.HINT] = diagnostic.message,
+                        }
+                        return diagnostic_message[diagnostic.severity]
                     end,
-                    ["<C-w>v"] = function(win)
-                      win:close()
-                      vim.cmd("vsplit " .. filename)
-                      vim.api.nvim_win_set_cursor(0, { range.start.line + 1, range.start.character })
-                      vim.cmd("normal! zz")
+                },
+            })
+
+            local capabilities = require("blink.cmp").get_lsp_capabilities()
+
+            local servers = {
+                clangd = {},
+                basedpyright = {
+                    settings = {
+                        basedpyright = {
+                            analysis = {
+                                autoSearchPaths = true,
+                                useLibraryCodeForTypes = true,
+                                diagnosticMode = "openFilesOnly",
+                                typeCheckingMode = "standard", -- options: "off", "basic", "standard", "strict", "all"
+                            },
+                        },
+                    },
+                },
+                lua_ls = {
+                    settings = {
+                        Lua = {
+                            completion = {
+                                callSnippet = "Replace",
+                            },
+                        },
+                    },
+                },
+                texlab = {
+                    settings = {
+                        texlab = {
+                            build = {
+                                executable = "latexmk",
+                                args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+                                onSave = false, -- Let VimTeX handle the compiling on save
+                                forwardSearchAfter = false,
+                            },
+                            chktex = {
+                                onOpenAndSave = true,
+                                onEdit = false,
+                            }
+                        }
+                    }
+                },
+            }
+
+            local ensure_installed = vim.tbl_keys(servers or {})
+            vim.list_extend(ensure_installed, {
+                "stylua", -- Used to format Lua code
+            })
+            require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+
+            require("mason-lspconfig").setup({
+                ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
+                automatic_enable = {
+                    exclude = {
+                        "rust_analyzer",
+                        "ts_ls"
+                    }
+                },
+                automatic_installation = false,
+                handlers = {
+                    function(server_name)
+                        local server = servers[server_name] or {}
+                        -- local file = io.open("/home/georgii/filename.txt", "w")  -- "w" for write mode
+                        -- file:write("Configuring LSP server: " .. server_name .. "\n")
+                        -- file:close()
+                        -- This handles overriding only values explicitly passed
+                        -- by the server configuration above. Useful when disabling
+                        -- certain features of an LSP (for example, turning off formatting for ts_ls)
+                        server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+                        require("lspconfig")[server_name].setup(server)
                     end,
-                  },
-                  on_win = function(win)
-                    vim.api.nvim_win_set_cursor(win.win, { range.start.line + 1, range.start.character })
-                    vim.cmd("normal! zz")
-                  end,
-                })
-              else
-                vim.cmd(position .. " " .. filename)
-                vim.api.nvim_win_set_cursor(0, { range.start.line + 1, range.start.character })
-                vim.cmd("normal! zz")
-              end
-            end)
-          end
-
-          map("grf", function() goto_definition("float") end, "[G]oto [D]efinition in [F]loat")
-          map("grs", function() goto_definition("split") end, "[G]oto [D]efinition in [S]plit")
-          map("grv", function() goto_definition("vsplit") end, "[G]oto [D]efinition in [V]split")
-
-          local function client_supports_method(client, method, bufnr)
-            if vim.fn.has("nvim-0.11") == 1 then
-              return client:supports_method(method, bufnr)
-            else
-              return client.supports_method(method, { bufnr = bufnr })
-            end
-          end
-
-          local client = vim.lsp.get_client_by_id(event.data.client_id)
-          if
-            client
-            and client_supports_method(
-              client,
-              vim.lsp.protocol.Methods.textDocument_documentHighlight,
-              event.buf
-            )
-          then
-            local highlight_augroup =
-            vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
-            vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-              buffer = event.buf,
-              group = highlight_augroup,
-              callback = vim.lsp.buf.document_highlight,
+                },
             })
-
-            vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-              buffer = event.buf,
-              group = highlight_augroup,
-              callback = vim.lsp.buf.clear_references,
-            })
-
-            vim.api.nvim_create_autocmd("LspDetach", {
-              group = vim.api.nvim_create_augroup("kickstart-lsp-detach", { clear = true }),
-              callback = function(event2)
-                vim.lsp.buf.clear_references()
-                vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
-              end,
-            })
-          end
-
-          if
-            client
-            and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf)
-          then
-            map("<leader>th", function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
-            end, "[T]oggle Inlay [H]ints")
-          end
         end,
-      })
-
-      vim.diagnostic.config({
-        severity_sort = true,
-        float = { border = "rounded", source = "if_many" },
-        underline = { severity = vim.diagnostic.severity.ERROR },
-        signs = vim.g.have_nerd_font and {
-          text = {
-            [vim.diagnostic.severity.ERROR] = "󰅚 ",
-            [vim.diagnostic.severity.WARN] = "󰀪 ",
-            [vim.diagnostic.severity.INFO] = "󰋽 ",
-            [vim.diagnostic.severity.HINT] = "󰌶 ",
-          },
-        } or {},
-        virtual_text = {
-          source = "if_many",
-          spacing = 2,
-          format = function(diagnostic)
-            local diagnostic_message = {
-              [vim.diagnostic.severity.ERROR] = diagnostic.message,
-              [vim.diagnostic.severity.WARN] = diagnostic.message,
-              [vim.diagnostic.severity.INFO] = diagnostic.message,
-              [vim.diagnostic.severity.HINT] = diagnostic.message,
-            }
-            return diagnostic_message[diagnostic.severity]
-          end,
-        },
-      })
-
-      local capabilities = require("blink.cmp").get_lsp_capabilities()
-
-      local servers = {
-        clangd = {},
-        basedpyright = {
-          settings = {
-            basedpyright = {
-              analysis = {
-                autoSearchPaths = true,
-                useLibraryCodeForTypes = true,
-                diagnosticMode = "openFilesOnly",
-                typeCheckingMode = "standard", -- options: "off", "basic", "standard", "strict", "all"
-              },
-            },
-          },
-        },
-        lua_ls = {
-          settings = {
-            Lua = {
-              completion = {
-                callSnippet = "Replace",
-              },
-            },
-          },
-        },
-      }
-
-      local ensure_installed = vim.tbl_keys(servers or {})
-      vim.list_extend(ensure_installed, {
-        "stylua", -- Used to format Lua code
-      })
-      require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
-
-      require("mason-lspconfig").setup({
-        ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-        automatic_enable = {
-            exclude = {
-                "rust_analyzer",
-                "ts_ls"
-            }
-        },
-        automatic_installation = false,
-        handlers = {
-          function(server_name)
-            local server = servers[server_name] or {}
-            -- local file = io.open("/home/georgii/filename.txt", "w")  -- "w" for write mode
-            -- file:write("Configuring LSP server: " .. server_name .. "\n")
-            -- file:close()
-            -- This handles overriding only values explicitly passed
-            -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for ts_ls)
-            server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-            require("lspconfig")[server_name].setup(server)
-          end,
-        },
-      })
-    end,
-  },
-  { 
-    'mrcjkb/rustaceanvim',
-    version = '^6', -- Recommended
-    lazy = false, -- This plugin is already lazy
-  }
+    },
+    { 
+        'mrcjkb/rustaceanvim',
+        version = '^6', -- Recommended
+        lazy = false, -- This plugin is already lazy
+    },
+    {
+        "lervag/vimtex",
+        lazy = false,     -- we don't want to lazy load VimTeX
+        -- tag = "v2.15", -- uncomment to pin to a specific release
+        init = function()
+            -- VimTeX configuration goes here, e.g.
+            vim.g.vimtex_view_method = "zathura"
+        end
+    }
 }
