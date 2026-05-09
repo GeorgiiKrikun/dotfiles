@@ -353,7 +353,12 @@ return {
     },
     { 'GeorgiiKrikun/dbg_interface.nvim',
         dir = '~/software/dbg_interface.nvim',
+        dependencies = {'Joakker/lua-json5'},
         opts = {
+            json = {
+                encode = vim.json.encode,
+                decode = vim.json.decode,
+            },
             debug_types = {
                 rust = {
                     config = {
