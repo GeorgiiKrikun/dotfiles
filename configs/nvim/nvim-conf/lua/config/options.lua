@@ -72,5 +72,12 @@ vim.opt.cpoptions:remove('I')
 -- Set the default shell to zsh
 vim.opt.shell = "zsh"
 
+-- Treesitter/LSP folds
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+vim.opt.foldenable = true
+
 -- Ensure :term abbreviation is available for :terminal
 vim.cmd('cnoreabbrev term terminal')

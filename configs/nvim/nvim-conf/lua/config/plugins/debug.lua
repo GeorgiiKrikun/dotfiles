@@ -357,7 +357,7 @@ return {
         opts = {
             json = {
                 encode = vim.json.encode,
-                decode = vim.json.decode,
+                decode = function(s) return require('json5').parse(s) end,
             },
             debug_types = {
                 rust = {

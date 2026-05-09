@@ -39,6 +39,19 @@ vim.api.nvim_create_autocmd("VimEnter", {
 	end,
 })
 
+-- Set foldmethod=expr per-buffer after treesitter attaches via FileType + schedule
+vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("treesitter_folds", { clear = true }),
+    callback = function(args)
+        vim.schedule(function()
+            if not vim.api.nvim_buf_is_valid(args.buf) then return end
+            if vim.bo[args.buf].buftype ~= "" then return end
+            vim.opt_local.foldmethod = "expr"
+            vim.opt_local.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+        end)
+    end,
+})
+
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
 	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
