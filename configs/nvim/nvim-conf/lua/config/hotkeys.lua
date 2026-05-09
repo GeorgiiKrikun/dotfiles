@@ -26,7 +26,11 @@ vim.keymap.set("n", "<leader>Lca", ":lua vim.lsp.buf.code_action()<CR>", { desc 
 
 -- Start the debug server to debug lua scripts
 -- 
-vim.keymap.set("n", "<leader>dss", ":lua require('osv').launch({port = 8086})<CR>")
+  vim.keymap.set("n", "<leader>dss", function()
+    require('osv').launch({ port = 8086 })
+    vim.o.title = true
+    vim.o.titlestring = "NVIM [dbg-server :8086]"
+  end)
 
 -- Insert carriage return in normal mode
 vim.keymap.set("n", "<S-CR>", "i<CR><Esc>", { noremap = true, silent = true })
