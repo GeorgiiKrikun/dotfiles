@@ -3,3 +3,6 @@ default:
 
 run:
     nix shell --ignore-environment . --command bash --norc --noprofile
+
+switch:
+    nix run github:nix-community/home-manager -- switch --flake .#nixtest
