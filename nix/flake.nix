@@ -10,22 +10,28 @@
         let
             system = "x86_64-linux"; # Use "aarch64-darwin" if you ever move to an Apple Silicon Mac
             overlays = [ (import rust-overlay) ];
-            pkgs = nixpkgs.legacyPackages.${system};
+            pkgs = import nixpkgs { inherit system overlays; };
             rustToolchain = pkgs.rust-bin.stable.latest.default;
         in {
             # This creates a custom "package" that bundles all your tools
             packages.${system}.default = pkgs.buildEnv {
                 name = "my-core-packages";
                 paths = (with pkgs; [
-                    sudo
+                    # --- The Unix Core ---
+                    coreutils
+                    findutils
+                    gnugrep
+                    gnused
+                    gawk
+                    bashInteractive         # sudo probably won't work
                     wget
                     curl
                     git
-                    make
+                    gnumake
                     just
                 ]) ++ [
                     rustToolchain
-                ]
+                ];
             };
         };
 }
