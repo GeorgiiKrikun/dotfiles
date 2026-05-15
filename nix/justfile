@@ -4,5 +4,14 @@ default:
 run:
     nix shell --ignore-environment . --command bash --norc --noprofile
 
+# Activate home-manager config (run this after editing home.nix)
 switch:
     nix run github:nix-community/home-manager -- switch --flake .#nixtest
+
+# Remove existing dotfiles that home-manager would refuse to overwrite
+clean-dotfiles:
+    rm -f ~/.zshrc
+    rm -rf ~/.config/nvim
+
+# Remove conflicting dotfiles then activate home-manager
+install-dotfiles: clean-dotfiles switch

@@ -1,4 +1,7 @@
-{ pkgs, pkgs-neovim11, rustToolchain, ... }:
+{ config, pkgs, pkgs-neovim11, rustToolchain, ... }:
+let
+    dotfiles = "${config.home.homeDirectory}/software/dotfiles";
+in
 {
     home.username = "nixtest";
     home.homeDirectory = "/home/nixtest";
@@ -8,6 +11,13 @@
     home.stateVersion = "24.11";
 
     programs.home-manager.enable = true;
+
+    home.file = {
+        ".zshrc".source = config.lib.file.mkOutOfStoreSymlink
+            "${dotfiles}/configs/zsh/.zshrc";
+        ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink
+            "${dotfiles}/configs/nvim/nvim-conf";
+    };
 
     home.packages = (with pkgs; [
         # --- The Unix Core ---
