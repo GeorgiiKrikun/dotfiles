@@ -4,14 +4,16 @@
 
     inputs = {
         nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+        nixpkgs-neovim11.url = "github:nixos/nixpkgs/832efc09b4caf6b4569fbf9dc01bec3082a00611";
         rust-overlay.url = "github:oxalica/rust-overlay";
     };
 
-    outputs = { self, nixpkgs, rust-overlay} :
+    outputs = { self, nixpkgs, nixpkgs-neovim11, rust-overlay} :
         let
             system = "x86_64-linux"; # Use "aarch64-darwin" if you ever move to an Apple Silicon Mac
             overlays = [ (import rust-overlay) ];
             pkgs = import nixpkgs { inherit system overlays; };
+            pkgs-neovim11 = import nixpkgs-neovim11 { inherit system; };
             rustToolchain = pkgs.rust-bin.stable.latest.default;
         in {
             # This creates a custom "package" that bundles all your tools
@@ -24,7 +26,7 @@
                     gnugrep
                     gnused
                     gawk
-                    bashInteractive         
+                    bashInteractive
                     # --- The Rust coreutils ---
                     ripgrep
                     bottom
@@ -34,7 +36,6 @@
                     curl
                     git
                     unzip
-                    neovim
                     lazygit
                     nodejs
                     gnumake
@@ -42,7 +43,9 @@
                     kitty
                 ]) ++ [
                     rustToolchain
-                ];
+                ] ++ (
+                    with pkgs-neovim11; [neovim]
+                );
             };
         };
 }
