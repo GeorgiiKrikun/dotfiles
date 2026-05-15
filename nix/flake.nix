@@ -4,12 +4,13 @@
     inputs = {
         nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
         rust-overlay.url = "github:oxalica/rust-overlay";
+        neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     };
 
-    outputs = { self, nixpkgs, rust-overlay }:
+    outputs = { self, nixpkgs, rust-overlay, nvim-nightly-overlay} :
         let
             system = "x86_64-linux"; # Use "aarch64-darwin" if you ever move to an Apple Silicon Mac
-            overlays = [ (import rust-overlay) ];
+            overlays = [ (import rust-overlay) (import neovim-nightly-overlay) ];
             pkgs = import nixpkgs { inherit system overlays; };
             rustToolchain = pkgs.rust-bin.stable.latest.default;
         in {
@@ -23,12 +24,22 @@
                     gnugrep
                     gnused
                     gawk
-                    bashInteractive         # sudo probably won't work
+                    bashInteractive         
+                    # --- The Rust coreutils ---
+                    ripgrep
+                    bottom
+                    fd
+                    # sudo probably won't work
                     wget
                     curl
                     git
+                    unzip
+                    neovim
+                    lazygit
+                    nodejs
                     gnumake
                     just
+                    kitty
                 ]) ++ [
                     rustToolchain
                 ];
