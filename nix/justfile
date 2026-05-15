@@ -1,0 +1,5 @@
+default:
+    just --list
+
+run:
+    nix shell --ignore-environment . --command bash --norc --noprofile
