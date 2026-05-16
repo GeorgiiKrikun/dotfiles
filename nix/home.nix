@@ -17,6 +17,8 @@ in
             "${dotfiles}/configs/zsh/.zshrc";
         ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink
             "${dotfiles}/configs/nvim/nvim-conf";
+        ".config/kitty".source = config.lib.file.mkOutOfStoreSymlink
+            "${dotfiles}/configs/kitty";
     };
 
     home.packages = (with pkgs; [
