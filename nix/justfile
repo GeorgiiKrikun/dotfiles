@@ -6,7 +6,12 @@ run:
 
 # Activate home-manager config (run this after editing home.nix)
 switch:
-    nix run github:nix-community/home-manager -- switch -b backup --flake .#nixtest
+    #!/usr/bin/env bash
+    if [[ "$(uname)" == "Darwin" ]]; then
+        nix run github:nix-community/home-manager -- switch -b backup --flake .#nixtest-mac
+    else
+        nix run github:nix-community/home-manager -- switch -b backup --flake .#nixtest
+    fi
 
 # Remove existing dotfiles that home-manager would refuse to overwrite
 clean-dotfiles:

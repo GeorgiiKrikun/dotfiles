@@ -4,7 +4,7 @@ let
 in
 {
     home.username = "georgii";
-    home.homeDirectory = "/home/georgii";
+    home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/georgii" else "/home/georgii";
 
     # When replacing nixtest with your real user, update the two lines above.
     # This version string must match the home-manager release you bootstrap with.
@@ -17,6 +17,8 @@ in
             "${dotfiles}/configs/nvim/nvim-conf";
         ".config/kitty".source = config.lib.file.mkOutOfStoreSymlink
             "${dotfiles}/configs/kitty";
+    } // lib.optionalAttrs (!pkgs.stdenv.isDarwin) {
+        # cpptools ships Linux/Windows binaries only
         ".vscode/extensions/ms-vscode.cpptools/extension".source =
             "${pkgs.vscode-extensions.ms-vscode.cpptools}/share/vscode/extensions/ms-vscode.cpptools";
     };

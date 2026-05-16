@@ -9,52 +9,70 @@
             url = "github:nix-community/home-manager";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+        flake-utils.url = "github:numtide/flake-utils";
     };
 
-    outputs = { self, nixpkgs, nixpkgs-neovim11, rust-overlay, home-manager } :
+    outputs = { self, nixpkgs, nixpkgs-neovim11, rust-overlay, home-manager, flake-utils }:
         let
-            system = "x86_64-linux"; # Use "aarch64-darwin" if you ever move to an Apple Silicon Mac
-            overlays = [ (import rust-overlay) ];
-            pkgs = import nixpkgs { inherit system overlays; config.allowUnfree = true; };
-            pkgs-neovim11 = import nixpkgs-neovim11 { inherit system; };
-            rustToolchain = pkgs.rust-bin.stable.latest.default;
-        in {
-            # Dev shell for testing — kept alongside home-manager
-            packages.${system}.default = pkgs.buildEnv {
-                name = "my-core-packages";
-                paths = (with pkgs; [
-                    # --- The Unix Core ---
-                    coreutils
-                    findutils
-                    gnugrep
-                    gnused
-                    gawk
-                    bashInteractive
-                    # --- The Rust coreutils ---
-                    ripgrep
-                    bottom
-                    fd
-                    # sudo probably won't work
-                    wget
-                    curl
-                    git
-                    unzip
-                    lazygit
-                    nodejs
-                    gnumake
-                    just
-                    bitwarden-cli
-                ]) ++ [
-                    rustToolchain
-                ] ++ (
-                    with pkgs-neovim11; [neovim]
-                );
-            };
+            supportedSystems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" ];
 
-            homeConfigurations."nixtest" = home-manager.lib.homeManagerConfiguration {
-                inherit pkgs;
-                extraSpecialArgs = { inherit pkgs-neovim11 rustToolchain; };
-                modules = [ ./home.nix ];
+            mkPkgs = system:
+                import nixpkgs {
+                    inherit system;
+                    overlays = [ (import rust-overlay) ];
+                    config.allowUnfree = true;
+                };
+
+            mkHomeConfig = system:
+                let
+                    pkgs = mkPkgs system;
+                    pkgs-neovim11 = import nixpkgs-neovim11 { inherit system; };
+                    rustToolchain = pkgs.rust-bin.stable.latest.default;
+                in home-manager.lib.homeManagerConfiguration {
+                    inherit pkgs;
+                    extraSpecialArgs = { inherit pkgs-neovim11 rustToolchain; };
+                    modules = [ ./home.nix ];
+                };
+        in
+        flake-utils.lib.eachSystem supportedSystems (system:
+            let
+                pkgs = mkPkgs system;
+                pkgs-neovim11 = import nixpkgs-neovim11 { inherit system; };
+                rustToolchain = pkgs.rust-bin.stable.latest.default;
+            in {
+                packages.default = pkgs.buildEnv {
+                    name = "my-core-packages";
+                    paths = (with pkgs; [
+                        # --- The Unix Core ---
+                        coreutils
+                        findutils
+                        gnugrep
+                        gnused
+                        gawk
+                        bashInteractive
+                        # --- The Rust coreutils ---
+                        ripgrep
+                        bottom
+                        fd
+                        # sudo probably won't work
+                        wget
+                        curl
+                        git
+                        unzip
+                        lazygit
+                        nodejs
+                        gnumake
+                        just
+                        bitwarden-cli
+                    ]) ++ [
+                        rustToolchain
+                    ] ++ (with pkgs-neovim11; [neovim]);
+                };
+            }
+        ) // {
+            homeConfigurations = {
+                "nixtest"     = mkHomeConfig "x86_64-linux";
+                "nixtest-mac" = mkHomeConfig "aarch64-darwin";
             };
         };
 }
