@@ -5,9 +5,6 @@ in
 {
     home.username = "georgii";
     home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/georgii" else "/home/georgii";
-
-    # When replacing nixtest with your real user, update the two lines above.
-    # This version string must match the home-manager release you bootstrap with.
     home.stateVersion = "24.11";
 
     programs.home-manager.enable = true;
@@ -76,6 +73,7 @@ in
         just
         nerd-fonts.commit-mono
         rbw
+        nixd
     ]) ++ [
         rustToolchain
     ] ++ (with pkgs-neovim11; [ neovim ]);
