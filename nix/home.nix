@@ -62,6 +62,7 @@ in
         nodejs
         gnumake
         just
+        nerd-fonts.commit-mono
     ]) ++ [
         rustToolchain
     ] ++ (with pkgs-neovim11; [ neovim ]);
