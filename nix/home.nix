@@ -3,8 +3,8 @@ let
     dotfiles = "${config.home.homeDirectory}/software/dotfiles";
 in
 {
-    home.username = "nixtest";
-    home.homeDirectory = "/home/nixtest";
+    home.username = "georgii";
+    home.homeDirectory = "/home/georgii";
 
     # When replacing nixtest with your real user, update the two lines above.
     # This version string must match the home-manager release you bootstrap with.
@@ -44,6 +44,13 @@ in
             EDITOR = "nvim";
         };
     };
+
+    home.sessionPath = [ "$HOME/.npm-global/bin" ];
+
+    home.activation.installClaudeCode = lib.hm.dag.entryAfter ["writeBoundary"] ''
+        export PATH="${pkgs.nodejs}/bin:$PATH"
+        ${pkgs.nodejs}/bin/npm install -g --prefix "$HOME/.npm-global" @anthropic-ai/claude-code
+    '';
 
     home.packages = (with pkgs; [
         # --- The Unix Core ---

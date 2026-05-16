@@ -6,7 +6,7 @@ run:
 
 # Activate home-manager config (run this after editing home.nix)
 switch:
-    nix run github:nix-community/home-manager -- switch --flake .#nixtest
+    nix run github:nix-community/home-manager -- switch -b backup --flake .#nixtest
 
 # Remove existing dotfiles that home-manager would refuse to overwrite
 clean-dotfiles:
