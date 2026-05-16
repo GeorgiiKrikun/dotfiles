@@ -15,7 +15,7 @@
         let
             system = "x86_64-linux"; # Use "aarch64-darwin" if you ever move to an Apple Silicon Mac
             overlays = [ (import rust-overlay) ];
-            pkgs = import nixpkgs { inherit system overlays; };
+            pkgs = import nixpkgs { inherit system overlays; config.allowUnfree = true; };
             pkgs-neovim11 = import nixpkgs-neovim11 { inherit system; };
             rustToolchain = pkgs.rust-bin.stable.latest.default;
         in {

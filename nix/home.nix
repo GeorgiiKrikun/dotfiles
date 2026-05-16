@@ -1,4 +1,4 @@
-{ config, pkgs, pkgs-neovim11, rustToolchain, ... }:
+{ config, lib, pkgs, pkgs-neovim11, rustToolchain, ... }:
 let
     dotfiles = "${config.home.homeDirectory}/software/dotfiles";
 in
@@ -17,6 +17,8 @@ in
             "${dotfiles}/configs/nvim/nvim-conf";
         ".config/kitty".source = config.lib.file.mkOutOfStoreSymlink
             "${dotfiles}/configs/kitty";
+        ".vscode/extensions/ms-vscode.cpptools/extension".source =
+            "${pkgs.vscode-extensions.ms-vscode.cpptools}/share/vscode/extensions/ms-vscode.cpptools";
     };
 
     programs.zsh = {
@@ -26,15 +28,16 @@ in
             theme = "robbyrussell";
             plugins = [ "git" "aws" "docker" "docker-compose" "extract" "pip" "rust" "kitty" "z" ];
         };
-        initExtraFirst = ''
-            # Nix profile dirs are root-owned; suppress oh-my-zsh insecure-directory warning
-            ZSH_DISABLE_COMPFIX=true
-        '';
-        initExtra = ''
-            if (( $+commands[xhost] )); then
-                xhost +local:docker
-            fi
-        '';
+        initContent = lib.mkMerge [
+            (lib.mkBefore ''
+                ZSH_DISABLE_COMPFIX=true
+            '')
+            ''
+                if (( $+commands[xhost] )); then
+                    xhost +local:docker
+                fi
+            ''
+        ];
         sessionVariables = {
             USER_ID = "1000";
             GROUP_ID = "1000";
