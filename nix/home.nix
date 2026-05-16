@@ -13,12 +13,33 @@ in
     programs.home-manager.enable = true;
 
     home.file = {
-        ".zshrc".source = config.lib.file.mkOutOfStoreSymlink
-            "${dotfiles}/configs/zsh/.zshrc";
         ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink
             "${dotfiles}/configs/nvim/nvim-conf";
         ".config/kitty".source = config.lib.file.mkOutOfStoreSymlink
             "${dotfiles}/configs/kitty";
+    };
+
+    programs.zsh = {
+        enable = true;
+        oh-my-zsh = {
+            enable = true;
+            theme = "robbyrussell";
+            plugins = [ "git" "aws" "docker" "docker-compose" "extract" "pip" "rust" "kitty" "z" ];
+        };
+        initExtraFirst = ''
+            # Nix profile dirs are root-owned; suppress oh-my-zsh insecure-directory warning
+            ZSH_DISABLE_COMPFIX=true
+        '';
+        initExtra = ''
+            if (( $+commands[xhost] )); then
+                xhost +local:docker
+            fi
+        '';
+        sessionVariables = {
+            USER_ID = "1000";
+            GROUP_ID = "1000";
+            EDITOR = "nvim";
+        };
     };
 
     home.packages = (with pkgs; [
