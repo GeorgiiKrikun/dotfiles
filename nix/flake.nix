@@ -43,7 +43,6 @@
                     nodejs
                     gnumake
                     just
-                    kitty
                 ]) ++ [
                     rustToolchain
                 ] ++ (

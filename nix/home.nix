@@ -39,7 +39,6 @@ in
         nodejs
         gnumake
         just
-        kitty
     ]) ++ [
         rustToolchain
     ] ++ (with pkgs-neovim11; [ neovim ]);
