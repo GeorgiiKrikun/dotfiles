@@ -73,6 +73,7 @@ in
         gnumake
         just
         nerd-fonts.commit-mono
+        rbw
     ]) ++ [
         rustToolchain
     ] ++ (with pkgs-neovim11; [ neovim ]);

@@ -43,6 +43,7 @@
                     nodejs
                     gnumake
                     just
+                    bitwarden-cli
                 ]) ++ [
                     rustToolchain
                 ] ++ (
