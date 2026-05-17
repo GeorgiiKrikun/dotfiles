@@ -1,0 +1,22 @@
+default:
+    just --list
+
+run:
+    nix shell --ignore-environment . --command bash --norc --noprofile
+
+# Activate home-manager config (run this after editing home.nix)
+switch:
+    #!/usr/bin/env bash
+    if [[ "$(uname)" == "Darwin" ]]; then
+        nix run github:nix-community/home-manager -- switch -b backup --flake .#nixtest-mac
+    else
+        nix run github:nix-community/home-manager -- switch -b backup --flake .#nixtest
+    fi
+
+# Remove existing dotfiles that home-manager would refuse to overwrite
+clean-dotfiles:
+    rm -f ~/.zshrc
+    rm -rf ~/.config/nvim
+
+# Remove conflicting dotfiles then activate home-manager
+install-dotfiles: clean-dotfiles switch

@@ -225,9 +225,6 @@ return {
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
-            -- local file = io.open("/home/georgii/filename.txt", "w")  -- "w" for write mode
-            -- file:write("Configuring LSP server: " .. server_name .. "\n")
-            -- file:close()
             -- This handles overriding only values explicitly passed
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
@@ -236,6 +233,9 @@ return {
           end,
         },
       })
+
+      -- nixd is installed via Nix, not Mason
+      require("lspconfig").nixd.setup({ capabilities = capabilities })
     end,
   },
   { 
