@@ -74,6 +74,7 @@ in
         nerd-fonts.commit-mono
         rbw
         nixd
+        telegram-desktop
     ]) ++ [
         rustToolchain
     ] ++ (with pkgs-neovim11; [ neovim ]);
