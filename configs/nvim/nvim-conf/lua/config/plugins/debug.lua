@@ -351,98 +351,98 @@ return {
       }
     end,
   },
-  { 'GeorgiiKrikun/dbg_interface.nvim',
-    -- dir = '~/software/dbg_interface.nvim',
-    opts = {
-      rust = {
-        config = {
-          name = "",
-          type = "codelldb",
-          request = "launch",
-          program = "",
-          stopAtEntry = false,
-          cwd = "${workspaceFolder}",
-          environment = {
-            RUST_BACKTRACE = "1"
-          },
-          externalConsole = false,
-          justMyCode = true,
-          args="",
-          setupCommands = {
-            {
-               text = '-enable-pretty-printing',
-               description =  'enable pretty printing',
-               ignoreFailures = false
-            },
-          },
-        },
-        opts = {
-          filetype = "rust",
-        },
-      },
-      cpp = {
-        config = {
-          name = "Cppdbg with vscode",
-          type = "cppdbg",
-          request = "launch",
-          program = "",
-          stopAtEntry = false,
-          cwd = "${workspaceFolder}",
-          environment = {},
-          externalConsole = false,
-          justMyCode = true,
-          args="",
-          setupCommands = {  
-            { 
-               text = '-enable-pretty-printing',
-               description =  'enable pretty printing',
-               ignoreFailures = false 
-            },
-          },
-        },
-        opts = {
-          filetype = "cpp",
-        },
-      },
-      
-
-
-      python = {
-        config = {
-          name = "Python with pydebug",
-          type = "python",
-          request = "launch",
-          program = "",
-          pythonPath = function()
-            local venv_var = os.getenv('VIRTUAL_ENV')
-            if venv_var then
-              return venv_var .. '/bin/python'
-            else
-              vim.notify("No virtual environment found, are you sure you activated it or don't need it?", vim.log.levels.WARN)
-              return '/usr/bin/python3'
-            end
-          end;
-          stopAtEntry = false,
-          cwd = "${workspaceFolder}",
-        },
-        opts = {
-          filetype = "python",
-        },
-      },
-    },
-    config = function(_, opts)
-      require("dbg_interface").setup(opts)
-      vim.keymap.set("n", "<leader>dnr", function() require("dbg_interface").dbg_args_async('rust') end, { desc = "[D]ebug [N]ew Rust configuration" })
-      vim.keymap.set("n", "<leader>dar", function() require("dbg_interface").run_existing_dbg_cfg('rust') end, { desc = "[D]ebug with [A]lready used rust configuration" })
-      vim.keymap.set("n", "<leader>ddr", function() require("dbg_interface").delete_existing_dbg_cfg('rust') end, { desc = "[D]elete [A]lready used rust configuration" })
-
-      vim.keymap.set("n", "<leader>dnc", function() require("dbg_interface").dbg_args_async('cpp') end, { desc = "[D]ebug [N]ew Cpp configuration" })
-      vim.keymap.set("n", "<leader>dac", function() require("dbg_interface").run_existing_dbg_cfg('cpp') end, { desc = "[D]ebug with [A]lready used cpp configuration" })
-      vim.keymap.set("n", "<leader>ddc", function() require("dbg_interface").delete_existing_dbg_cfg('cpp') end, { desc = "[D]elete [A]lready used cpp configuration" })
-
-      vim.keymap.set("n", "<leader>dnp", function() require("dbg_interface").dbg_args_async('python') end, { desc = "[D]ebug [N]ew Python configuration" })
-      vim.keymap.set("n", "<leader>dap", function() require("dbg_interface").run_existing_dbg_cfg('python') end, { desc = "[D]ebug with [A]lready used python configuration" })
-      vim.keymap.set("n", "<leader>ddp", function() require("dbg_interface").delete_existing_dbg_cfg('python') end, { desc = "[D]elete [A]lready used python configuration" })
-    end,
-  }
+  -- { 'GeorgiiKrikun/dbg_interface.nvim',
+  --   -- dir = '~/software/dbg_interface.nvim',
+  --   opts = {
+  --     rust = {
+  --       config = {
+  --         name = "",
+  --         type = "codelldb",
+  --         request = "launch",
+  --         program = "",
+  --         stopAtEntry = false,
+  --         cwd = "${workspaceFolder}",
+  --         environment = {
+  --           RUST_BACKTRACE = "1"
+  --         },
+  --         externalConsole = false,
+  --         justMyCode = true,
+  --         args="",
+  --         setupCommands = {
+  --           {
+  --              text = '-enable-pretty-printing',
+  --              description =  'enable pretty printing',
+  --              ignoreFailures = false
+  --           },
+  --         },
+  --       },
+  --       opts = {
+  --         filetype = "rust",
+  --       },
+  --     },
+  --     cpp = {
+  --       config = {
+  --         name = "Cppdbg with vscode",
+  --         type = "cppdbg",
+  --         request = "launch",
+  --         program = "",
+  --         stopAtEntry = false,
+  --         cwd = "${workspaceFolder}",
+  --         environment = {},
+  --         externalConsole = false,
+  --         justMyCode = true,
+  --         args="",
+  --         setupCommands = {  
+  --           { 
+  --              text = '-enable-pretty-printing',
+  --              description =  'enable pretty printing',
+  --              ignoreFailures = false 
+  --           },
+  --         },
+  --       },
+  --       opts = {
+  --         filetype = "cpp",
+  --       },
+  --     },
+  --     
+  --
+  --
+  --     python = {
+  --       config = {
+  --         name = "Python with pydebug",
+  --         type = "python",
+  --         request = "launch",
+  --         program = "",
+  --         pythonPath = function()
+  --           local venv_var = os.getenv('VIRTUAL_ENV')
+  --           if venv_var then
+  --             return venv_var .. '/bin/python'
+  --           else
+  --             vim.notify("No virtual environment found, are you sure you activated it or don't need it?", vim.log.levels.WARN)
+  --             return '/usr/bin/python3'
+  --           end
+  --         end;
+  --         stopAtEntry = false,
+  --         cwd = "${workspaceFolder}",
+  --       },
+  --       opts = {
+  --         filetype = "python",
+  --       },
+  --     },
+  --   },
+  --   config = function(_, opts)
+  --     require("dbg_interface").setup(opts)
+  --     vim.keymap.set("n", "<leader>dnr", function() require("dbg_interface").dbg_args_async('rust') end, { desc = "[D]ebug [N]ew Rust configuration" })
+  --     vim.keymap.set("n", "<leader>dar", function() require("dbg_interface").run_existing_dbg_cfg('rust') end, { desc = "[D]ebug with [A]lready used rust configuration" })
+  --     vim.keymap.set("n", "<leader>ddr", function() require("dbg_interface").delete_existing_dbg_cfg('rust') end, { desc = "[D]elete [A]lready used rust configuration" })
+  --
+  --     vim.keymap.set("n", "<leader>dnc", function() require("dbg_interface").dbg_args_async('cpp') end, { desc = "[D]ebug [N]ew Cpp configuration" })
+  --     vim.keymap.set("n", "<leader>dac", function() require("dbg_interface").run_existing_dbg_cfg('cpp') end, { desc = "[D]ebug with [A]lready used cpp configuration" })
+  --     vim.keymap.set("n", "<leader>ddc", function() require("dbg_interface").delete_existing_dbg_cfg('cpp') end, { desc = "[D]elete [A]lready used cpp configuration" })
+  --
+  --     vim.keymap.set("n", "<leader>dnp", function() require("dbg_interface").dbg_args_async('python') end, { desc = "[D]ebug [N]ew Python configuration" })
+  --     vim.keymap.set("n", "<leader>dap", function() require("dbg_interface").run_existing_dbg_cfg('python') end, { desc = "[D]ebug with [A]lready used python configuration" })
+  --     vim.keymap.set("n", "<leader>ddp", function() require("dbg_interface").delete_existing_dbg_cfg('python') end, { desc = "[D]elete [A]lready used python configuration" })
+  --   end,
+  -- }
 }

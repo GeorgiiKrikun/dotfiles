@@ -75,6 +75,10 @@ in
         rbw
         nixd
         telegram-desktop
+        python3
+        python3Packages.pip
+        uv
+        zoom-us
     ]) ++ [
         rustToolchain
     ] ++ (with pkgs-neovim11; [ neovim ]);
