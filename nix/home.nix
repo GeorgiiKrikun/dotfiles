@@ -2,7 +2,7 @@
 let
     dotfiles = "${config.home.homeDirectory}/software/dotfiles";
 in
-{
+    {
     home.username = "georgii";
     home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/georgii" else "/home/georgii";
     home.stateVersion = "24.11";
@@ -15,10 +15,10 @@ in
         ".config/kitty".source = config.lib.file.mkOutOfStoreSymlink
             "${dotfiles}/configs/kitty";
     } // lib.optionalAttrs (!pkgs.stdenv.isDarwin) {
-        # cpptools ships Linux/Windows binaries only
-        ".vscode/extensions/ms-vscode.cpptools/extension".source =
-            "${pkgs.vscode-extensions.ms-vscode.cpptools}/share/vscode/extensions/ms-vscode.cpptools";
-    };
+            # cpptools ships Linux/Windows binaries only
+            ".vscode/extensions/ms-vscode.cpptools/extension".source =
+                "${pkgs.vscode-extensions.ms-vscode.cpptools}/share/vscode/extensions/ms-vscode.cpptools";
+        };
 
     programs.zsh = {
         enable = true;
@@ -41,6 +41,16 @@ in
             USER_ID = "1000";
             GROUP_ID = "1000";
             EDITOR = "nvim";
+        };
+    };
+
+    services.ssh-agent.enable = true;
+
+    programs.ssh = {
+        enable = true;
+        addKeysToAgent = "yes";
+        matchBlocks."github.com" = {
+            identityFile = "~/.ssh/gh";
         };
     };
 
@@ -80,6 +90,6 @@ in
         uv
         zoom-us
     ]) ++ [
-        rustToolchain
-    ] ++ (with pkgs-neovim11; [ neovim ]);
+            rustToolchain
+        ] ++ (with pkgs-neovim11; [ neovim ]);
 }
