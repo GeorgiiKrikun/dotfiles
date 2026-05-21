@@ -52,6 +52,11 @@ in
         matchBlocks."github.com" = {
             identityFile = "~/.ssh/gh";
         };
+        matchBlocks."hetzner" = {
+            hostname = "2a01:4f8:1c1f:afbf::1";
+            user = "root";
+            identityFile = "~/.ssh/hetzner";
+        };
     };
 
     home.sessionPath = [ "$HOME/.npm-global/bin" ];
@@ -89,6 +94,7 @@ in
         python3Packages.pip
         uv
         zoom-us
+        jq
     ]) ++ [
             rustToolchain
         ] ++ (with pkgs-neovim11; [ neovim ]);
