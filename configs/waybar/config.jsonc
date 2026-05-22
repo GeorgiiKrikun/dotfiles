@@ -26,36 +26,36 @@
     },
 
     "cpu": {
-        "format": " {usage}%",
+        "format": "🖥️ {usage}%",
         "interval": 5,
         "tooltip": false
     },
 
     "memory": {
-        "format": " {percentage}%",
+        "format": "🧠 {percentage}%",
         "interval": 10
     },
 
     "battery": {
         "states": { "warning": 30, "critical": 15 },
-        "format": "{icon} {capacity}%",
-        "format-charging": " {capacity}%",
-        "format-plugged": " {capacity}%",
-        "format-icons": ["", "", "", "", ""]
+        "format": "🔋 {capacity}%",
+        "format-charging": "⚡ {capacity}%",
+        "format-plugged": "🔌 {capacity}%",
+        "format-icons": ["🔋", "🔋", "🔋", "🔋", "🔋"]
     },
 
     "network": {
-        "format-wifi": " {signalStrength}%",
-        "format-ethernet": "",
-        "format-disconnected": "⚠ offline",
+        "format-wifi": "📶 {signalStrength}%",
+        "format-ethernet": "🌐 connected",
+        "format-disconnected": "⚠️ offline",
         "tooltip-format": "{ifname}: {ipaddr}\n{essid}",
         "on-click": "nm-connection-editor"
     },
 
     "pulseaudio": {
-        "format": "{icon} {volume}%",
-        "format-muted": " muted",
-        "format-icons": { "default": ["", "", ""] },
+        "format": "🔊 {volume}%",
+        "format-muted": "🔇 muted",
+        "format-icons": { "default": ["🔈", "🔉", "🔊"] },
         "on-click": "pavucontrol"
     },
 
