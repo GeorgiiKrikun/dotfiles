@@ -6,7 +6,7 @@
 
     "modules-left": ["hyprland/workspaces", "hyprland/window"],
     "modules-center": ["clock"],
-    "modules-right": ["pulseaudio", "network", "cpu", "memory", "battery", "tray"],
+    "modules-right": ["hyprland/language", "pulseaudio", "network", "cpu", "memory", "battery", "tray"],
 
     "hyprland/workspaces": {
         "format": "{id}",
@@ -62,5 +62,9 @@
     "tray": {
         "icon-size": 16,
         "spacing": 8
+    },
+
+    "hyprland/language": {
+        "format": "⌨ {short}"
     }
 }

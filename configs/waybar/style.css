@@ -44,9 +44,16 @@ window#waybar {
 #battery,
 #network,
 #pulseaudio,
+#language,
 #tray {
     padding: 0 10px;
     color: #d8dee9;
+}
+
+#language.ru {
+    color: #2e3440;
+    background-color: #88c0d0;
+    border-radius: 4px;
 }
 
 #battery.warning { color: #ebcb8b; }
