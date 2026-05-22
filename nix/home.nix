@@ -18,7 +18,41 @@ in
             # cpptools ships Linux/Windows binaries only
             ".vscode/extensions/ms-vscode.cpptools/extension".source =
                 "${pkgs.vscode-extensions.ms-vscode.cpptools}/share/vscode/extensions/ms-vscode.cpptools";
+            ".config/hypr".source = config.lib.file.mkOutOfStoreSymlink
+                "${dotfiles}/configs/hypr";
+            ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink
+                "${dotfiles}/configs/waybar";
+            ".config/mako".source = config.lib.file.mkOutOfStoreSymlink
+                "${dotfiles}/configs/mako";
         };
+
+    systemd.user.services.gnome-keyring-secrets = {
+        Unit = {
+            Description = "GNOME Keyring secrets component";
+            WantedBy = [ "graphical-session.target" ];
+            After = [ "graphical-session.target" ];
+        };
+        Service = {
+            Type = "simple";
+            ExecStart = "${pkgs.gnome-keyring}/bin/gnome-keyring-daemon --start --foreground --components=secrets";
+            Restart = "on-failure";
+        };
+    };
+
+    systemd.user.services.polkit-gnome-authentication-agent-1 = {
+        Unit = {
+            Description = "polkit-gnome-authentication-agent-1";
+            WantedBy = [ "graphical-session.target" ];
+            After = [ "graphical-session.target" ];
+        };
+        Service = {
+            Type = "simple";
+            ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+            Restart = "on-failure";
+            RestartSec = 1;
+            TimeoutStopSec = 10;
+        };
+    };
 
     programs.zsh = {
         enable = true;

@@ -46,18 +46,38 @@
         LC_TIME = "de_AT.UTF-8";
     };
 
-    # Enable the X11 windowing system.
-    # You can disable this if you're only using the Wayland session.
-    services.xserver.enable = true;
-
-    # Enable the KDE Plasma Desktop Environment.
-    services.displayManager.sddm.enable = true;
-    services.desktopManager.plasma6.enable = true;
-
-    # Configure keymap in X11
+    # Keyboard layout (used by XWayland and virtual console)
     services.xserver.xkb = {
         layout = "us";
         variant = "";
+    };
+
+    # Hyprland Wayland compositor
+    programs.hyprland = {
+        enable = true;
+        xwayland.enable = true;
+    };
+
+    # greetd display manager with tuigreet
+    services.greetd = {
+        enable = true;
+        settings = {
+            default_session = {
+                command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd ${pkgs.hyprland}/bin/Hyprland";
+                user = "greeter";
+            };
+        };
+    };
+
+    security.polkit.enable = true;
+
+    services.gnome.gnome-keyring.enable = true;
+    security.pam.services.greetd.enableGnomeKeyring = true;
+
+    # XDG portals (needed for screen sharing, file pickers, etc.)
+    xdg.portal = {
+        enable = true;
+        extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
     };
 
     # Enable CUPS to print documents.
@@ -92,7 +112,6 @@
             "docker"
         ];
         packages = with pkgs; [
-            kdePackages.kate
             gparted
             #  thunderbird
         ];
@@ -114,18 +133,29 @@
     programs.nix-ld.libraries = with pkgs; [
         stdenv.cc.cc
     ];
-    environment.sessionVariables.LD_LIBRARY_PATH = "$NIX_LD_LIBRARY_PATH";
+
     nixpkgs.config.allowUnfree = true;
 
     # List packages installed in system profile. To search, run:
     # $ nix search wget
     environment.systemPackages = with pkgs; [
-        #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-        #  wget
         kitty
         git
         just
         gcc
+        # Wayland / Hyprland ecosystem
+        waybar
+        wofi
+        mako
+        swww
+        grim
+        slurp
+        wl-clipboard
+        brightnessctl
+        pamixer
+        pavucontrol
+        networkmanagerapplet
+        polkit_gnome
     ];
 
     # Some programs need SUID wrappers, can be configured further or are
