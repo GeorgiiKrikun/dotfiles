@@ -69,11 +69,11 @@ in
                 if (( $+commands[xhost] )); then
                     xhost +local:docker
                 fi
+                export USER_ID=$(id -u)
+                export GROUP_ID=$(id -g)
             ''
         ];
         sessionVariables = {
-            USER_ID = "1000";
-            GROUP_ID = "1000";
             EDITOR = "nvim";
         };
     };
