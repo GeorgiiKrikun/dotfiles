@@ -33,6 +33,17 @@
                     extraSpecialArgs = { inherit pkgs-neovim11 rustToolchain; };
                     modules = [ ./home.nix ];
                 };
+
+            mkHomeContainerConfig = system:
+                let
+                    pkgs = mkPkgs system;
+                    pkgs-neovim11 = import nixpkgs-neovim11 { inherit system; };
+                    rustToolchain = pkgs.rust-bin.stable.latest.default;
+                in home-manager.lib.homeManagerConfiguration {
+                    inherit pkgs;
+                    extraSpecialArgs = { inherit pkgs-neovim11 rustToolchain; };
+                    modules = [ ./home-container.nix ];
+                };
         in
         flake-utils.lib.eachSystem supportedSystems (system:
             let
@@ -73,6 +84,7 @@
             homeConfigurations = {
                 "nixtest"     = mkHomeConfig "x86_64-linux";
                 "nixtest-mac" = mkHomeConfig "aarch64-darwin";
+                "container"   = mkHomeContainerConfig "x86_64-linux";
             };
         };
 }
