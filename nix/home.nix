@@ -91,6 +91,16 @@ in
             user = "root";
             identityFile = "~/.ssh/hetzner";
         };
+        matchBlocks."timeweb-root" = {
+            hostname = "90.156.226.217";
+            user = "root";
+            identityFile = "~/.ssh/timeweb";
+        };
+        matchBlocks."timeweb-georgii" = {
+            hostname = "90.156.226.217";
+            user = "georgii";
+            identityFile = "~/.ssh/timeweb";
+        };
     };
 
     home.sessionPath = [ "$HOME/.npm-global/bin" ];
