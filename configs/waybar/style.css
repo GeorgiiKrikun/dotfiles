@@ -1,0 +1,68 @@
+* {
+    font-family: "CommitMono Nerd Font", "Noto Sans", monospace;
+    font-size: 13px;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: rgba(46, 52, 64, 0.92);
+    color: #d8dee9;
+}
+
+#workspaces button {
+    padding: 0 8px;
+    color: #616e88;
+    background: transparent;
+}
+
+#workspaces button.active {
+    color: #88c0d0;
+    background-color: rgba(136, 192, 208, 0.15);
+    border-bottom: 2px solid #88c0d0;
+}
+
+#workspaces button:hover {
+    color: #d8dee9;
+    background: rgba(216, 222, 233, 0.08);
+}
+
+#window {
+    color: #9099a8;
+    padding: 0 8px;
+}
+
+#clock {
+    color: #eceff4;
+    font-weight: bold;
+    padding: 0 12px;
+}
+
+#cpu,
+#memory,
+#battery,
+#network,
+#pulseaudio,
+#language,
+#tray {
+    padding: 0 10px;
+    color: #d8dee9;
+}
+
+#language.ru {
+    color: #2e3440;
+    background-color: #88c0d0;
+    border-radius: 4px;
+}
+
+#battery.warning { color: #ebcb8b; }
+#battery.critical { color: #bf616a; }
+
+#network.disconnected { color: #bf616a; }
+
+tooltip {
+    background-color: #2e3440;
+    border: 1px solid #4c566a;
+    color: #d8dee9;
+}
