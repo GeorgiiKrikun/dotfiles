@@ -139,6 +139,8 @@ in
         uv
         zoom-us
         jq
+        envsubst
+        spotify
     ]) ++ [
             rustToolchain
         ] ++ (with pkgs-neovim11; [ neovim ]);

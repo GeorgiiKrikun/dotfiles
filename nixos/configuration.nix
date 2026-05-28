@@ -147,6 +147,7 @@
         pavucontrol
         networkmanagerapplet
         polkit_gnome
+        libreoffice
     ];
 
     system.stateVersion = "25.11";
