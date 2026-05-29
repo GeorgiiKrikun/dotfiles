@@ -14,7 +14,11 @@
 
     outputs = { self, nixpkgs, nixpkgs-neovim11, rust-overlay, home-manager, flake-utils }:
         let
-            supportedSystems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" ];
+            supportedSystems = [
+                "x86_64-linux" 
+                "aarch64-linux" 
+                "aarch64-darwin"
+            ];
 
             mkPkgs = system:
                 import nixpkgs {
@@ -45,42 +49,7 @@
                     modules = [ ./home-container.nix ];
                 };
         in
-        flake-utils.lib.eachSystem supportedSystems (system:
-            let
-                pkgs = mkPkgs system;
-                pkgs-neovim11 = import nixpkgs-neovim11 { inherit system; };
-                rustToolchain = pkgs.rust-bin.stable.latest.default;
-            in {
-                packages.default = pkgs.buildEnv {
-                    name = "my-core-packages";
-                    paths = (with pkgs; [
-                        # --- The Unix Core ---
-                        coreutils
-                        findutils
-                        gnugrep
-                        gnused
-                        gawk
-                        bashInteractive
-                        # --- The Rust coreutils ---
-                        ripgrep
-                        bottom
-                        fd
-                        # sudo probably won't work
-                        wget
-                        curl
-                        git
-                        unzip
-                        lazygit
-                        nodejs
-                        gnumake
-                        just
-                        bitwarden-cli
-                    ]) ++ [
-                        rustToolchain
-                    ] ++ (with pkgs-neovim11; [neovim]);
-                };
-            }
-        ) // {
+        {
             homeConfigurations = {
                 "nixtest"     = mkHomeConfig "x86_64-linux";
                 "nixtest-mac" = mkHomeConfig "aarch64-darwin";
