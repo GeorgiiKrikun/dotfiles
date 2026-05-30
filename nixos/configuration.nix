@@ -54,6 +54,7 @@
         xwayland.enable = true;
         package = pkgs-unstable.hyprland;
     };
+    environment.pathsToLink = [ "/share/hypr" ];
 
     # greetd display manager with tuigreet
     services.greetd = {

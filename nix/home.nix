@@ -15,7 +15,6 @@ in
         ".config/kitty".source = config.lib.file.mkOutOfStoreSymlink
             "${dotfiles}/configs/kitty";
     } // lib.optionalAttrs (!pkgs.stdenv.isDarwin) {
-            # cpptools ships Linux/Windows binaries only
             ".vscode/extensions/ms-vscode.cpptools/extension".source =
                 "${pkgs.vscode-extensions.ms-vscode.cpptools}/share/vscode/extensions/ms-vscode.cpptools";
             ".config/hypr".source = config.lib.file.mkOutOfStoreSymlink
