@@ -188,7 +188,6 @@ hl.window_rule{
         class = "[Zz]oom"
     },
     float = true,
-    border_size = 10,
 }
 
 hl.on("hyprland.start", function()
