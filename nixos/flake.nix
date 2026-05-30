@@ -16,7 +16,7 @@
                     config.allowUnfree = true;
                 };
             };
-            modules = [ ./configuration.nix /etc/nixos/hardware-configuration.nix ];
+            modules = [ ./configuration.nix ];
         };
     };
 }

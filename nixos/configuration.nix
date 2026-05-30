@@ -4,7 +4,7 @@
 
 { config, pkgs, pkgs-unstable, ... }:
 {
-    imports = [];
+    imports = [ ./hardware-configuration.nix ];
 
     # Bootloader.
     boot.loader.grub.enable = true;
@@ -52,6 +52,7 @@
     programs.hyprland = {
         enable = true;
         xwayland.enable = true;
+        package = pkgs-unstable.hyprland;
     };
 
     # greetd display manager with tuigreet
@@ -59,7 +60,7 @@
         enable = true;
         settings = {
             default_session = {
-                command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd ${pkgs.hyprland}/bin/Hyprland";
+                command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd ${pkgs-unstable.hyprland}/bin/Hyprland";
                 user = "greeter";
             };
         };
