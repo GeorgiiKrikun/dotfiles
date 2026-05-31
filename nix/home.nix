@@ -141,6 +141,7 @@ in
         jq
         envsubst
         spotify
+        playerctl
     ]) ++ [
             rustToolchain
         ] ++ (with pkgs-neovim11; [ neovim ]);
