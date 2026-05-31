@@ -135,6 +135,7 @@ in
         telegram-desktop
         python3
         python3Packages.pip
+        python3Packages.ipython
         uv
         zoom-us
         jq

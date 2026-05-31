@@ -13,6 +13,8 @@
 
     # Use latest kernel.
     boot.kernelPackages = pkgs.linuxPackages_latest;
+    boot.kernelParams = [ "quiet" "rd.systemd.show_status=false" "rd.udev.log_level=3" "udev.log_level=3" ];
+    boot.consoleLogLevel = 0;
 
     networking.hostName = "nixos"; # Define your hostname.
     # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.++
@@ -62,10 +64,15 @@
         enable = true;
         settings = {
             default_session = {
-                command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd ${pkgs-unstable.hyprland}/bin/Hyprland";
+                command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd ${pkgs-unstable.hyprland}/bin/start-hyprland";
                 user = "greeter";
             };
         };
+    };
+    # Suppress service output so boot messages don't bleed into the tuigreet TUI
+    systemd.services.greetd.serviceConfig = {
+        StandardOutput = "null";
+        StandardError = "journal";
     };
 
     security.polkit.enable = true;
