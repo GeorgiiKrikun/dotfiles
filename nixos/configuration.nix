@@ -2,13 +2,9 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
-
+{ config, pkgs, pkgs-unstable, ... }:
 {
-    imports =
-        [
-            /etc/nixos/hardware-configuration.nix
-        ];
+    imports = [ ./hardware-configuration.nix ];
 
     # Bootloader.
     boot.loader.grub.enable = true;
@@ -17,6 +13,8 @@
 
     # Use latest kernel.
     boot.kernelPackages = pkgs.linuxPackages_latest;
+    boot.kernelParams = [ "quiet" "rd.systemd.show_status=false" "rd.udev.log_level=3" "udev.log_level=3" ];
+    boot.consoleLogLevel = 0;
 
     networking.hostName = "nixos"; # Define your hostname.
     # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.++
@@ -56,17 +54,25 @@
     programs.hyprland = {
         enable = true;
         xwayland.enable = true;
+        package = pkgs-unstable.hyprland;
+        portalPackage = pkgs-unstable.xdg-desktop-portal-hyprland;
     };
+    environment.pathsToLink = [ "/share/hypr" ];
 
     # greetd display manager with tuigreet
     services.greetd = {
         enable = true;
         settings = {
             default_session = {
-                command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd ${pkgs.hyprland}/bin/Hyprland";
+                command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd ${pkgs-unstable.hyprland}/bin/start-hyprland";
                 user = "greeter";
             };
         };
+    };
+    # Suppress service output so boot messages don't bleed into the tuigreet TUI
+    systemd.services.greetd.serviceConfig = {
+        StandardOutput = "null";
+        StandardError = "journal";
     };
 
     security.polkit.enable = true;
@@ -91,12 +97,6 @@
         alsa.enable = true;
         alsa.support32Bit = true;
         pulse.enable = true;
-        # If you want to use JACK applications, uncomment this
-        #jack.enable = true;
-
-        # use the example session manager (no others are packaged yet so this is enabled by default,
-        # no need to redefine it in your config for now)
-        #media-session.enable = true;
     };
 
     users.users.georgii = {
