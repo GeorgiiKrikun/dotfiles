@@ -1,11 +1,11 @@
 { config, lib, pkgs, pkgs-neovim11, rustToolchain, ... }:
 let
-    dotfiles = "/dotfiles";
+    dotfiles = "${config.home.homeDirectory}/software/dotfiles";
 in
     {
-    home.username = "appuser";
-    home.homeDirectory = "/home/appuser";
-    home.stateVersion = "24.11";
+    home.username = lib.mkDefault "appuser";
+    home.homeDirectory = lib.mkDefault "/home/appuser";
+    home.stateVersion = lib.mkDefault "24.11";
 
     programs.home-manager.enable = true;
 
@@ -48,6 +48,13 @@ in
         };
     };
 
+      programs.git = {
+          enable = true;
+          userName = "Georgii Krikun";
+          userEmail = "georgii.krikun@gmail.com";
+          extraConfig.credential.helper = "cache --timeout=86400";
+      };
+
     home.sessionPath = [ "$HOME/.npm-global/bin" ];
 
     home.activation.installClaudeCode = lib.hm.dag.entryAfter ["writeBoundary"] ''
@@ -81,7 +88,5 @@ in
         python3Packages.pip
         uv
         jq
-    ]) ++ [
-            rustToolchain
-        ] ++ (with pkgs-neovim11; [ neovim ]);
+    ]) ++ (with pkgs-neovim11; [ neovim ]);
 }

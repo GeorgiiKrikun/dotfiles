@@ -2,28 +2,25 @@
 let
     dotfiles = "${config.home.homeDirectory}/software/dotfiles";
 in
-    {
+{
+    imports = [ ./home-container.nix ];
+
     home.username = "georgii";
     home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/georgii" else "/home/georgii";
-    home.stateVersion = "24.11";
-
-    programs.home-manager.enable = true;
 
     home.file = {
-        ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink
-            "${dotfiles}/configs/nvim/nvim-conf";
         ".config/kitty".source = config.lib.file.mkOutOfStoreSymlink
             "${dotfiles}/configs/kitty";
     } // lib.optionalAttrs (!pkgs.stdenv.isDarwin) {
-            ".vscode/extensions/ms-vscode.cpptools/extension".source =
-                "${pkgs.vscode-extensions.ms-vscode.cpptools}/share/vscode/extensions/ms-vscode.cpptools";
-            ".config/hypr".source = config.lib.file.mkOutOfStoreSymlink
-                "${dotfiles}/configs/hypr";
-            ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink
-                "${dotfiles}/configs/waybar";
-            ".config/mako".source = config.lib.file.mkOutOfStoreSymlink
-                "${dotfiles}/configs/mako";
-        };
+        ".vscode/extensions/ms-vscode.cpptools/extension".source =
+            "${pkgs.vscode-extensions.ms-vscode.cpptools}/share/vscode/extensions/ms-vscode.cpptools";
+        ".config/hypr".source = config.lib.file.mkOutOfStoreSymlink
+            "${dotfiles}/configs/hypr";
+        ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink
+            "${dotfiles}/configs/waybar";
+        ".config/mako".source = config.lib.file.mkOutOfStoreSymlink
+            "${dotfiles}/configs/mako";
+    };
 
     systemd.user.services.gnome-keyring-secrets = {
         Unit = {
@@ -53,96 +50,34 @@ in
         };
     };
 
-    programs.zsh = {
-        enable = true;
-        oh-my-zsh = {
-            enable = true;
-            theme = "robbyrussell";
-            plugins = [ "git" "aws" "docker" "docker-compose" "extract" "pip" "rust" "kitty" "z" ];
-        };
-        initContent = lib.mkMerge [
-            (lib.mkBefore ''
-                ZSH_DISABLE_COMPFIX=true
-            '')
-            ''
-                if (( $+commands[xhost] )); then
-                    xhost +local:docker
-                fi
-                export USER_ID=$(id -u)
-                export GROUP_ID=$(id -g)
-            ''
-        ];
-        sessionVariables = {
-            EDITOR = "nvim";
-        };
-    };
-
     services.ssh-agent.enable = true;
 
-    programs.ssh = {
-        enable = true;
-        addKeysToAgent = "yes";
-        matchBlocks."github.com" = {
-            identityFile = "~/.ssh/gh";
-        };
-        matchBlocks."hetzner" = {
-            hostname = "2a01:4f8:1c1f:afbf::1";
-            user = "root";
-            identityFile = "~/.ssh/hetzner";
-        };
-        matchBlocks."timeweb-root" = {
-            hostname = "90.156.226.217";
-            user = "root";
-            identityFile = "~/.ssh/timeweb";
-        };
-        matchBlocks."timeweb-georgii" = {
-            hostname = "90.156.226.217";
-            user = "georgii";
-            identityFile = "~/.ssh/timeweb";
-        };
+    programs.ssh.matchBlocks."timeweb-root" = {
+        hostname = "90.156.226.217";
+        user = "root";
+        identityFile = "~/.ssh/timeweb";
+    };
+    programs.ssh.matchBlocks."timeweb-georgii" = {
+        hostname = "90.156.226.217";
+        user = "georgii";
+        identityFile = "~/.ssh/timeweb";
     };
 
-    home.sessionPath = [ "$HOME/.npm-global/bin" ];
+    programs.zsh.oh-my-zsh.plugins = [ "kitty" ];
 
-    home.activation.installClaudeCode = lib.hm.dag.entryAfter ["writeBoundary"] ''
-        export PATH="${pkgs.nodejs}/bin:$PATH"
-        ${pkgs.nodejs}/bin/npm install -g --prefix "$HOME/.npm-global" @anthropic-ai/claude-code
+    programs.zsh.initContent = ''
+        if (( $+commands[xhost] )); then
+            xhost +local:docker
+        fi
     '';
 
-    home.packages = (with pkgs; [
-        # --- The Unix Core ---
-        coreutils
-        findutils
-        gnugrep
-        gnused
-        gawk
-        bashInteractive
-        # --- The Rust coreutils ---
-        ripgrep
-        bottom
-        fd
-        wget
-        curl
-        git
-        unzip
-        lazygit
-        nodejs
-        gnumake
-        just
+    home.packages = with pkgs; [
         nerd-fonts.commit-mono
-        rbw
-        nixd
         telegram-desktop
-        python3
-        python3Packages.pip
         python3Packages.ipython
-        uv
         zoom-us
-        jq
         envsubst
         spotify
         playerctl
-    ]) ++ [
-            rustToolchain
-        ] ++ (with pkgs-neovim11; [ neovim ]);
+    ];
 }
