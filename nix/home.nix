@@ -52,16 +52,22 @@ in
 
     services.ssh-agent.enable = true;
 
-    programs.ssh.matchBlocks."timeweb-root" = {
-        hostname = "90.156.226.217";
-        user = "root";
-        identityFile = "~/.ssh/timeweb";
+    programs.ssh.matchBlocks = {
+        timeweb-root = {
+            hostname = "90.156.226.217";
+            user = "root";
+            identityFile = "~/.ssh/timeweb";
+        };
+        timeweb-georgii = {
+            hostname = "90.156.226.217";
+            user = "georgii";
+            identityFile = "~/.ssh/timeweb";
+        };
     };
-    programs.ssh.matchBlocks."timeweb-georgii" = {
-        hostname = "90.156.226.217";
-        user = "georgii";
-        identityFile = "~/.ssh/timeweb";
-    };
+    programs.ssh.extraConfig = ''
+        Include ~/.ssh/config.local
+    '';
+    
 
     programs.zsh.oh-my-zsh.plugins = [ "kitty" ];
 
