@@ -1,30 +1,30 @@
 return {
-  {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    cond = function ()
-      return vim.g.active_profile ~= vim.g.profiles.work
-    end,
-    config = function()
-      require("copilot").setup({
-        suggestion = {
-          enabled = true,
-          auto_trigger = true,
-          debounce = 75,
-          keymap = {
-            accept = "<C-j>", -- Alt + L to accept
-            accept_line = false,
-            accept_word = "<C-l>",
-          },
-        },
-        panel = {
-          enabled = false,
-        },
-      })
-            
-    end,
-  },
+  -- {
+  --   "zbirenbaum/copilot.lua",
+  --   cmd = "Copilot",
+  --   event = "InsertEnter",
+  --   cond = function ()
+  --     return vim.g.active_profile ~= vim.g.profiles.work
+  --   end,
+  --   config = function()
+  --     require("copilot").setup({
+  --       suggestion = {
+  --         enabled = true,
+  --         auto_trigger = true,
+  --         debounce = 75,
+  --         keymap = {
+  --           accept = "<C-j>", -- Alt + L to accept
+  --           accept_line = false,
+  --           accept_word = "<C-l>",
+  --         },
+  --       },
+  --       panel = {
+  --         enabled = false,
+  --       },
+  --     })
+  --           
+  --   end,
+  -- },
   -- { 
   --   "yetone/avante.nvim",
   --   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
