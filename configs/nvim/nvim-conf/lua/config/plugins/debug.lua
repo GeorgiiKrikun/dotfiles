@@ -355,7 +355,7 @@ return {
         end,
     },
     { 'GeorgiiKrikun/dbg_interface.nvim',
-        dir = '~/software/dbg_interface.nvim',
+        -- dir = '~/software/dbg_interface.nvim',
         opts = {
             debug_types = {
                 rust = {
