@@ -316,24 +316,27 @@ return {
             end
 
 
-            -- Check existence of debugpy
-            local debugpy = nil
-            local pip3 = vim.trim(vim.fn.system('which pip3'))
-            if pip3 == '' then
-                vim.notify("pip3 not found in PATH. Please install pip3.", vim.log.levels.ERROR)
-                return
-            else
-                debugpy = vim.fn.system('pip3 show debugpy')
+            local debugpy_python = nil
+            for _, candidate in ipairs({
+                vim.fn.expand('~/.local/bin/python-debugpy'),
+                '/usr/bin/python3',
+            }) do
+                if vim.fn.executable(candidate) == 1 then
+                    vim.fn.system(candidate .. ' -c "import debugpy"')
+                    if vim.v.shell_error == 0 then
+                        debugpy_python = candidate
+                        break
+                    end
+                end
             end
-
-            if debugpy then
+            if debugpy_python then
                 dap.adapters.python = {
                     type = 'executable',
-                    command = 'python3',
+                    command = debugpy_python,
                     args = { '-m', 'debugpy.adapter' },
                 }
-            else 
-                vim.notify("debugpy not found. Please install debugpy with 'pip3 install debugpy'", vim.log.levels.WARN)
+            else
+                vim.notify("No Python with debugpy found. Install debugpy or run home-manager switch.", vim.log.levels.WARN)
             end
         end,
     },
@@ -384,7 +387,7 @@ return {
                 cpp = {
                     config = {
                         name = "Cppdbg with vscode",
-                        type = "codelldb",
+                        type = "cppdbg",
                         request = "launch",
                         program = "",
                         stopAtEntry = false,
@@ -417,7 +420,12 @@ return {
                                 return venv_var .. '/bin/python'
                             else
                                 vim.notify("No virtual environment found, are you sure you activated it or don't need it?", vim.log.levels.WARN)
-                                return '/usr/bin/python3'
+                                local result = vim.system({ "which", "python3" }, { text = true }):wait()
+                                if result.code == 0 then
+                                    return vim.trim(result.stdout)
+                                else
+                                    return ""
+                                end
                             end
                         end;
                         stopAtEntry = false,

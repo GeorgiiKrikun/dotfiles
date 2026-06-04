@@ -1,6 +1,11 @@
 { config, lib, pkgs, pkgs-neovim11, rustToolchain, ... }:
 let
     dotfiles = "${config.home.homeDirectory}/software/dotfiles";
+    pythonWithDebugpy = pkgs.python3.withPackages (ps: with ps; [
+        ps.pip
+        ps.debugpy
+        ps.ipython
+    ]);
 in
     {
     home.username = lib.mkDefault "appuser";
@@ -12,6 +17,7 @@ in
     home.file = {
         ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink
             "${dotfiles}/configs/nvim/nvim-conf";
+        ".local/bin/python-debugpy".source = "${pythonWithDebugpy}/bin/python3";
     };
 
     programs.zsh = {
@@ -84,11 +90,7 @@ in
         just
         rbw
         nixd
-        (python3.withPackages (ps: with ps; [
-            pip
-            debugpy
-            ipython
-        ]))
+        pythonWithDebugpy
         uv
         jq
     ]) ++ (with pkgs-neovim11; [ neovim ]);
