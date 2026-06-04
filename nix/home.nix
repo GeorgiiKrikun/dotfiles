@@ -80,7 +80,6 @@ in
     home.packages = with pkgs; [
         nerd-fonts.commit-mono
         telegram-desktop
-        python3Packages.ipython
         zoom-us
         envsubst
         spotify

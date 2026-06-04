@@ -51,8 +51,8 @@
         in
         {
             homeConfigurations = {
-                "nixtest"     = mkHomeConfig "x86_64-linux";
-                "nixtest-mac" = mkHomeConfig "aarch64-darwin";
+                "desktop"     = mkHomeConfig "x86_64-linux";
+                "mac-desktop" = mkHomeConfig "aarch64-darwin";
                 "container"   = mkHomeContainerConfig "x86_64-linux";
             };
         };

@@ -84,8 +84,11 @@ in
         just
         rbw
         nixd
-        python3
-        python3Packages.pip
+        (python3.withPackages (ps: with ps; [
+            pip
+            debugpy
+            ipython
+        ]))
         uv
         jq
     ]) ++ (with pkgs-neovim11; [ neovim ]);
