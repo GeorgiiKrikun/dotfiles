@@ -10,7 +10,7 @@ switch:
     if [[ "$(uname)" == "Darwin" ]]; then
         nix run github:nix-community/home-manager -- switch -b backup --flake .#nixtest-mac
     else
-        nix run github:nix-community/home-manager -- switch -b backup --flake .#nixtest
+        nix run github:nix-community/home-manager -- switch -b backup --flake .#desktop
     fi
 
 # Remove existing dotfiles that home-manager would refuse to overwrite

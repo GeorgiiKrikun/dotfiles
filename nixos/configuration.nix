@@ -168,4 +168,10 @@
     };
     hardware.bluetooth.enable = true;
     hardware.bluetooth.powerOnBoot = true;  # powers up on boot
+
+    # Allow your user to use binary caches
+    nix.settings.trusted-users = [ "georgii" ];
+
+    # Allow building aarch64 packages via QEMU emulation
+    boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 }
