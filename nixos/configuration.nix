@@ -126,6 +126,7 @@
     ];
 
     nixpkgs.config.allowUnfree = true;
+    nixpkgs.config.cudaSupport = true;
 
     # List packages installed in system profile. To search, run:
     # $ nix search wget
@@ -148,6 +149,8 @@
         networkmanagerapplet
         polkit_gnome
         libreoffice
+        cargo
+        cudaPackages.cudatoolkit
     ];
 
     system.stateVersion = "25.11";
@@ -165,6 +168,7 @@
         modesetting.enable = true;
         powerManagement.enable = false;
         open = true;
+        package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
     hardware.bluetooth.enable = true;
     hardware.bluetooth.powerOnBoot = true;  # powers up on boot
