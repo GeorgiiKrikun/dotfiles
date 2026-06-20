@@ -149,7 +149,6 @@
         polkit_gnome
         libreoffice
         cargo
-        cudaPackages.cudatoolkit
     ];
 
     system.stateVersion = "25.11";
