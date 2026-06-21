@@ -22,6 +22,14 @@ vim.keymap.set("v", "X", '"_x', { desc = "Delete char without yanking (visual mo
 vim.keymap.set("n", "C", '"_c', { desc = "Replace without yanking" })
 vim.keymap.set("v", "C", '"_c', { desc = "Replace without yanking (visual mode)" })
 vim.keymap.set("n", "<leader>ot", ":tabnew | terminal<CR>", { desc = "Open terminal in new tab" })
+vim.keymap.set("n", "<leader>oc", function()
+  vim.cmd("terminal claude --resume")
+  vim.cmd("startinsert")
+end, { desc = "Open Claude Code (resume)" })
+vim.keymap.set("n", "<leader>oC", function()
+  vim.cmd("terminal claude")
+  vim.cmd("startinsert")
+end, { desc = "Open Claude Code (new)" })
 vim.keymap.set("n", "<leader>Lca", ":lua vim.lsp.buf.code_action()<CR>", { desc = "LSP Code [A]ction" })
 
 -- Start the debug server to debug lua scripts
