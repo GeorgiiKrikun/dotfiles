@@ -148,7 +148,7 @@
         networkmanagerapplet
         polkit_gnome
         libreoffice
-        cargo
+        rustup
     ];
 
     system.stateVersion = "25.11";
