@@ -8,8 +8,8 @@ let
     ]);
 in
     {
-    home.username = lib.mkDefault "appuser";
-    home.homeDirectory = lib.mkDefault "/home/appuser";
+    home.username = lib.mkDefault (let u = builtins.getEnv "HM_USERNAME"; in if u != "" then u else "appuser");
+    home.homeDirectory = lib.mkDefault (let h = builtins.getEnv "HM_HOME"; in if h != "" then h else "/home/appuser");
     home.stateVersion = lib.mkDefault "24.11";
 
     programs.home-manager.enable = true;
