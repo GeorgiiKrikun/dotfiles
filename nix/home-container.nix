@@ -93,5 +93,6 @@ in
         pythonWithDebugpy
         uv
         jq
+        awscli2
     ]) ++ (with pkgs-neovim11; [ neovim ]);
 }
