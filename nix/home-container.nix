@@ -52,6 +52,18 @@ in
             user = "root";
             identityFile = "~/.ssh/hetzner";
         };
+        matchBlocks."hetzner-tunnel" = {
+            hostname = "2a01:4f8:1c1f:afbf::1";
+            user = "root";
+            identityFile = "~/.ssh/hetzner";
+            localForwards = [
+                {
+                    bind.port = 8181;
+                    host.address = "localhost";
+                    host.port = 81;
+                }
+            ];
+        };
     };
 
       programs.git = {
