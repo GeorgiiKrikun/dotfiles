@@ -149,7 +149,20 @@
         polkit_gnome
         libreoffice
         rustup
+        typst
+        # Document / media viewers
+        zathura
+        imv
+        mpv
     ];
+
+    # Default GUI apps for opening files (used by xdg-open)
+    xdg.mime.defaultApplications = {
+        "application/pdf" = "org.pwmt.zathura.desktop";
+        "image/png" = "imv.desktop";
+        "image/jpeg" = "imv.desktop";
+        "video/mp4" = "mpv.desktop";
+    };
 
     system.stateVersion = "25.11";
 
