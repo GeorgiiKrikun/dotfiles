@@ -66,6 +66,8 @@ hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exit())
 hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
+-- Maximize: fills the usable area (keeps the bar/gaps), unlike true fullscreen.
+hl.bind(mainMod .. " + M", hl.dsp.window.fullscreen({ mode = "maximized" }))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 
 hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "left" }))

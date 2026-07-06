@@ -297,9 +297,10 @@ return {
                         end,
                     },
                 }
-            else
-                vim.notify("GCC version is too low for GDB support. Please update GCC to version 14 or higher.", vim.log.levels.WARN)
             end
+            -- If GDB is older than 14 the DAP 'gdb' adapter is simply not
+            -- registered above; we intentionally stay silent to avoid a
+            -- blocking "Press ENTER" warning on every startup.
 
             local vscode_debugger_path = vim.fn.system('just --evaluate -f ${DOTFILES_DIR}/deps/justfile vscode_dbg_path')
             -- Check if file exists

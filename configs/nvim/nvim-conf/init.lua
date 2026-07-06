@@ -66,6 +66,7 @@ end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
 vim.cmd([[
+  cnoreabbrev E e
   cnoreabbrev W w
   cnoreabbrev Wq wq
   cnoreabbrev WQ wq
@@ -87,6 +88,9 @@ require("lazy").setup({
             picker = {
                 enabled = true,
                 ui_select = true,
+                -- Open selections in the window the picker was launched from
+                -- (e.g. replace the terminal window instead of a random split).
+                main = { current = true },
             },
             statuscolumn = { enabled = true },
             lazygit = { enabled = true },

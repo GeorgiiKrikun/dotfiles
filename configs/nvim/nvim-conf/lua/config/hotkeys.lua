@@ -30,6 +30,7 @@ vim.keymap.set("n", "<leader>oC", function()
   vim.cmd("terminal claude")
   vim.cmd("startinsert")
 end, { desc = "Open Claude Code (new)" })
+vim.keymap.set("n", "<leader>ol", ":ClaudeLog<CR>", { desc = "Open latest Claude session log (searchable)" })
 vim.keymap.set("n", "<leader>Lca", ":lua vim.lsp.buf.code_action()<CR>", { desc = "LSP Code [A]ction" })
 
 -- Start the debug server to debug lua scripts

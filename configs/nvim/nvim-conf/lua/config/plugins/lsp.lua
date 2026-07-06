@@ -229,13 +229,14 @@ return {
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-            require("lspconfig")[server_name].setup(server)
+            vim.lsp.config(server_name, server)
           end,
         },
       })
 
       -- nixd is installed via Nix, not Mason
-      require("lspconfig").nixd.setup({ capabilities = capabilities })
+      vim.lsp.config("nixd", { capabilities = capabilities })
+      vim.lsp.enable("nixd")
     end,
   },
   { 

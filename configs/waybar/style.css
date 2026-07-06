@@ -1,44 +1,64 @@
+/* Synthwave-themed floating Waybar */
+
 * {
     font-family: "CommitMono Nerd Font", "Noto Sans", monospace;
-    font-size: 13px;
+    font-size: 14px;
     border: none;
     border-radius: 0;
     min-height: 0;
 }
 
 window#waybar {
-    background-color: rgba(46, 52, 64, 0.92);
-    color: #d8dee9;
+    background: transparent;
+    color: #f8f8f2;
 }
 
+/* Group each cluster into a rounded translucent "island" */
+.modules-left,
+.modules-center,
+.modules-right {
+    background-color: rgba(42, 30, 63, 0.88);
+    border: 1px solid #ff79c6;
+    border-radius: 14px;
+    margin: 3px 0;
+    padding: 0 6px;
+}
+
+/* Workspaces */
 #workspaces button {
-    padding: 0 8px;
-    color: #616e88;
+    padding: 0 9px;
+    margin: 4px 2px;
+    color: #6c6783;
     background: transparent;
+    border-radius: 10px;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 #workspaces button.active {
-    color: #88c0d0;
-    background-color: rgba(136, 192, 208, 0.15);
-    border-bottom: 2px solid #88c0d0;
+    color: #2a1e3f;
+    background-color: #ff79c6;
 }
 
 #workspaces button:hover {
-    color: #d8dee9;
-    background: rgba(216, 222, 233, 0.08);
+    color: #f8f8f2;
+    background: rgba(139, 233, 253, 0.2);
 }
 
+/* Window title */
 #window {
-    color: #9099a8;
-    padding: 0 8px;
+    color: #bd93f9;
+    padding: 0 10px;
+    font-style: italic;
 }
 
+/* Clock (center island) */
 #clock {
-    color: #eceff4;
+    color: #8be9fd;
     font-weight: bold;
-    padding: 0 12px;
+    padding: 0 16px;
 }
 
+/* Right-side modules: shared padding + per-module neon accent colors */
 #cpu,
 #memory,
 #battery,
@@ -47,22 +67,48 @@ window#waybar {
 #language,
 #tray {
     padding: 0 10px;
-    color: #d8dee9;
+}
+
+#cpu        { color: #50fa7b; }
+#memory     { color: #f1fa8c; }
+#network    { color: #8be9fd; }
+#pulseaudio { color: #ff79c6; }
+#battery    { color: #50fa7b; }
+
+#language {
+    color: #f8f8f2;
 }
 
 #language.ru {
-    color: #2e3440;
-    background-color: #88c0d0;
-    border-radius: 4px;
+    color: #2a1e3f;
+    background-color: #8be9fd;
+    border-radius: 8px;
+    margin: 5px 4px;
+    padding: 0 8px;
 }
 
-#battery.warning { color: #ebcb8b; }
-#battery.critical { color: #bf616a; }
+/* Maximized indicator — larger neon pill */
+#custom-maximized {
+    font-size: 16px;
+    font-weight: bold;
+}
 
-#network.disconnected { color: #bf616a; }
+#custom-maximized.maximized {
+    color: #2a1e3f;
+    background-color: #ff79c6;
+    border-radius: 10px;
+    margin: 4px;
+    padding: 0 14px;
+}
+
+/* State colors */
+#battery.warning  { color: #f1fa8c; }
+#battery.critical { color: #ff5555; }
+#network.disconnected { color: #ff5555; }
 
 tooltip {
-    background-color: #2e3440;
-    border: 1px solid #4c566a;
-    color: #d8dee9;
+    background-color: #2a1e3f;
+    border: 1px solid #ff79c6;
+    border-radius: 8px;
+    color: #f8f8f2;
 }
