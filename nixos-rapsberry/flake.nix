@@ -14,7 +14,7 @@
                 system = "aarch64-linux";
                 specialArgs = {
                     pkgs-unstable = import nixpkgs-unstable {
-                        system = "x86_64-linux";
+                        system = "aarch64-linux";
                         config.allowUnfree = true;
                     };
                 };
