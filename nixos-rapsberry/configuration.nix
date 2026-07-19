@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, pkgs-unstable,... }:
 {
   boot.loader.raspberry-pi.bootloader = "kernel";
   networking.hostName = "nixos-rpi5";
@@ -11,7 +11,6 @@
   # SSH for remote management
   services.openssh = {
     enable = true;
-    settings.PasswordAuthentication = false;
   };
 
   users.users.georgii = {
@@ -24,10 +23,9 @@
   programs.hyprland = {
     enable = true;
     xwayland.enable = false;
+    package = pkgs-unstable.hyprland;
+    portalPackage = pkgs-unstable.xdg-desktop-portal-hyprland;
   };
-
-  # Place hyprland config system-wide so greetd can reference it
-  environment.etc."hypr/hyprland.conf".source = ./hyprland.conf;
 
   # Autologin into Hyprland — no keyboard needed at boot
   services.greetd = {
@@ -90,9 +88,22 @@
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
-    mpv           # local video playback, MPRIS media controls via KDEConnect
-    xfce.thunar   # file manager for browsing local drives
-    git
+        kitty
+        git
+        just
+        # Wayland / Hyprland ecosystem
+        waybar
+        wofi
+        mako
+        swww
+        grim
+        slurp
+        wl-clipboard
+        brightnessctl
+        pamixer
+        pavucontrol
+        networkmanagerapplet
+        polkit_gnome
   ];
 
   system.stateVersion = "25.11";
