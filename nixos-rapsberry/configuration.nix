@@ -16,15 +16,14 @@
 
   users.users.georgii = {
     isNormalUser = true;
-    extraGroups = [ "networkmanager" "wheel" "video" ];
+    # "uinput" lets KDEConnect inject remote mouse/keyboard input under Wayland
+    extraGroups = [ "networkmanager" "wheel" "video" "uinput" ];
     shell = pkgs.bash;
-    openssh.authorizedKeys.keyFiles = [ ./pi.pub ];
   };
 
-  # Wayland / Hyprland
   programs.hyprland = {
     enable = true;
-    xwayland.enable = true;
+    xwayland.enable = false;
   };
 
   # Place hyprland config system-wide so greetd can reference it
@@ -59,39 +58,40 @@
     pulse.enable = true;
   };
 
-  # GPU + hardware video decoding (VideoCore VII via V4L2)
-  hardware.graphics = {
-    enable = true;
-    extraPackages = with pkgs; [
-      libva
-      libva-utils
-    ];
-  };
+  # GPU acceleration for the Wayland compositor.
+  hardware.graphics.enable = true;
 
-  # VA-API via V4L2 for Firefox hardware video decode
+  # Run Firefox natively on Wayland (no XWayland).
   environment.sessionVariables = {
-    MOZ_VA_API_USE_FFMPEG = "1";
-    LIBVA_DRIVER_NAME = "v4l2_request";
+    MOZ_ENABLE_WAYLAND = "1";
   };
 
-  # Firefox with hardware decode preferences
-  programs.firefox = {
-    enable = true;
-    preferences = {
-      "media.ffmpeg.vaapi.enabled" = true;
-      "media.hardware-video-decoding.force-enabled" = true;
-    };
-  };
+  # Firefox. The Pi 5 has no hardware H.264/VP9/AV1 decoder (only HEVC), so
+  # forcing VA-API hardware decode is unreliable and can black out video —
+  # 1080p is decoded on the CPU just fine, so we leave decoding at defaults.
+  programs.firefox.enable = true;
 
-  # KDEConnect — remote control from phone (opens firewall ports automatically)
+  # KDEConnect — remote control from phone (opens firewall ports automatically).
   programs.kdeconnect.enable = true;
+  # uinput backend so the phone's remote-input plugin can move the cursor / type.
+  hardware.uinput.enable = true;
+
+  # mpv config for local playback: zero-copy tear-free output on Wayland and
+  # the HEVC hardware decoder for H.265 files (software for H.264, fine at 1080p).
+  environment.etc."xdg/mpv/mpv.conf".text = ''
+    vo=dmabuf-wayland
+    hwdec=auto-safe
+    fullscreen=yes
+  '';
+
+  # Trim docs to keep the system lean.
+  documentation.nixos.enable = false;
 
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
     mpv           # local video playback, MPRIS media controls via KDEConnect
     xfce.thunar   # file manager for browsing local drives
-    waybar        # status bar with KDEConnect tray indicator
     git
   ];
 
