@@ -31,7 +31,7 @@
   services.greetd = {
     enable = true;
     settings.default_session = {
-      command = "${pkgs.hyprland}/bin/Hyprland --config /etc/hypr/hyprland.conf";
+      command = "${pkgs-unstable.hyprland}/bin/Hyprland";
       user = "georgii";
     };
   };
