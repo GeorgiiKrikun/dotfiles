@@ -79,10 +79,7 @@ in
 
     home.packages = with pkgs; [
         nerd-fonts.commit-mono
-        telegram-desktop
-        zoom-us
         envsubst
-        spotify
         playerctl
     ];
 }

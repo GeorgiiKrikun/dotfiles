@@ -52,6 +52,7 @@
         {
             homeConfigurations = {
                 "desktop"     = mkHomeConfig "x86_64-linux";
+		"rpi"         = mkHomeConfig "aarch64-linux";
                 "mac-desktop" = mkHomeConfig "aarch64-darwin";
                 "container"   = mkHomeContainerConfig "x86_64-linux";
             };
