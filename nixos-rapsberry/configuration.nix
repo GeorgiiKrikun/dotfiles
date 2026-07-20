@@ -82,6 +82,18 @@
     fullscreen=yes
   '';
 
+  # nix-ld provides an ELF interpreter at the standard FHS path so foreign,
+  # dynamically-linked binaries (e.g. the Claude Code native binary) can run
+  # on NixOS without patchelf. `libraries` is the fallback NIX_LD_LIBRARY_PATH.
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      stdenv.cc.cc.lib
+      zlib
+      openssl
+    ];
+  };
+
   # Trim docs to keep the system lean.
   documentation.nixos.enable = false;
 
