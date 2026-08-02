@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, pkgs-unstable, ... }:
+{ config, pkgs, ... }:
 {
     imports = [ ./hardware-configuration.nix ];
 
@@ -54,8 +54,6 @@
     programs.hyprland = {
         enable = true;
         xwayland.enable = true;
-        package = pkgs-unstable.hyprland;
-        portalPackage = pkgs-unstable.xdg-desktop-portal-hyprland;
     };
     environment.pathsToLink = [ "/share/hypr" ];
 
@@ -64,7 +62,7 @@
         enable = true;
         settings = {
             default_session = {
-                command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd ${pkgs-unstable.hyprland}/bin/start-hyprland";
+                command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd ${pkgs.hyprland}/bin/start-hyprland";
                 user = "greeter";
             };
         };
@@ -138,7 +136,7 @@
         waybar
         wofi
         mako
-        swww
+        awww
         grim
         slurp
         wl-clipboard

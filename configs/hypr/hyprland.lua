@@ -198,7 +198,7 @@ hl.window_rule{
 hl.on("hyprland.start", function()
     hl.exec_cmd("waybar")
     hl.exec_cmd("mako")
-    hl.exec_cmd("swww-daemon")
+    hl.exec_cmd("awww-daemon")
     hl.exec_cmd("nm-applet --indicator")
     hl.exec_cmd("bash -c \"sleep 10 && /home/georgii/software/dotfiles/configs/hypr/connect-headphones.sh\"")
 end)
