@@ -1,4 +1,4 @@
-{ config, lib, pkgs, pkgs-neovim11, rustToolchain, ... }:
+{ config, lib, pkgs, ... }:
 let
     dotfiles = "${config.home.homeDirectory}/software/dotfiles";
 in
@@ -81,8 +81,6 @@ in
         nerd-fonts.commit-mono
         telegram-desktop
         zoom-us
-        envsubst
         spotify
-        playerctl
     ];
 }

@@ -1,13 +1,12 @@
-{ config, lib, pkgs, pkgs-neovim11, rustToolchain, ... }:
+{ config, lib, pkgs, pkgs-neovim11, ... }:
 let
     dotfiles = "${config.home.homeDirectory}/software/dotfiles";
-    pythonWithDebugpy = pkgs.python3.withPackages (ps: with ps; [
-        ps.pip
-        ps.debugpy
-        ps.ipython
-    ]);
+    pythonWithDebugpy = pkgs.python3.withPackages (ps: [ ps.debugpy ]);
 in
     {
+    # Identity fallbacks for container use, where the build-time user is unknown.
+    # Overridden explicitly by home.nix on workstations.
+    # NOTE: Why?
     home.username = lib.mkDefault (let u = builtins.getEnv "HM_USERNAME"; in if u != "" then u else "appuser");
     home.homeDirectory = lib.mkDefault (let h = builtins.getEnv "HM_HOME"; in if h != "" then h else "/home/appuser");
     home.stateVersion = lib.mkDefault "24.11";
@@ -43,7 +42,19 @@ in
 
     programs.ssh = {
         enable = true;
-        addKeysToAgent = "yes";
+        enableDefaultConfig = false;
+        matchBlocks."*" = {
+            addKeysToAgent = "yes";
+            forwardAgent = false;
+            compression = false;
+            serverAliveInterval = 0;
+            serverAliveCountMax = 3;
+            hashKnownHosts = false;
+            userKnownHostsFile = "~/.ssh/known_hosts";
+            controlMaster = "no";
+            controlPath = "~/.ssh/master-%r@%n:%p";
+            controlPersist = "no";
+        };
         matchBlocks."github.com" = {
             identityFile = "~/.ssh/gh";
         };
@@ -66,45 +77,38 @@ in
         };
     };
 
-      programs.git = {
-          enable = true;
-          userName = "Georgii Krikun";
-          userEmail = "georgii.krikun@gmail.com";
-          extraConfig.credential.helper = "cache --timeout=86400";
-      };
+    programs.git = {
+        enable = true;
+        settings = {
+            user.name = "Georgii Krikun";
+            user.email = "georgii.krikun@gmail.com";
+            credential.helper = "cache --timeout=86400";
+        };
+    };
 
-    home.sessionPath = [ "$HOME/.npm-global/bin" ];
-
-    home.activation.installClaudeCode = lib.hm.dag.entryAfter ["writeBoundary"] ''
-        export PATH="${pkgs.nodejs}/bin:$PATH"
-        ${pkgs.nodejs}/bin/npm install -g --prefix "$HOME/.npm-global" @anthropic-ai/claude-code
-    '';
+    # home.sessionPath = [ "$HOME/.npm-global/bin" ];
+    #
+    # home.activation.installClaudeCode = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    #     export PATH="${pkgs.nodejs}/bin:$PATH"
+    #     ${pkgs.nodejs}/bin/npm install -g --prefix "$HOME/.npm-global" @anthropic-ai/claude-code
+    # '';
 
     home.packages = (with pkgs; [
-        # --- The Unix Core ---
-        coreutils
-        findutils
-        gnugrep
-        gnused
-        gawk
-        bashInteractive
-        # --- The Rust coreutils ---
+        # --- Rust coreutils (leaf tools you want everywhere) ---
         ripgrep
         bottom
         fd
-        wget
-        curl
+        # --- Dev leaf tools ---
         git
         unzip
         lazygit
         nodejs
-        gnumake
         just
         rbw
         nixd
-        pythonWithDebugpy
         uv
         jq
-        awscli2
+        claude-code
+        cursor-cli
     ]) ++ (with pkgs-neovim11; [ neovim ]);
 }

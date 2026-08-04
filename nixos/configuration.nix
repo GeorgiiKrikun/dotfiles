@@ -132,6 +132,8 @@
         git
         just
         gcc
+        gnumake
+        awscli2
         # Wayland / Hyprland ecosystem
         waybar
         wofi
@@ -148,6 +150,7 @@
         libreoffice
         rustup
         typst
+        playerctl
         # Document / media viewers
         zathura
         imv
@@ -184,6 +187,10 @@
 
     # Allow your user to use binary caches
     nix.settings.trusted-users = [ "georgii" ];
+
+    # Enable flakes system-wide (sudo nixos-rebuild runs as root and never
+    # reads ~/.config/nix/nix.conf)
+    nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
     # Allow building aarch64 packages via QEMU emulation
     boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
