@@ -110,5 +110,6 @@ in
         jq
         claude-code
         cursor-cli
-    ]) ++ (with pkgs-neovim11; [ neovim ]);
+        tree-sitter
+    ]) ++ (with pkgs; [ neovim ]);
 }
