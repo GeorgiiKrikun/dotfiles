@@ -62,11 +62,15 @@
         enable = true;
         settings = {
             default_session = {
-                command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd ${pkgs.hyprland}/bin/start-hyprland";
+                command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --cmd ${pkgs.hyprland}/bin/start-hyprland";
                 user = "greeter";
             };
         };
     };
+    # tuigreet stores the last-used username here (needed for --remember)
+    systemd.tmpfiles.rules = [
+        "d /var/cache/tuigreet 0755 greeter greeter - -"
+    ];
     # Suppress service output so boot messages don't bleed into the tuigreet TUI
     systemd.services.greetd.serviceConfig = {
         StandardOutput = "null";
@@ -130,6 +134,7 @@
     environment.systemPackages = with pkgs; [
         kitty
         git
+        git-lfs
         just
         gcc
         gnumake

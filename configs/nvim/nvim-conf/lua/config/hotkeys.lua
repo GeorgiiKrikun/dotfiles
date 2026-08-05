@@ -21,7 +21,13 @@ vim.keymap.set("n", "X", '"_x', { desc = "Delete char without yanking" })
 vim.keymap.set("v", "X", '"_x', { desc = "Delete char without yanking (visual mode)" })
 vim.keymap.set("n", "C", '"_c', { desc = "Replace without yanking" })
 vim.keymap.set("v", "C", '"_c', { desc = "Replace without yanking (visual mode)" })
-vim.keymap.set("n", "<leader>ot", ":tabnew | terminal<CR>", { desc = "Open terminal in new tab" })
+vim.keymap.set(
+    "n", "<leader>ot", function() 
+        vim.cmd("terminal")
+        vim.cmd("startinsert")
+    end,
+    { desc = "Open terminal in the current window" }
+)
 vim.keymap.set("n", "<leader>oc", function()
   vim.cmd("terminal claude --resume")
   vim.cmd("startinsert")

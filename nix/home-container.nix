@@ -1,4 +1,4 @@
-{ config, lib, pkgs, pkgs-neovim11, ... }:
+{ config, lib, pkgs, ... }:
 let
     dotfiles = "${config.home.homeDirectory}/software/dotfiles";
     pythonWithDebugpy = pkgs.python3.withPackages (ps: [ ps.debugpy ]);
