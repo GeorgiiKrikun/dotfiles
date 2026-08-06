@@ -187,7 +187,7 @@ return {
 				"python", "lua", "vim", "vimdoc", "query",
 				"markdown", "markdown_inline", "cpp", "just",
 				"cmake", "yaml", "toml", "json5", "rust",
-                "nix", "bash"
+                "nix", "bash", "dockerfile"
 			})
 
 			-- On the `main` branch, Neovim owns treesitter highlighting: unlike the
