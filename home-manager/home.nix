@@ -52,28 +52,13 @@ in
 
     services.ssh-agent.enable = true;
 
-    programs.ssh = {
-        enable = true;
-        enableDefaultConfig = false;
-        matchBlocks."github.com" = {
-            identityFile = "~/.ssh/gh";
-        };
-        matchBlocks."*" = {
-            addKeysToAgent = "yes";
-            forwardAgent = true;
-            compression = false;
-            serverAliveInterval = 0;
-            serverAliveCountMax = 3;
-            hashKnownHosts = false;
-            userKnownHostsFile = "~/.ssh/known_hosts";
-            controlMaster = "no";
-            controlPath = "~/.ssh/master-%r@%n:%p";
-            controlPersist = "no";
-        };
-        extraConfig = ''
-            Include ~/.ssh/config.local
-        '';
-    };
+    home.activation.sshConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        if [ ! -e "$HOME/.ssh/config" ]; then
+            run mkdir -p "$HOME/.ssh"
+            run chmod 700 "$HOME/.ssh"
+            run install -m600 ${./default-ssh-config} "$HOME/.ssh/config"
+        fi
+    '';
 
     programs.zsh.oh-my-zsh.plugins = [ "kitty" ];
 
