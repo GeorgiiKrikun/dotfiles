@@ -40,6 +40,15 @@ in
         };
     };
 
+    programs.rbw = {
+        enable = true;
+        settings = {
+            email = "georgii.krikun@gmail.com";
+            pinentry = pkgs.pinentry-curses;
+            lock_timeout = 3600;
+        };
+    };
+
     programs.git = {
         enable = true;
         settings = {
@@ -60,12 +69,12 @@ in
         lazygit
         nodejs
         just
-        rbw
         nixd
         uv
         jq
         claude-code
         cursor-cli
         tree-sitter
+        ouch
     ]) ++ (with pkgs; [ neovim ]);
 }
