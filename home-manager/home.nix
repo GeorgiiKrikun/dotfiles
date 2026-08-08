@@ -52,22 +52,28 @@ in
 
     services.ssh-agent.enable = true;
 
-    programs.ssh.matchBlocks = {
-        timeweb-root = {
-            hostname = "90.156.226.217";
-            user = "root";
-            identityFile = "~/.ssh/timeweb";
+    programs.ssh = {
+        enable = true;
+        enableDefaultConfig = false;
+        matchBlocks."github.com" = {
+            identityFile = "~/.ssh/gh";
         };
-        timeweb-georgii = {
-            hostname = "90.156.226.217";
-            user = "georgii";
-            identityFile = "~/.ssh/timeweb";
+        matchBlocks."*" = {
+            addKeysToAgent = "yes";
+            forwardAgent = true;
+            compression = false;
+            serverAliveInterval = 0;
+            serverAliveCountMax = 3;
+            hashKnownHosts = false;
+            userKnownHostsFile = "~/.ssh/known_hosts";
+            controlMaster = "no";
+            controlPath = "~/.ssh/master-%r@%n:%p";
+            controlPersist = "no";
         };
+        extraConfig = ''
+            Include ~/.ssh/config.local
+        '';
     };
-    programs.ssh.extraConfig = ''
-        Include ~/.ssh/config.local
-    '';
-    
 
     programs.zsh.oh-my-zsh.plugins = [ "kitty" ];
 

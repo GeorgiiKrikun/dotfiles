@@ -40,43 +40,6 @@ in
         };
     };
 
-    programs.ssh = {
-        enable = true;
-        enableDefaultConfig = false;
-        matchBlocks."*" = {
-            addKeysToAgent = "yes";
-            forwardAgent = false;
-            compression = false;
-            serverAliveInterval = 0;
-            serverAliveCountMax = 3;
-            hashKnownHosts = false;
-            userKnownHostsFile = "~/.ssh/known_hosts";
-            controlMaster = "no";
-            controlPath = "~/.ssh/master-%r@%n:%p";
-            controlPersist = "no";
-        };
-        matchBlocks."github.com" = {
-            identityFile = "~/.ssh/gh";
-        };
-        matchBlocks."hetzner" = {
-            hostname = "2a01:4f8:1c1f:afbf::1";
-            user = "root";
-            identityFile = "~/.ssh/hetzner";
-        };
-        matchBlocks."hetzner-tunnel" = {
-            hostname = "2a01:4f8:1c1f:afbf::1";
-            user = "root";
-            identityFile = "~/.ssh/hetzner";
-            localForwards = [
-                {
-                    bind.port = 8181;
-                    host.address = "localhost";
-                    host.port = 81;
-                }
-            ];
-        };
-    };
-
     programs.git = {
         enable = true;
         settings = {
@@ -85,13 +48,6 @@ in
             credential.helper = "cache --timeout=86400";
         };
     };
-
-    # home.sessionPath = [ "$HOME/.npm-global/bin" ];
-    #
-    # home.activation.installClaudeCode = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    #     export PATH="${pkgs.nodejs}/bin:$PATH"
-    #     ${pkgs.nodejs}/bin/npm install -g --prefix "$HOME/.npm-global" @anthropic-ai/claude-code
-    # '';
 
     home.packages = (with pkgs; [
         # --- Rust coreutils (leaf tools you want everywhere) ---
