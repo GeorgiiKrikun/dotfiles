@@ -1,1 +1,1 @@
-1. Add saved window templates (e.g. 3 windows, one on the left [ideally with claude opened already]), two on the left, where top is larger and is the code buffer and small on the bottom as a terminal window.
+1. When neovim opened without a file, open the dir in oil.nvim by default
