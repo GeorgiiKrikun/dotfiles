@@ -1,0 +1,3 @@
+[submodule "secrets/store"]
+	path = secrets/store
+	url = git@github.com:GeorgiiKrikun/dotfile-secrets.git
