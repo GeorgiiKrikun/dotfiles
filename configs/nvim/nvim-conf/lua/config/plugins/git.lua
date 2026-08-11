@@ -42,8 +42,10 @@ return {
 			enhanced_diff_hl = true,
 			view = {
 				-- Native diff mode: ]c/[c, do/dp, :diffget/:diffput all work as usual
-				default = { layout = "diff2_horizontal" },
-				merge_tool = { layout = "diff3_horizontal" },
+				-- winbar_info: show ref/branch (e.g. main vs HEAD) above each diff pane
+				default = { layout = "diff2_horizontal", winbar_info = true },
+				merge_tool = { layout = "diff3_horizontal", winbar_info = true },
+				file_history = { layout = "diff2_horizontal", winbar_info = true },
 			},
 		},
 	},
