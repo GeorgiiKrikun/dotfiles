@@ -63,9 +63,6 @@ vim.keymap.set("n", "<leader>f=", function()
 	vim.fn.winrestview(view)
 end, { desc = "Format indentation" })
 
--- Open neogit status window
-vim.keymap.set("n", "<leader>gs", ":Neogit<CR>", { desc = "Open [G]it [S]tatus" })
-
 -- Diagnostic keymaps
 --vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Set diagnostic [Q]uickfix list" })
