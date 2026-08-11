@@ -1,1 +1,2 @@
 1. Add saved window templates (e.g. 3 windows, one on the left [ideally with claude opened already]), two on the left, where top is larger and is the code buffer and small on the bottom as a terminal window.
+2. Comprehensible workflow for diffs
