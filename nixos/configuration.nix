@@ -199,4 +199,16 @@
 
     # Allow building aarch64 packages via QEMU emulation
     boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
+    # Swap: compressed RAM swap (zram) as the fast first tier, plus an
+    # on-disk swap file as overflow. zram gets a higher priority than the
+    # swap file by default, so it fills first and the file only catches the
+    # rest. The file also serves as a real capacity backstop under heavy load.
+    zramSwap = {
+        enable = true;
+        memoryPercent = 50;   # up to 50% of RAM used for compressed swap
+    };
+    swapDevices = [
+        { device = "/swapfile"; size = 8 * 1024; }  # 8 GiB, size is in MiB
+    ];
 }
