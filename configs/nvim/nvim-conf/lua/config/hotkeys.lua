@@ -69,7 +69,10 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Set diagno
 vim.keymap.set("n", "<leader>Q", vim.cmd.copen, { desc = "Open diagnostic [Q]uickfix window" })
 vim.keymap.set("n", "<leader>C", vim.cmd.cclose, { desc = "Close diagnostic [C]lose window" })
 
-vim.keymap.set("i", "<C-L>", "<Plug>(copilot-accept-word)")
+-- Toggle Latin/Cyrillic input in insert and command-line mode (alias for <C-^>).
+-- The OS keyboard layout stays on English; this flips Neovim's internal keymap.
+vim.keymap.set({ "i", "c" }, "<C-l>", "<C-^>", { desc = "Toggle RU/EN input" })
+
 -- Evaluate the word or range under the cursor LLDB/GDB
 -- vim.keymap.set("n", "<leader>de", ":GdbEvalWord<CR>", { desc = "Evaluate word under cursor" })
 -- vim.keymap.set("v", "<leader>de", ":GdbEvalRange<CR>", { desc = "Evaluate range under cursor" })

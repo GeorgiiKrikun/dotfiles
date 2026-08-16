@@ -74,3 +74,12 @@ vim.opt.shell = "zsh"
 
 -- Ensure :term abbreviation is available for :terminal
 vim.cmd('cnoreabbrev term terminal')
+
+-- Russian input without touching the OS keyboard layout.
+-- Keep the OS layout on English at all times: normal-mode commands, <Esc> and
+-- <C-c> then always work. Cyrillic is typed by toggling Neovim's own keymap in
+-- insert/command mode (see the <C-l> mapping in hotkeys.lua, or the built-in
+-- <C-^>). `iminsert = 0` means we start in Latin; the toggle flips to Cyrillic.
+vim.opt.keymap = "russian-jcukenwin"
+vim.opt.iminsert = 0
+vim.opt.imsearch = -1 -- search field follows the insert-mode language

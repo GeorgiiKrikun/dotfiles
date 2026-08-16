@@ -101,7 +101,6 @@ require("lazy").setup({
             vim.keymap.set("n", "<leader>gg", require('snacks').lazygit.open, { desc = "Open Snacks" })
         end,
     },
-    require("config.plugins.copilot"),
     require("config.plugins.core"),
     require("config.plugins.debug"),
     require("config.plugins.git"),
