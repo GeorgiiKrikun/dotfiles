@@ -1,22 +1,16 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
+# Portable NixOS config. Disks, bootloader, hostname, and GPU wiring live in
+# the installer-generated /etc/nixos/hardware-configuration.nix (not in git).
+# Rebuilds must be impure: `just switch`.
 
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 {
-    imports = [ ./hardware-configuration.nix ];
-
-    # Bootloader.
-    boot.loader.grub.enable = true;
-    boot.loader.grub.device = "/dev/sda";
-    boot.loader.grub.useOSProber = true;
+    imports = [ /etc/nixos/hardware-configuration.nix ];
 
     # Use latest kernel.
     boot.kernelPackages = pkgs.linuxPackages_latest;
     boot.kernelParams = [ "quiet" "rd.systemd.show_status=false" "rd.udev.log_level=3" "udev.log_level=3" ];
     boot.consoleLogLevel = 0;
 
-    networking.hostName = "nixos"; # Define your hostname.
     # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.++
 
     # Configure network proxy if necessary
@@ -105,7 +99,7 @@
         isNormalUser = true;
         description = "georgii";
         extraGroups = [
-            "networkmanager" 
+            "networkmanager"
             "wheel"
             "docker"
         ];
@@ -183,7 +177,7 @@
     services.xserver.videoDrivers = [ "nvidia" ];
     hardware.nvidia = {
         modesetting.enable = true;
-        powerManagement.enable = false;
+        powerManagement.enable = lib.mkDefault false;
         open = true;
         package = config.boot.kernelPackages.nvidiaPackages.stable;
     };

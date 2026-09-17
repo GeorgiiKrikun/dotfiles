@@ -7,7 +7,8 @@
 
     outputs = { self, nixpkgs }:
     {
-        nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
+        # Impure: configuration.nix imports /etc/nixos/hardware-configuration.nix
+        nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = [ ./configuration.nix ];
         };
