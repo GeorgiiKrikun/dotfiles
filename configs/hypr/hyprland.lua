@@ -2,11 +2,35 @@
 --## MONITORS ###
 --###############
 
+local function read_hostname()
+    local f = io.open("/etc/hostname", "r")
+    if not f then
+        return ""
+    end
+    local name = (f:read("*l") or ""):gsub("%s+$", "")
+    f:close()
+    return name
+end
+
+local is_work_laptop = read_hostname() == "georgii-laptop"
+
+-- HiDPI laptop panel only. Unmatched on other machines, so they keep the fallback.
+hl.monitor({
+    output = "desc:Samsung Display Corp. 0x414D",
+    mode = "3456x2160@60",
+    position = "0x0",
+    scale = 2,
+    bitdepth = 8,
+    cm = "srgb",
+    supports_hdr = 0,
+    supports_wide_color = 0,
+})
+
 hl.monitor({
     output = "",
     mode = "preferred",
     position = "auto",
-    scale = "1",
+    scale = 1,
 })
 
 --##################
@@ -84,6 +108,39 @@ hl.bind(mainMod .. " + SHIFT + H", hl.dsp.window.move({ direction = "l" }))
 hl.bind(mainMod .. " + SHIFT + L", hl.dsp.window.move({ direction = "r" }))
 hl.bind(mainMod .. " + SHIFT + K", hl.dsp.window.move({ direction = "u" }))
 hl.bind(mainMod .. " + SHIFT + J", hl.dsp.window.move({ direction = "d" }))
+
+local function moveCurrentWorkspaceToRelativeMonitor(delta)
+    local monitors = hl.get_monitors()
+    if #monitors < 2 then
+        return
+    end
+
+    table.sort(monitors, function(a, b)
+        if a.x ~= b.x then
+            return a.x < b.x
+        end
+        return a.y < b.y
+    end)
+
+    local current = hl.get_active_monitor()
+    local idx = 1
+    for i, mon in ipairs(monitors) do
+        if mon.id == current.id then
+            idx = i
+            break
+        end
+    end
+
+    local target = monitors[((idx - 1 + delta) % #monitors) + 1]
+    hl.dispatch(hl.dsp.workspace.move({ monitor = target }))
+end
+
+hl.bind(mainMod .. " + SHIFT + comma", function()
+    moveCurrentWorkspaceToRelativeMonitor(-1)
+end)
+hl.bind(mainMod .. " + SHIFT + period", function()
+    moveCurrentWorkspaceToRelativeMonitor(1)
+end)
 
 hl.bind(mainMod .. " + 1", hl.dsp.focus({ workspace = 1 }))
 hl.bind(mainMod .. " + 2", hl.dsp.focus({ workspace = 2 }))
@@ -171,6 +228,15 @@ hl.config({
         disable_hyprland_logo = true,
         enable_swallow = true,
         swallow_regex = "^(kitty)$",
+    },
+    cursor = {
+        -- Intel eDP + scale 2 leaves the panel black if the cursor plane is used.
+        no_hardware_cursors = is_work_laptop and 1 or 2,
+    },
+    render = {
+        -- Panel autodimming / HDR switch can blank eDP while DP stays fine.
+        send_content_type = not is_work_laptop,
+        cm_auto_hdr = is_work_laptop and 0 or 1,
     },
     --############
     --## INPUT ###

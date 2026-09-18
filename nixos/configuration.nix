@@ -8,7 +8,14 @@
 
     # Use latest kernel.
     boot.kernelPackages = pkgs.linuxPackages_latest;
-    boot.kernelParams = [ "quiet" "rd.systemd.show_status=false" "rd.udev.log_level=3" "udev.log_level=3" ];
+    boot.kernelParams = [
+        "quiet"
+        "rd.systemd.show_status=false"
+        "rd.udev.log_level=3"
+        "udev.log_level=3"
+        # Intel laptop eDP: PSR often blanks the panel under Wayland while the TTY/login still works.
+        "i915.enable_psr=0"
+    ];
     boot.consoleLogLevel = 0;
 
     # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.++
