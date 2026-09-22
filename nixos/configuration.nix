@@ -118,7 +118,13 @@
 
     virtualisation.docker = {
         enable = true;
+        # Registers the nvidia runtime so Compose `driver: nvidia` / `--gpus` work.
+        # Deprecated (NixOS prefers CDI), but this is what the cpp-processing
+        # compose files still request.
+        enableNvidia = true;
     };
+
+    hardware.nvidia-container-toolkit.enable = true;
 
     # Install firefox.
     programs.firefox.enable = true;
