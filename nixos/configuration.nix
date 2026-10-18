@@ -146,6 +146,7 @@
         gcc
         gnumake
         awscli2
+        time
         # Wayland / Hyprland ecosystem
         waybar
         wofi
