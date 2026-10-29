@@ -3,13 +3,14 @@
 
     inputs = {
         nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
+        nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
         home-manager = {
             url = "github:nix-community/home-manager";
             inputs.nixpkgs.follows = "nixpkgs";
         };
     };
 
-    outputs = { self, nixpkgs, home-manager }:
+    outputs = { self, nixpkgs, nixpkgs-unstable, home-manager }:
         let
             supportedSystems = [
                 "x86_64-linux" 
@@ -17,10 +18,23 @@
                 "aarch64-darwin"
             ];
 
+            # Packages pulled from nixos-unstable while 26.05 lags behind.
+            # claude-code needs >= 2.1.280 for Opus 5.5; cursor-cli for freshness.
+            unstableOverlay = system: final: prev:
+                let
+                    unstable = import nixpkgs-unstable {
+                        system = system;
+                        config.allowUnfree = true;
+                    };
+                in {
+                    inherit (unstable) claude-code cursor-cli;
+                };
+
             mkPkgs = system:
                 import nixpkgs {
                     system = system;
                     config.allowUnfree = true;
+                    overlays = [ (unstableOverlay system) ];
                 };
 
             mkHomeConfig = system:

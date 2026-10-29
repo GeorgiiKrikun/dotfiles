@@ -73,5 +73,7 @@ in
         telegram-desktop
         zoom-us
         spotify
+        lutris
+        discord
     ];
 }

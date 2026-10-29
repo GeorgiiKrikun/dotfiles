@@ -51,6 +51,7 @@ in
 
     programs.git = {
         enable = true;
+        lfs.enable = true;
         settings = {
             user.name = "Georgii Krikun";
             user.email = "georgii.krikun@gmail.com";
@@ -65,6 +66,7 @@ in
         fd
         # --- Dev leaf tools ---
         git
+        zip
         unzip
         lazygit
         nodejs

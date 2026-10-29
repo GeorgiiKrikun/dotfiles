@@ -21,12 +21,11 @@ Nix flakes, driven by `just` recipes.
 
 | Path | What it is |
 |---|---|
-| `nixos/` | NixOS system flake — `nixosConfigurations."nixos"` |
+| `nixos/` | NixOS system flake — `nixosConfigurations.nixos` (`configuration.nix`; disks/bootloader from `/etc/nixos/hardware-configuration.nix`, impure) |
 | `home-manager/` | home-manager flake — `home.nix` (workstation) imports `home-container.nix` (portable base) |
 | `configs/` | App configs symlinked into `~/.config` by home-manager (kitty, hypr, waybar, mako, nvim, zsh) |
 | `secrets/` | Standalone sops/age secrets tooling; encrypted data in the `store/` submodule |
 | `nixos-rapsberry/` | Raspberry Pi 5 NixOS config (`nixosConfigurations.rpi5`, aarch64) |
-| `nixos/` `hardware-configuration.nix` | Machine-specific, generated — don't hand-edit blindly |
 | `utils/`, `wallpapers/` | Helper scripts and assets |
 
 Images are tracked via git-lfs (`.gitattributes`). `secrets/store` is a git
@@ -38,7 +37,7 @@ Each area has a `justfile`; run `just --list` in it to see recipes.
 
 **System (NixOS):**
 ```bash
-cd nixos && just switch      # sudo nixos-rebuild switch --flake .#nixos
+cd nixos && just switch      # sudo nixos-rebuild switch --impure --flake .#nixos
 ```
 
 **User environment (home-manager):**
