@@ -66,6 +66,7 @@ in
         fd
         # --- Dev leaf tools ---
         git
+        zip
         unzip
         lazygit
         nodejs

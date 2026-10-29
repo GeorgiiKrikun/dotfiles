@@ -168,6 +168,9 @@
         zathura
         imv
         mpv
+        google-chrome
+        python3
+        ffmpeg
     ];
 
     # Default GUI apps for opening files (used by xdg-open)
