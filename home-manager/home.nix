@@ -3,7 +3,7 @@ let
     dotfiles = "${config.home.homeDirectory}/software/dotfiles";
 in
 {
-    imports = [ ./home-container.nix ];
+    imports = [ ./home-container.nix ./mime.nix ];
 
     home.username = "georgii";
     home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/georgii" else "/home/georgii";
