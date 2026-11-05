@@ -28,6 +28,10 @@
                     };
                 in {
                     inherit (unstable) claude-code cursor-cli;
+                }
+                # 26.05's nsight_systems (2025.1) deletes bin/nsys and bin/nsys-ui.
+                // nixpkgs.lib.optionalAttrs (nixpkgs.lib.hasSuffix "-linux" system) {
+                    nsight_systems = unstable.cudaPackages.nsight_systems;
                 };
 
             mkPkgs = system:

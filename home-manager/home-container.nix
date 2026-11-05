@@ -2,6 +2,11 @@
 let
     dotfiles = "${config.home.homeDirectory}/software/dotfiles";
     pythonWithDebugpy = pkgs.python3.withPackages (ps: [ ps.debugpy ]);
+    # Collector only. Open the .nsys-rep files with nsys-ui on the workstation.
+    nsys = pkgs.runCommand "nsys" { } ''
+        mkdir -p "$out/bin"
+        ln -s "${pkgs.nsight_systems}/bin/nsys" "$out/bin/nsys"
+    '';
 in
     {
     # Identity fallbacks for container use, where the build-time user is unknown.
@@ -78,5 +83,6 @@ in
         cursor-cli
         tree-sitter
         ouch
-    ]) ++ (with pkgs; [ neovim ]);
+    ]) ++ (with pkgs; [ neovim ])
+    ++ lib.optionals pkgs.stdenv.isLinux [ nsys ];
 }

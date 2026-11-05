@@ -1,6 +1,11 @@
 { config, lib, pkgs, ... }:
 let
     dotfiles = "${config.home.homeDirectory}/software/dotfiles";
+    # GUI only. `nsys profile` runs from the container home config.
+    nsysUi = pkgs.runCommand "nsys-ui" { } ''
+        mkdir -p "$out/bin"
+        ln -s "${pkgs.nsight_systems}/bin/nsys-ui" "$out/bin/nsys-ui"
+    '';
 in
 {
     imports = [ ./home-container.nix ./mime.nix ];
@@ -75,5 +80,7 @@ in
         spotify
         lutris
         discord
+    ] ++ lib.optionals (!pkgs.stdenv.isDarwin) [
+        nsysUi
     ];
 }
