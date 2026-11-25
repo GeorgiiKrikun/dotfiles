@@ -8,7 +8,7 @@ run:
 switch:
     #!/usr/bin/env bash
     if [[ "$(uname)" == "Darwin" ]]; then
-        nix run github:nix-community/home-manager -- switch -b backup --flake .#nixtest-mac
+        nix run github:nix-community/home-manager -- switch -b backup --flake .#mac-desktop
     else
         nix run github:nix-community/home-manager -- switch -b backup --flake .#desktop
     fi

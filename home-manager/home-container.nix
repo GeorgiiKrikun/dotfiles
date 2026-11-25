@@ -64,7 +64,7 @@ in
         };
     };
 
-    home.packages = (with pkgs; [
+    home.packages = ( with pkgs; [
         # --- Rust coreutils (leaf tools you want everywhere) ---
         ripgrep
         bottom

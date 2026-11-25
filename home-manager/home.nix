@@ -78,9 +78,9 @@ in
         telegram-desktop
         zoom-us
         spotify
-        lutris
         discord
     ] ++ lib.optionals (!pkgs.stdenv.isDarwin) [
+        lutris
         nsysUi
     ];
 }
